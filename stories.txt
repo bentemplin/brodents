@@ -1,4 +1,4 @@
-1) User Login
+1) User Login (Benjamin Yarmowich)
 2) User Register (Rikesh)
 3) User wants to see map of rat sightings
 4) App needs to access the database (Ben T.)
