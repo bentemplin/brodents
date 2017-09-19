@@ -1,0 +1,10 @@
+1) User Login
+2) User Register (Rikesh)
+3) User wants to see map of rat sightings
+4) App needs to access the database (Ben T.)
+5) User wants to see a list of rat sightings
+6) User wants to report a rat
+7) User logout (Austin)
+8) User wants to change password
+9) City wants comprehensive report of rat sightings
+10) User wants to refresh sighting reports
