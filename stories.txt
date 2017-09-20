@@ -1,10 +1,10 @@
-1) User Login (Benjamin Yarmowich)
-2) User Register (Rikesh)
-3) User wants to see map of rat sightings
-4) App needs to access the database (Ben T.)
-5) User wants to see a list of rat sightings
-6) User wants to report a rat
-7) User logout (Austin)
-8) User wants to change password
-9) City wants comprehensive report of rat sightings
-10) User wants to refresh sighting reports
+1) As a User, I want to login to the system, so that I can use the app. (Benjamin Yarmowich)
+2) As a User, I want to Register for an account, so that I can start reporting rats. (Rikesh)
+3) As User, I want to see a map of rat sightings, so I can determine where the most rats are found.
+4) As the App, I need to access the database, so that I can retrieve User and Report information. (Ben T.)
+5) As a User, I want to see a list of rat sightings, so I know where rats are being reported.
+6) As a User, I want to report a rat, so city officials can address the issue.
+7) As a User, I want to logout, so that someone else can use the app. (Austin)
+8) As a User, I want to change my password, so I can secure my account.
+9) As a City Official, I want comprehensive report of rat sightings, so I can identify the worst areas.
+10) As a User, I want to refresh sighting reports, so I can see the most up-to-date info.
