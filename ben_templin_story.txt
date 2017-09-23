@@ -1,0 +1,19 @@
+Ben Templin
+
+As the App, I need to access the stored information, so that I can retrieve User and Report information.
+
+Tasks:
+    * Create a MySQL Database on a remote server
+    * Configure remote login on the database
+    * Write a custom Java class to connect a java app to the databse
+    * Write a subclass that has the login credentials for the Rat App Database
+    * Create a .jar file with the custom Java classes and add it to the Android Project
+
+Acceptance Scenarios:
+    * Given there is a network connection, when the app is lauched, it connects to the database.
+    * Given the app is connected, when a valid database query is made, results are returned.
+    * Given the app is connected, when a valid database update is made, the database is updated.
+    * Given there are valid user inputs, when a query or update is made, the statement is parameterized to prevent SQL injection.
+    * Given there is no network connection, when the app is launched, a message is displayed saying that the app can't connect to the database.
+    * Given the app is connected, when an invalid database query is made, a message is displayed saying how to fix the error and the query is not made.
+    * Given the app is connected, when an invalid database update is made, a message is displayed saying how to fix the error and the update is not executed.

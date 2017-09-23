@@ -1,10 +1,17 @@
 1) As a User, I want to login to the system, so that I can use the app. (Benjamin Yarmowich)
 2) As a User, I want to Register for an account, so that I can start reporting rats. (Rikesh)
 3) As User, I want to see a map of rat sightings, so I can determine where the most rats are found.
-4) As the App, I need to access the database, so that I can retrieve User and Report information. (Ben T.)
+4) As the App, I need to access the stored information, so that I can retrieve User and Report information. (Ben T.)
 5) As a User, I want to see a list of rat sightings, so I know where rats are being reported.
 6) As a User, I want to report a rat, so city officials can address the issue.
 7) As a User, I want to logout, so that someone else can use the app. (Austin)
 8) As a User, I want to change my password, so I can secure my account.
 9) As a City Official, I want comprehensive report of rat sightings, so I can identify the worst areas.
 10) As a User, I want to refresh sighting reports, so I can see the most up-to-date info.
+
+
+Common Done Done criteria:
+    * The goal described in the user story is met
+    * Code is tested and the app builds and runs
+    * The project has been cleaned
+    * Changes have been committed to the GitHub
