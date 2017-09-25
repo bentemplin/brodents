@@ -264,11 +264,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 ResultSet results = db.query(statement);
                 if (!results.next()) {
                     // No entries in DB for passed in username
+                    results.close();
                     return false;
                 }
                 if (!results.getString("password").equals(mPassword)) {
+                    results.close();
                     return false;
                 }
+                results.close();
                 Log.d("Login Task", "success");
             } catch (SQLException e) {
                 e.printStackTrace();
