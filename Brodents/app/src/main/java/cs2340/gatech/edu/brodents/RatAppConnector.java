@@ -1,5 +1,7 @@
 package cs2340.gatech.edu.brodents;
 
+import android.util.Log;
+
 import java.sql.SQLException;
 
 /**
@@ -19,7 +21,7 @@ public class RatAppConnector extends DatabaseConnector {
     public static void initialize() throws SQLException {
         connector = new DatabaseConnector("ratapp", "2Z2MqYE!cLgNJu8R",
             "104.236.213.171:3306/rats");
-        System.out.println("Done");
+        Log.d("RatAppConnector", "Done");
     }
 
     public static DatabaseConnector getInstance() {

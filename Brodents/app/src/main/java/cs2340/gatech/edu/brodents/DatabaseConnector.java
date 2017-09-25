@@ -1,5 +1,7 @@
 package cs2340.gatech.edu.brodents;
 
+import android.util.Log;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.DriverManager;
@@ -40,7 +42,6 @@ public class DatabaseConnector {
                 DriverManager.getConnection(this.host, dbUserName, dbPassword);
             debugMessage("SQL Connection Succeeded");
             dbConnection = finalConnection;
-            debug = false;
         } catch (InstantiationException e) {
             debugMessage(e.getStackTrace().toString());
         } catch (ClassNotFoundException e) {
@@ -55,7 +56,7 @@ public class DatabaseConnector {
     //Logs param text only if debug param is set to false
     private void debugMessage(String message) {
         if (debug) {
-            System.out.println(message);
+            Log.d("DatabaseConnector", message);
         }
     }
 
