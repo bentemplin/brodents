@@ -1,6 +1,6 @@
 Benjamin Yarmowich
 
-As a User, I want to login to the system, so that I can use the app. 
+As a User, I want to login to the system, so that I can use the app.
 
 Tasks:
     * Accept the User's inputted Username and Password
@@ -9,9 +9,9 @@ Tasks:
     * Offer a forgot password button to reset the password based on email authentication
 
 Acceptance Scenarios:
-    * Given there is a network connection, when the app is lauched, app prompts log in.
-    * Given the User enters a valid username and its cooresponding password is in the database the main screen of the app is displayed 
-    * Given the User enters a valid username and its cooresponding password is not in the database the User will be prompted with incorrect Username/Password combination
+    * Given there is a network connection, when the app is launched, app prompts log in.
+    * Given the User enters a valid username and its corresponding password is in the database the main screen of the app is displayed
+    * Given the User enters a valid username and its corresponding password is not in the database the User will be prompted with incorrect Username/Password combination
     * Given the User enters an invalid username the User will be prompted with incorrect Username/Password combination
     * Given the User enters 3 or more wrong username and password combination the User will be prompted to recover password and enter their email address or try again
-    * Given the User enters 10 wrong username and password combination the User will be bared from entering a Username/Password for 1 hour
+    * Given the User enters 10 wrong username and password combination the User will be barred from entering a Username/Password for 1 hour
