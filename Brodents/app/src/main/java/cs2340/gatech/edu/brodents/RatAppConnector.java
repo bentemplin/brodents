@@ -13,6 +13,8 @@ import java.sql.SQLException;
  * @version 1.0
  */
 public class RatAppConnector extends DatabaseConnector {
+    private static boolean initialized = false;
+
     private static DatabaseConnector connector;
 
     /**
@@ -21,10 +23,13 @@ public class RatAppConnector extends DatabaseConnector {
     public static void initialize() throws SQLException {
         connector = new DatabaseConnector("ratapp", "2Z2MqYE!cLgNJu8R",
             "104.236.213.171:3306/rats");
-        Log.d("RatAppConnector", "Done");
+        Log.d("RatAppConnector", "Initialized");
+        initialized = true;
     }
 
     public static DatabaseConnector getInstance() {
         return connector;
     }
+
+    public static boolean isInitialized() {return initialized;}
 }

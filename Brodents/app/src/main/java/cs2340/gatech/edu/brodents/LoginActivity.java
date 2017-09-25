@@ -3,9 +3,6 @@ package cs2340.gatech.edu.brodents;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -82,16 +79,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-
-//        //Connect to the database
-//        try {
-//            RatAppConnector.initialize();
-//            mEmailView.setError("Connection worked");
-//        } catch (SQLException e) {
-//            // TODO display error message if we can't connect to database
-//            Log.e("SQL Connection", e.getMessage());
-//            mEmailView.setError("Connection Failed");
-//        }
 
     }
 
@@ -315,9 +302,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Log.d("DB Connection", "Worked");
                 return Boolean.TRUE;
             } catch (SQLException e) {
-                // TODO display error message if we can't connect to database
                 Log.e("SQL Connection", e.getMessage());
-                //mEmailView.setError("Connection Failed");
                 return Boolean.FALSE;
             }
         }
