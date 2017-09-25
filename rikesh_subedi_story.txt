@@ -1,0 +1,20 @@
+Rikesh Subedi
+
+As a User, I want to Register for an account, so that I can start reporting rats.
+
+Tasks:
+    * Implement a registration link on Log In page.
+    * Create a registration form to gather user name, username, password, and location.
+    * Query the database for an existing account with the given username.
+    * Send credentials server-side if username not found.
+    * Display notification showing success of account creation.
+    * Redirect to main screen of the application.
+
+Acceptance Scenarios:
+    * Given the form is valid and complete, when the REGISTER button is pressed, an account is created in the database.
+    * Given the form is not complete, when the REGISTER button is pressed, stay on the form and notify the user of missing information.
+    * Given any state of the form, when the CANCEL button is pressed, return to the Log In page.
+    * Given the user enters a username, when the user exits the field, text displays its validity.
+    * Given the user enters an invalid username, when the form is submitted, stay on the form and notify the user of invalid information.
+    * Given the user enters an invalid password, when the user exits the field, a reminder with password requirements will be displayed.
+    * Given the user enters an invalid password, when the form is submitted, stay on the form and notify the user of password requirements.
