@@ -26,11 +26,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.util.Log;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import java.security.MessageDigest;
+import java.security.SecureRandom;
+import java.security.NoSuchAlgorithmException;
+
 
 
 /**
@@ -306,6 +312,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return Boolean.FALSE;
             }
         }
+    }
+
+    public String getSecurePassword(String passwordToHash){
+        SecureRandom rand = new SecureRandom();
+        byte[] seed = rand.generateSeed(20);
+        String salt = seed.toString();
+        String generatedPassword = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(salt.getBytes("UTF-8"));
+            byte[] bytes = md.digest(passwordToHash.getBytes("UTF-8"));
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i< bytes.length ;i++){
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            generatedPassword = sb.toString();
+        }
+        catch (NoSuchAlgorithmException e){
+            e.printStackTrace();
+        }
+        catch (UnsupportedEncodingException e2) {
+            e2.printStackTrace();
+        }
+        return generatedPassword;
     }
 }
 
