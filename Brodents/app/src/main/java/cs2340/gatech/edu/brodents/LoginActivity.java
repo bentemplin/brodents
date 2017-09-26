@@ -262,7 +262,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 int salt = results.getInt("salt");
                 String hashPass = PasswordHasher.getSecurePassword(Integer.toString(salt),
                         mPassword);
-                Log.d("Hashed password", hashPass);
                 results.close();
                 if (dbPass.equals(hashPass)) {
                     Log.i("LoginActivity", "doInBackground auth success");
@@ -297,26 +296,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
 
-//        public String getSecurePassword(String passwordToHash){
-//            String generatedPassword = null;
-//            try {
-//                MessageDigest md = MessageDigest.getInstance("SHA-512");
-//                byte[] bytes = md.digest(passwordToHash.getBytes("UTF-8"));
-//                StringBuilder sb = new StringBuilder();
-//                for(int i=0; i< bytes.length ;i++){
-//                    sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-//                }
-//                generatedPassword = sb.toString();
-//            }
-//            catch (NoSuchAlgorithmException e){
-//                e.printStackTrace();
-//            }
-//            catch (UnsupportedEncodingException e2) {
-//                e2.printStackTrace();
-//            }
-//            return generatedPassword;
-//        }
-    }
 
     private class MakeDatabase extends AsyncTask<Void, Void, Boolean> {
         protected  MakeDatabase() {
