@@ -244,29 +244,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             String getUsersText = "SELECT userName, password, salt FROM users WHERE username=?";
+            ResultSet results;
             try {
                 DatabaseConnector db = RatAppConnector.getInstance();
                 PreparedStatement statement = db.getStatement(getUsersText);
                 statement.setString(1, mEmail);
-                ResultSet results = db.query(statement);
+                results = db.query(statement);
                 if (!results.next()) {
                     // No entries in DB for passed in username
                     results.close();
                     return false;
                 }
-                if (!results.getString("password").equals(mPassword)) {
+                String dbPass = results.getString("password");
+                int salt = results.getInt("salt");
+                if (dbPass.equals(mPassword)) {
                     results.close();
+                    Log.i("LoginActivity", "doInBackground auth success");
+                    return true;
+                } else {
+                    results.close();
+                    Log.i("LoginActivity", "doInBackground auth failed");
                     return false;
                 }
-                results.close();
-                Log.d("Login Task", "success");
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
             }
-
-
-            return true;
         }
 
         @Override
@@ -275,6 +278,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                Log.i("LoginActivity", "onPostExecute Success");
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -298,7 +302,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             //Connect to the database
             try {
                 RatAppConnector.initialize();
-                //mEmailView.setError("Connection worked");
                 Log.d("DB Connection", "Worked");
                 return Boolean.TRUE;
             } catch (SQLException e) {
