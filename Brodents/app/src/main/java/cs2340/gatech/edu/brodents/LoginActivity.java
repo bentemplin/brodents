@@ -3,6 +3,7 @@ package cs2340.gatech.edu.brodents;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -283,7 +284,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 Log.i("LoginActivity", "onPostExecute Success");
-                finish();
+
+                /*
+                IMPLEMENT CODE HERE
+                 */
+                Intent logoutScreen = new Intent(getApplicationContext(), LogoutActivity.class);
+                startActivity(logoutScreen);
+
+//                finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -295,7 +303,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
-
+    }
 
     private class MakeDatabase extends AsyncTask<Void, Void, Boolean> {
         protected  MakeDatabase() {
