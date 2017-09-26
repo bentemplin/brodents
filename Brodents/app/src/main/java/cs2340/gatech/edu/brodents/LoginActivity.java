@@ -33,9 +33,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.security.MessageDigest;
-import java.security.SecureRandom;
-import java.security.NoSuchAlgorithmException;
 
 
 
@@ -263,12 +260,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
                 String dbPass = results.getString("password");
                 int salt = results.getInt("salt");
-                if (dbPass.equals(mPassword)) {
-                    results.close();
+                String hashPass = PasswordHasher.getSecurePassword(Integer.toString(salt),
+                        mPassword);
+                results.close();
+                if (dbPass.equals(hashPass)) {
                     Log.i("LoginActivity", "doInBackground auth success");
                     return true;
                 } else {
-                    results.close();
                     Log.i("LoginActivity", "doInBackground auth failed");
                     return false;
                 }
@@ -297,7 +295,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
-    }
+
 
     private class MakeDatabase extends AsyncTask<Void, Void, Boolean> {
         protected  MakeDatabase() {
@@ -317,28 +315,5 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    public String getSecurePassword(String passwordToHash){
-        SecureRandom rand = new SecureRandom();
-        byte[] seed = rand.generateSeed(20);
-        String salt = seed.toString();
-        String generatedPassword = null;
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-512");
-            md.update(salt.getBytes("UTF-8"));
-            byte[] bytes = md.digest(passwordToHash.getBytes("UTF-8"));
-            StringBuilder sb = new StringBuilder();
-            for(int i=0; i< bytes.length ;i++){
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-            }
-            generatedPassword = sb.toString();
-        }
-        catch (NoSuchAlgorithmException e){
-            e.printStackTrace();
-        }
-        catch (UnsupportedEncodingException e2) {
-            e2.printStackTrace();
-        }
-        return generatedPassword;
-    }
 }
 
