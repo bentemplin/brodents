@@ -1,0 +1,15 @@
+Austin Ayers
+
+As a User, I want to logout of the system, so that I'm no longer logged into the app
+
+Tasks:
+	-Accept a button press to log out of the app
+	-Return the log in screen after a successful log out
+
+Acceptance Scenarios:
+	-Given that the user is logged in, when the user presses the logout button, then the app logs the user out
+	-Given that the user successfully logs out, when the user returns to the screen, then the app displays a new log in screen
+
+Done Done Criteria:
+	-App is tested and the logout completes both tasks effectively
+	-Code is merged into the GitHub correctly
