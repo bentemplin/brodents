@@ -1,0 +1,17 @@
+Nikolai Vorobiev
+
+As a User, I want to change my password, so I can secure my account.
+
+Tasks:
+	* Create a new page where the user can change his password
+	* Prompt the user for email, old password, and new password
+	* Check database that the given email is valid and the old password matches
+	* Update the password in the database
+	* Redirect to the main screen of the application
+
+Acceptance Scenarios:
+	* Given the form is valid and complete, when the change password button is pressed, then the password is updated and returns to the main screen
+	* Given the form is not complete, when the change password button is pressed, then prompt the user to fill in the missing information
+	*Given any state of the form, when the cancel button is pressed, then the user returns to the main screen
+	*Given the user enters an invalid email, when the change password button is pressed, then notify the user he entered an incorrect email and let him try again.
+	*Given the user enters an invalid password, when the change password button is pressed, then notify the user the password is invalid and let him try again.
