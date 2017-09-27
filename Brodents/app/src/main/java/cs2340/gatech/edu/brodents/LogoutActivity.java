@@ -18,6 +18,7 @@ public class LogoutActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Button mLogOut = (Button) findViewById(R.id.btnLogout);
+        mLogOut.setText("Logout");
         mLogOut.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
