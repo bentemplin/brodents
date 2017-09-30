@@ -30,6 +30,10 @@ class RatAppModel {
         }
     }
 
+    static void checkInitialization() {
+        if (model == null || !model.dbInitialized) RatAppModel.initialize();
+    }
+
     /**
      * This method initializes the model and tries to create a database connection.
      */
@@ -58,6 +62,7 @@ class RatAppModel {
      * @return boolean of the result of the test
      */
     boolean testCredentials(String userName, String password) {
+        RatAppModel.checkInitialization();
         String getUsersText = "SELECT userName, password, salt FROM users WHERE username=?";
         ResultSet results;
         try {
@@ -104,6 +109,7 @@ class RatAppModel {
      */
     int registerUser(String userName, String password, String profileName,
         String homeLocation) {
+        RatAppModel.checkInitialization();
         SecureRandom saltShaker = new SecureRandom();
         try {
             PreparedStatement checkStatment = db.getStatement("SELECT * FROM users WHERE userName"
@@ -131,6 +137,6 @@ class RatAppModel {
             Log.e("Register User", e.getMessage());
             return 2;
 
-        } 
+        }
     }
 }

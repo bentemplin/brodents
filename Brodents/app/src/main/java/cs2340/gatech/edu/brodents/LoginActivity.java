@@ -256,9 +256,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            if (RatAppModel.getInstance() == null || !RatAppModel.getInstance().isDbInitialized()) {
-                RatAppModel.initialize();
-            }
+            RatAppModel.checkInitialization();
             RatAppModel model = RatAppModel.getInstance();
             return model.testCredentials(mEmail, mPassword);
         }
