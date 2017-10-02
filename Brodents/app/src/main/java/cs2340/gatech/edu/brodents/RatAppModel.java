@@ -18,14 +18,14 @@ import java.sql.SQLException;
 class RatAppModel {
     private DatabaseConnector db;
     private boolean dbInitialized;
-    private String currentUser;
+    private User currentUser;
     private static RatAppModel model;
 
     private RatAppModel(String userName, String password, String host) {
         try {
             db = new DatabaseConnector(userName, password, host);
             dbInitialized = true;
-            currentUser = "";
+            currentUser = null;
         } catch (SQLException e) {
             Log.e("RatAppModel", e.getMessage());
             dbInitialized = false;
@@ -61,26 +61,27 @@ class RatAppModel {
      * This method gets the current user's username.
      * @return String of current user's username
      */
-    String getCurrentUser() {return currentUser;}
+    User getCurrentUser() {return currentUser;}
 
     /**
-     * This method sets the current user.
-     * @param newCurrentUser New current user's user name.
+     * This method clears the current user
      */
-    void setCurrentUser(String newCurrentUser) {
-        currentUser = newCurrentUser;
+    void clearCurrentUser() {
+        currentUser = null;
     }
 
     /**
-     * This method tests whether the passed in username and password are valid credentials
-     * @param userName The username to test
-     * @param password The password (in plaintext) to test
-     * @return boolean of the result of the test
+     * This method logs the user in with the passed in credentials if correct. It also sets the
+     * current user if the login is successful.
+     * @param userName The username to login with
+     * @param password The password (in plaintext) to login with
+     * @return boolean of the result of the login
      */
-    boolean testCredentials(String userName, String password) {
+    boolean login(String userName, String password) {
         RatAppModel.checkInitialization();
-        String getUsersText = "SELECT userName, password, salt FROM users WHERE username=?";
+        String getUsersText = "SELECT * FROM users WHERE username=?";
         ResultSet results;
+        boolean loginStatus;
         try {
             PreparedStatement statement = db.getStatement(getUsersText);
             statement.setString(1, userName);
@@ -88,22 +89,28 @@ class RatAppModel {
             if (!results.next()) {
                 // No entries in DB for passed in username
                 results.close();
-                return false;
-            }
-            String dbPass = results.getString("password");
-            int salt = results.getInt("salt");
-            String hashPass = PasswordHasher.getSecurePassword(Integer.toString(salt),
-                    password);
-            results.close();
-            if (dbPass.equals(hashPass)) {
-                Log.i("testCredentials", "auth success");
-                return true;
+                loginStatus = false;
             } else {
-                Log.i("testCredentials", "auth failed");
-                return false;
+                String dbPass = results.getString("password");
+                int salt = results.getInt("salt");
+                String hashPass = PasswordHasher.getSecurePassword(Integer.toString(salt),
+                        password);
+                if (dbPass.equals(hashPass)) {
+                    Log.i("login", "auth success");
+                    loginStatus = true;
+                    String profileName = results.getString("profileName");
+                    String address = results.getString("homeLocation");
+                    boolean isAdmin = results.getBoolean("isAdmin");
+                    currentUser = new User(userName, profileName, address, isAdmin);
+                } else {
+                    Log.i("login", "auth failed");
+                    loginStatus = false;
+                }
+                results.close();
             }
+            return loginStatus;
         } catch (SQLException e) {
-            //e.printStackTrace();
+            Log.e("login", e.getMessage());
             return false;
         }
     }
