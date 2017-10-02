@@ -3,6 +3,7 @@ package cs2340.gatech.edu.brodents;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -45,7 +46,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
-    private MakeDatabase mDB = null;
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
@@ -54,12 +54,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MakeDatabase makeDB = new MakeDatabase();
+        makeDB.execute((Void) null);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        mDB = new MakeDatabase();
-        mDB.execute((Void) null);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -80,8 +80,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        Button btnCancel = (Button) findViewById(R.id.btnCancel);
+        btnCancel.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mEmailView.setText("");
+                mPasswordView.setText("");
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
 
     }
 
@@ -233,7 +243,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
         private final String mPassword;
@@ -246,35 +256,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            String getUsersText = "SELECT userName, password, salt FROM users WHERE username=?";
-            ResultSet results;
-            try {
-                DatabaseConnector db = RatAppConnector.getInstance();
-                PreparedStatement statement = db.getStatement(getUsersText);
-                statement.setString(1, mEmail);
-                results = db.query(statement);
-                if (!results.next()) {
-                    // No entries in DB for passed in username
-                    results.close();
-                    return false;
-                }
-                String dbPass = results.getString("password");
-                int salt = results.getInt("salt");
-                String hashPass = PasswordHasher.getSecurePassword(Integer.toString(salt),
-                        mPassword);
-                Log.d("Hashed password", hashPass);
-                results.close();
-                if (dbPass.equals(hashPass)) {
-                    Log.i("LoginActivity", "doInBackground auth success");
-                    return true;
-                } else {
-                    Log.i("LoginActivity", "doInBackground auth failed");
-                    return false;
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return false;
-            }
+            RatAppModel.checkInitialization();
+            RatAppModel model = RatAppModel.getInstance();
+            return model.testCredentials(mEmail, mPassword);
         }
 
         @Override
@@ -284,7 +268,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 Log.i("LoginActivity", "onPostExecute Success");
-                finish();
+
+                Intent logoutScreen = new Intent(getApplicationContext(), LogoutActivity.class);
+                startActivity(logoutScreen);
+
+//                finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -296,45 +284,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
-
-//        public String getSecurePassword(String passwordToHash){
-//            String generatedPassword = null;
-//            try {
-//                MessageDigest md = MessageDigest.getInstance("SHA-512");
-//                byte[] bytes = md.digest(passwordToHash.getBytes("UTF-8"));
-//                StringBuilder sb = new StringBuilder();
-//                for(int i=0; i< bytes.length ;i++){
-//                    sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-//                }
-//                generatedPassword = sb.toString();
-//            }
-//            catch (NoSuchAlgorithmException e){
-//                e.printStackTrace();
-//            }
-//            catch (UnsupportedEncodingException e2) {
-//                e2.printStackTrace();
-//            }
-//            return generatedPassword;
-//        }
     }
 
     private class MakeDatabase extends AsyncTask<Void, Void, Boolean> {
-        protected  MakeDatabase() {
-        }
-
         @Override
-        protected Boolean doInBackground(Void...  params) {
-            //Connect to the database
-            try {
-                RatAppConnector.initialize();
-                Log.d("DB Connection", "Worked");
-                return Boolean.TRUE;
-            } catch (SQLException e) {
-                Log.e("SQL Connection", e.getMessage());
-                return Boolean.FALSE;
-            }
+        protected Boolean doInBackground(Void... params) {
+            RatAppModel.initialize();
+            return RatAppModel.getInstance().isDbInitialized();
         }
     }
-
 }
 
