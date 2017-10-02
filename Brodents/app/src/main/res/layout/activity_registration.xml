@@ -24,21 +24,20 @@
     </android.support.design.widget.AppBarLayout>
 
     <TextView
-        android:id="@+id/txtWelcome"
+        android:id="@+id/tvWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/appBarLayout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:text="Welcome to Brodents!"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tvInstructions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtWelcome"
+        android:layout_below="@+id/tvWelcome"
         android:paddingLeft="@android:dimen/notification_large_icon_width"
         android:paddingRight="@android:dimen/notification_large_icon_width"
         android:text="Please provide your information below to register and start reporting rats!"
@@ -48,7 +47,9 @@
         android:id="@+id/txtUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/tvInstructions"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="42dp"
         android:layout_toEndOf="@+id/tvUsername"
         android:ems="10"
@@ -59,11 +60,12 @@
         android:id="@+id/txtPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:layout_below="@+id/txtUsername"
         android:layout_alignStart="@+id/txtUsername"
-        android:layout_marginTop="33dp" />
+        android:layout_below="@+id/txtUsername"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:hint="p@$$W0Rd"
+        android:inputType="textPassword" />
 
     <TextView
         android:id="@+id/tvUsername"
@@ -72,9 +74,8 @@
         android:layout_alignBaseline="@+id/txtUsername"
         android:layout_alignBottom="@+id/txtUsername"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="15dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginStart="16dp"
         android:text="Username (email):" />
 
     <TextView
@@ -83,8 +84,76 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/txtPassword"
         android:layout_alignBottom="@+id/txtPassword"
+        android:layout_marginRight="10dp"
         android:layout_toStartOf="@+id/txtPassword"
-        android:paddingRight="10dp"
         android:text="Desired Password:" />
+
+    <EditText
+        android:id="@+id/txtName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/txtPassword"
+        android:layout_below="@+id/txtPassword"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:hint="Jon Snow"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/txtName"
+        android:layout_marginBottom="11dp"
+        android:layout_marginRight="10dp"
+        android:layout_toStartOf="@+id/txtName"
+        android:text="Full Name:" />
+
+    <EditText
+        android:id="@+id/txtHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/txtName"
+        android:layout_below="@+id/txtName"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:hint="21 Jump St."
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/tvHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/txtHome"
+        android:layout_marginBottom="11dp"
+        android:layout_marginRight="10dp"
+        android:layout_toStartOf="@+id/txtHome"
+        android:text="Home Address:" />
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:text="Submit"
+        android:layout_below="@+id/txtHome"
+        android:layout_toStartOf="@+id/btnCancel"
+        android:layout_marginEnd="12dp" />
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:layout_alignTop="@+id/btnSubmit"
+        android:layout_alignEnd="@+id/txtHome" />
+
+    <CheckBox
+        android:id="@+id/chkAdmin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvHome"
+        android:layout_alignTop="@+id/btnSubmit"
+        android:text="Admin?" />
 
 </RelativeLayout>
