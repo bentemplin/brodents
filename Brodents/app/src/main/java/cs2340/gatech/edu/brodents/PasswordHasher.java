@@ -5,16 +5,15 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Created by benyarmowich on 9/25/17.
+ * Created by Benjamin Yarmowich on 9/25/17.
  */
-
+public class PasswordHasher {
 /**
  * This class takes in a plain text password and returns the hashed version.
  * @param passwordToHash String to hash.
  * @param salt String to be prepended to password
  * @return Hashed String value.
  */
-public class PasswordHasher {
     public static String getSecurePassword(String salt, String passwordToHash){
         String generatedPassword = null;
         try {
