@@ -151,6 +151,7 @@ public class RegistrationActivity extends AppCompatActivity {
             switch (regCode) {
                 case 0:
                     // successful registration
+                    model.setCurrentUser(new User(mEmail, mName, mHome, mAdmin));
                     return true;
                 case 1:
                     // Username taken

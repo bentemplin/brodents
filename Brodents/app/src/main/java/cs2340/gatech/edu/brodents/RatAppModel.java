@@ -71,6 +71,14 @@ class RatAppModel {
     }
 
     /**
+     * Sets the current user to the one passed in.
+     * @param newCurrentUser The new current user
+     */
+    void setCurrentUser(User newCurrentUser) {
+        currentUser = newCurrentUser;
+    }
+
+    /**
      * This method logs the user in with the passed in credentials if correct. It also sets the
      * current user if the login is successful.
      * @param userName The username to login with
