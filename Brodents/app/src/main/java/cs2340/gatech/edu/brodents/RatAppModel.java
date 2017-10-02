@@ -103,33 +103,35 @@ class RatAppModel {
      * @param password The password to use for the user's account
      * @param profileName The profile name to display for the user
      * @param homeLocation The user's home location
+     * @param isAdmin A boolean for whether to make the user an administrator.
      * @return An integer code indicating the success of the registration. 0 if registration
      *         succeeds, 1 if the registration fails because the username is already taken, and
      *         2 if a SQLException occurs during registration;
      */
     int registerUser(String userName, String password, String profileName,
-        String homeLocation) {
+        String homeLocation, boolean isAdmin) {
         RatAppModel.checkInitialization();
         SecureRandom saltShaker = new SecureRandom();
         try {
-            PreparedStatement checkStatment = db.getStatement("SELECT * FROM users WHERE userName"
+            PreparedStatement checkStatement = db.getStatement("SELECT * FROM users WHERE userName"
             + "=?");
-            checkStatment.setString(1, userName);
-            ResultSet checkResults = db.query(checkStatment);
-            if (checkResults.next()) {
+            checkStatement.setString(1, userName);
+            ResultSet checkResults = db.query(checkStatement);
+            if (checkResults.next()) { //Check for username already in use
                 return 1;
             } else {
                 int salt = saltShaker.nextInt(32);
                 String hashedPass = PasswordHasher.getSecurePassword(Integer.toHexString(salt),
                         password);
                 String registrationText = "INSERT INTO users(userName, password, profileName, "
-                        + "homeLocation, salt) VALUES(?, ?, ?, ?, ?)";
+                        + "homeLocation, salt, isAdmin) VALUES(?, ?, ?, ?, ?, ?)";
                 PreparedStatement registerStatement = db.getStatement(registrationText);
                 registerStatement.setString(1, userName);
                 registerStatement.setString(2, hashedPass);
                 registerStatement.setString(3, profileName);
                 registerStatement.setString(4, homeLocation);
                 registerStatement.setInt(5, salt);
+                registerStatement.setBoolean(5, isAdmin);
                 db.update(registerStatement);
                 return 0;
             }
