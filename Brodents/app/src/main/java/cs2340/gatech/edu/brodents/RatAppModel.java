@@ -112,11 +112,11 @@ class RatAppModel {
         RatAppModel.checkInitialization();
         SecureRandom saltShaker = new SecureRandom();
         try {
-            PreparedStatement checkStatment = db.getStatement("SELECT * FROM users WHERE userName"
+            PreparedStatement checkStatement = db.getStatement("SELECT * FROM users WHERE userName"
             + "=?");
-            checkStatment.setString(1, userName);
-            ResultSet checkResults = db.query(checkStatment);
-            if (checkResults.next()) {
+            checkStatement.setString(1, userName);
+            ResultSet checkResults = db.query(checkStatement);
+            if (checkResults.next()) { //Check for username already in use
                 return 1;
             } else {
                 int salt = saltShaker.nextInt(32);
