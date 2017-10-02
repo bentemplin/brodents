@@ -65,30 +65,17 @@ public class DatabaseConnector {
      * @param statement A PreparedStatement of the query to be executed.
      * @return A ResultSet of the results of the query.
      */
-    public ResultSet query(PreparedStatement statement) {
-        try {
+    public ResultSet query(PreparedStatement statement) throws SQLException{
             ResultSet results = statement.executeQuery();
             return results;
-        } catch (SQLException e) {
-            debugMessage("ERROR: SQL Exception, Querying");
-            debugMessage(e.getStackTrace().toString());
-            debugMessage(e.getMessage());
-            return null;
-        }
     }
 
     /**
      * This method allows you to update a table in the database.
      * @param statement A PreparedStatement of the update to be executed.
      */
-    public void update(PreparedStatement statement) {
-        try {
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            debugMessage("ERROR: SQL Exception, Updating");
-            debugMessage(e.getStackTrace().toString());
-            debugMessage(e.getMessage());
-        }
+    public void update(PreparedStatement statement) throws SQLException {
+        statement.executeUpdate();
     }
 
     /**
