@@ -23,6 +23,7 @@ public class LogoutActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // GET INTENT
+                RatAppModel.getInstance().setCurrentUser("");
                 Intent loginScreen = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(loginScreen);
             }

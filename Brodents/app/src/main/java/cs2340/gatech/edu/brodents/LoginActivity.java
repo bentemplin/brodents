@@ -267,7 +267,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected Boolean doInBackground(Void... params) {
             RatAppModel.checkInitialization();
             RatAppModel model = RatAppModel.getInstance();
-            return model.testCredentials(mEmail, mPassword);
+            boolean result = model.testCredentials(mEmail, mPassword);
+            if (result) {
+                model.setCurrentUser(mEmail);
+            }
+            return result;
         }
 
         @Override
@@ -277,7 +281,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 Log.i("LoginActivity", "onPostExecute Success");
-
                 Intent logoutScreen = new Intent(getApplicationContext(), LogoutActivity.class);
                 startActivity(logoutScreen);
 

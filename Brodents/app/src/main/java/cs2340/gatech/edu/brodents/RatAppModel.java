@@ -18,12 +18,14 @@ import java.sql.SQLException;
 class RatAppModel {
     private DatabaseConnector db;
     private boolean dbInitialized;
+    private String currentUser;
     private static RatAppModel model;
 
     private RatAppModel(String userName, String password, String host) {
         try {
             db = new DatabaseConnector(userName, password, host);
             dbInitialized = true;
+            currentUser = "";
         } catch (SQLException e) {
             Log.e("RatAppModel", e.getMessage());
             dbInitialized = false;
@@ -54,6 +56,20 @@ class RatAppModel {
      * @return Boolean whether the Database connection has been initialized
      */
     boolean isDbInitialized() {return dbInitialized;}
+
+    /**
+     * This method gets the current user's username.
+     * @return String of current user's username
+     */
+    String getCurrentUser() {return currentUser;}
+
+    /**
+     * This method sets the current user.
+     * @param newCurrentUser New current user's user name.
+     */
+    void setCurrentUser(String newCurrentUser) {
+        currentUser = newCurrentUser;
+    }
 
     /**
      * This method tests whether the passed in username and password are valid credentials
@@ -121,7 +137,7 @@ class RatAppModel {
                 return 1;
             } else {
                 int salt = saltShaker.nextInt(32);
-                String hashedPass = PasswordHasher.getSecurePassword(Integer.toHexString(salt),
+                String hashedPass = PasswordHasher.getSecurePassword(Integer.toString(salt),
                         password);
                 String registrationText = "INSERT INTO users(userName, password, profileName, "
                         + "homeLocation, salt, isAdmin) VALUES(?, ?, ?, ?, ?, ?)";
@@ -131,8 +147,9 @@ class RatAppModel {
                 registerStatement.setString(3, profileName);
                 registerStatement.setString(4, homeLocation);
                 registerStatement.setInt(5, salt);
-                registerStatement.setBoolean(5, isAdmin);
+                registerStatement.setBoolean(6, isAdmin);
                 db.update(registerStatement);
+                Log.d("Register User", "Success for userName = " + userName);
                 return 0;
             }
         } catch (SQLException e) {

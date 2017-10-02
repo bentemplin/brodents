@@ -84,7 +84,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPassword.setError(getString(R.string.error_invalid_password));
+            mPassword.setError(getString(R.string.error_too_short_password));
             focusView = mPassword;
             cancel = true;
         }
@@ -112,15 +112,11 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     }
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        //return email.contains("@");
-        return email != null;
+        return email.contains("@") && email.contains(".");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        //return password.length() > 4;
-        return password != null;
+        return password.length() >= 6;
     }
 
     /**
@@ -138,7 +134,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
         UserRegistrationTask(String email, String password, String name, String home,
                              boolean isAdmin) {
-            // TODO: implement password hashing -> the mPassword field should contain a hashed value
             mEmail = email;
             mPassword = password;
             mName = name;
@@ -150,8 +145,6 @@ public class RegistrationActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             RatAppModel.checkInitialization();
             RatAppModel model = RatAppModel.getInstance();
-
-            // TODO: check credentials, make sure all is valid
 
             int regCode = model.registerUser(mEmail, mPassword, mName, mHome, mAdmin);
 
@@ -185,14 +178,6 @@ public class RegistrationActivity extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             mAuthTask = null;
-        }
-    }
-
-    private class MakeDatabase extends AsyncTask<Void, Void, Boolean> {
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            RatAppModel.initialize();
-            return RatAppModel.getInstance().isDbInitialized();
         }
     }
 }
