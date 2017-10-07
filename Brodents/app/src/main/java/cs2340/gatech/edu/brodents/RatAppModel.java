@@ -19,6 +19,7 @@ class RatAppModel {
     private DatabaseConnector db;
     private boolean dbInitialized;
     private User currentUser;
+    private RatSightingManager sightingManager;
     private static RatAppModel model;
 
     private RatAppModel(String userName, String password, String host) {
@@ -26,6 +27,8 @@ class RatAppModel {
             db = new DatabaseConnector(userName, password, host);
             dbInitialized = true;
             currentUser = null;
+            RatSightingManager.initialize(db);
+            sightingManager = RatSightingManager.getInstance();
         } catch (SQLException e) {
             Log.e("RatAppModel", e.getMessage());
             dbInitialized = false;
@@ -57,6 +60,17 @@ class RatAppModel {
      */
     boolean isDbInitialized() {return dbInitialized;}
 
+    /**
+     * This method gets the DatabaseConnector for the model.
+     * @return The DatabaseConnector
+     */
+    DatabaseConnector getConnector() {return db;}
+
+    /**
+     * This method gets the model's sighting manager.
+     * @return The model's sighting manager.
+     */
+    RatSightingManager getSightingManager() {return sightingManager;}
     /**
      * This method gets the current user's username.
      * @return String of current user's username
