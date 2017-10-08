@@ -27,8 +27,8 @@ public class RatListDisplayAdapter extends
 
     @Override
     public  RatListDisplayAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        TextView v = (TextView) LayoutInflater.from(parent.getContext()).
-                inflate(R.layout.my_text_view, parent, false);
+        TextView v = (TextView) LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.my_text_view, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }

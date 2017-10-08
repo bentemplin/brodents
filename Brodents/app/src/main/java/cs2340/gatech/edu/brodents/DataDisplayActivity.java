@@ -19,6 +19,7 @@ public class DataDisplayActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rat_data_display);
+        dataDisplay = (RecyclerView) findViewById(R.id.my_recycler_view);
 
         dataDisplay.setHasFixedSize(true);
 
