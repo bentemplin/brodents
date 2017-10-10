@@ -56,7 +56,6 @@ public class RatListDisplayAdapter extends
          */
         @Override
         public void onClick(View v){
-            Log.i("test",String.valueOf(getAdapterPosition() + ", has been pressed"));
             if (v.getId() == key.getId()) {
                 new RatSelected(Integer.valueOf(getAdapterPosition()));
                 Intent indDataPage = new Intent(a.getApplicationContext(), indDataPageActivity.class);
@@ -71,19 +70,6 @@ public class RatListDisplayAdapter extends
          */
         @Override
         public boolean onLongClick(View v){
-            Log.i("test",v.toString() + "has been LOOOOONg pressed");
-            final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-            builder.setTitle("Hello Dialog")
-                    .setMessage("LONG CLICK DIALOG WINDOW FOR ICON " + String.valueOf(getAdapterPosition()))
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-
-            builder.create().show();
-            listenerRef.get().onLongClicked(getAdapterPosition());
             return true;
         }
     }
@@ -108,7 +94,6 @@ public class RatListDisplayAdapter extends
      */
     @Override
     public  ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        Log.i("test", "new ViewHolder");
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.my_text_view, parent, false);
         ViewHolder vh = new ViewHolder(v, parentActivity);

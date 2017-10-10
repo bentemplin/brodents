@@ -96,7 +96,7 @@ public class DataDisplayActivity extends AppCompatActivity {
             RatAppModel model = RatAppModel.getInstance();
             RatSightingManager man = model.getSightingManager();
             try {
-                sightings = man.getNextBlock(75);
+                sightings = man.getNextBlock(100);
                 for (RatSighting r : sightings) {
                     list.add(r);
                 }
