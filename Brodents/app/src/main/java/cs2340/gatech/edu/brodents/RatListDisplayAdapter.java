@@ -35,6 +35,11 @@ public class RatListDisplayAdapter extends
         private WeakReference<ClickListener> listenerRef;
         private Activity a;
 
+        /**
+         * Creates a the View Holder for the Rat List Adapter
+         * @param v the View that the View Holder will be editing
+         * @param a The current DataDisplayActivity
+         */
         public ViewHolder(View v, Activity a) {
             super(v);
             this.a = a;
@@ -45,15 +50,25 @@ public class RatListDisplayAdapter extends
             key.setOnClickListener(this);
         }
 
+        /**
+         * Starts a new indDataPage when an id field is clicked
+         * @param v current View
+         */
         @Override
         public void onClick(View v){
-            Log.i("test",key.getText() + ", has been pressed");
+            Log.i("test",String.valueOf(getAdapterPosition() + ", has been pressed"));
             if (v.getId() == key.getId()) {
+                new RatSelected(Integer.valueOf(getAdapterPosition()));
                 Intent indDataPage = new Intent(a.getApplicationContext(), indDataPageActivity.class);
                 a.startActivity(indDataPage);
             }
         }
 
+        /**
+         * Method is not used and is only implemented to follow an interface
+         * @param v the current view
+         * @return true
+         */
         @Override
         public boolean onLongClick(View v){
             Log.i("test",v.toString() + "has been LOOOOONg pressed");
@@ -73,12 +88,24 @@ public class RatListDisplayAdapter extends
         }
     }
 
+    /**
+     * Instatiates the DisplayAdapter
+     * @param sightingList the list of Rat Sightings to be displayed
+     * @param a The current DataDisplayActivity to pass onto the View Adapter
+     * @param listener A ClickListener used to accept clicks
+     */
     public RatListDisplayAdapter(List<RatSighting> sightingList, Activity a, ClickListener listener) {
         this.sightingList = sightingList;
         this.listener = listener;
         this.parentActivity = a;
     }
 
+    /**
+     * Creates the View Holder
+     * @param parent the ViewGroup the RecyclerView is stored in
+     * @param viewType the int type
+     * @return the generated ViewHolder
+     */
     @Override
     public  ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         Log.i("test", "new ViewHolder");
@@ -88,15 +115,22 @@ public class RatListDisplayAdapter extends
         return vh;
     }
 
+    /**
+     * Replaces the textView text with the Rat Sighting ID
+     * @param holder the ViewHolder containing the TextView
+     * @param position the position of the rat in the array
+     */
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         RatSighting sighting = sightingList.get(position);
-        Log.i("test", sighting.getKey() + ", key");
         holder.key.setText(Integer.toString(sighting.getKey()));
     }
 
+    /**
+     * @return the size of the sightingList
+     */
     @Override
     public int getItemCount() {
         return sightingList.size();

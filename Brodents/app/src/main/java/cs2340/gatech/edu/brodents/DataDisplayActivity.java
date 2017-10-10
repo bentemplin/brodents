@@ -23,12 +23,19 @@ public class DataDisplayActivity extends AppCompatActivity {
     private RecyclerView dataDisplay;
     private RecyclerView.Adapter displayAdapter;
     private RecyclerView.LayoutManager dataLayout;
-    private List<RatSighting> ratData;
+    private static List<RatSighting> ratData;
+    private DataFetcher fetcher;
 
+    /**
+     * Starts the Data Display Activity
+     * @param savedInstanceState the current Instance State
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DataFetcher fetcher = new DataFetcher();
+
+        //Fetched the Rat Data from the Data Base
+        fetcher = new DataFetcher();
         try {
             /* The .get() function makes the function wait for the AsyncTask to finish and gets the
                results */
@@ -36,25 +43,27 @@ public class DataDisplayActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("DataDisplay", e.getMessage());
         }
+
+        //Sets the view to the XML file rat_data_display
         setContentView(R.layout.rat_data_display);
-            dataDisplay = (RecyclerView) findViewById(R.id.my_recycler_view);
+        dataDisplay = (RecyclerView) findViewById(R.id.my_recycler_view);
 
-            dataDisplay.setHasFixedSize(true);
+        dataDisplay.setHasFixedSize(true);
 
-            dataLayout = new LinearLayoutManager(this);
-            dataDisplay.setLayoutManager(dataLayout);
-            displayAdapter = new RatListDisplayAdapter(ratData, this, new ClickListener() {
-                @Override
-                public void onPositionClicked(int position) {
-                    //callback performed on click
-                }
+        dataLayout = new LinearLayoutManager(this);
+        dataDisplay.setLayoutManager(dataLayout);
+        displayAdapter = new RatListDisplayAdapter(ratData, this, new ClickListener() {
+            @Override
+            public void onPositionClicked(int position) {
+                //callback performed on click
+            }
 
-                @Override
-                public void onLongClicked(int position) {
-                    //callback performed on click
-                }
-            });
-            dataDisplay.setAdapter(displayAdapter);
+            @Override
+            public void onLongClicked(int position) {
+                //callback performed on click
+            }
+        });
+        dataDisplay.setAdapter(displayAdapter);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -70,6 +79,9 @@ public class DataDisplayActivity extends AppCompatActivity {
                 startActivity(loginScreen);
             }
         });
+    }
+    public static List<RatSighting> getRatData() {
+        return ratData;
     }
 
     /**
@@ -94,8 +106,6 @@ public class DataDisplayActivity extends AppCompatActivity {
                 return null;
             }
         }
-
-
     }
 
 

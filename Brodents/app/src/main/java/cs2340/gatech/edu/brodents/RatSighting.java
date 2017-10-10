@@ -70,6 +70,7 @@ public class RatSighting {
         this.latitude = latitude;
         this.longitude = longitude;
         this.resActionUpdated = resActionUpdated;
+        //todo add address
     }
 
     // Here go all of the getters!
