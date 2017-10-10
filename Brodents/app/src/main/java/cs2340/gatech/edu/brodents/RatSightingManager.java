@@ -54,10 +54,10 @@ public class RatSightingManager {
      * @return RatSighting array containing the block of sightings.
      */
     RatSighting[] getSightingBlock(int size, int startRow) throws SQLException {
-        String statmentText = "SELECT * FROM sightingInfo" +
+        String statementText = "SELECT * FROM sightingInfo" +
                 " ORDER BY createdDate DESC" +
                 " LIMIT ?";
-            PreparedStatement statement = db.getStatement(statmentText);
+            PreparedStatement statement = db.getStatement(statementText);
             statement.setInt(1, size + startRow);
             ResultSet sightingInfo = db.query(statement);
             RatSighting[] results = new RatSighting[size];
@@ -100,13 +100,13 @@ public class RatSightingManager {
                 String borough = locResults.getString("borough");
                 double lat = locResults.getDouble("latitude");
                 double longitude = locResults.getDouble("longitude");
+                String address = locResults.getString("address");
                 locResults.close();
                 test = new RatSighting(key, cDate, aCode, aName, complaintType, status,
-                        dueDate, closedDate, resUpdateDate, locType, zip, city, borough, lat,
-                        longitude);
+                        dueDate, closedDate, resUpdateDate, locType, zip, city, borough, address,
+                        lat, longitude);
                 results[i] = test;
                 lastRow++;
-//                sightingInfo.next();
             }
             sightingInfo.close();
             Log.d(TAG, Integer.toString(lastRow));
