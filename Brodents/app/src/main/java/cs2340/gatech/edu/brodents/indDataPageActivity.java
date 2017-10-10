@@ -57,7 +57,7 @@ public class indDataPageActivity extends AppCompatActivity {
         key.setText(Integer.toString(rat.getKey()));
         createdDate.setText(formatter.format(rat.getCreatedDate()));
         locationType.setText(rat.getLocationType());
-        //incidentAddress.setText(rat.getAddress); 
+        incidentAddress.setText(rat.getAddress());
         incidentZip.setText(Integer.toString(rat.getZip()));
         city.setText(rat.getCity());
         borough.setText(rat.getBorough());
