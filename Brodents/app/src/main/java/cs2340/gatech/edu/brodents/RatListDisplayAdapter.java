@@ -47,16 +47,11 @@ public class RatListDisplayAdapter extends
 
         @Override
         public void onClick(View v){
-            Log.i("test",v.toString() + "has been pressed");
+            Log.i("test",key.getText() + ", has been pressed");
             if (v.getId() == key.getId()) {
                 Intent indDataPage = new Intent(a.getApplicationContext(), indDataPageActivity.class);
                 a.startActivity(indDataPage);
-                Toast.makeText(v.getContext(), "Screaming = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(v.getContext(), "ROW PRESSED = " + String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
             }
-
-            listenerRef.get().onPositionClicked(getAdapterPosition());
         }
 
         @Override
@@ -98,6 +93,7 @@ public class RatListDisplayAdapter extends
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         RatSighting sighting = sightingList.get(position);
+        Log.i("test", sighting.getKey() + ", key");
         holder.key.setText(Integer.toString(sighting.getKey()));
     }
 
