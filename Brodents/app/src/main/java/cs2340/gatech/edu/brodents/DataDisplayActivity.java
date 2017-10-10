@@ -1,11 +1,15 @@
 package cs2340.gatech.edu.brodents;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,7 +19,7 @@ import java.util.List;
  * Created by Benjamin Yarmowich on 10/5/2017.
  */
 
-public class DataDisplayActivity extends Activity{
+public class DataDisplayActivity extends AppCompatActivity {
     private RecyclerView dataDisplay;
     private RecyclerView.Adapter displayAdapter;
     private RecyclerView.LayoutManager dataLayout;
@@ -39,8 +43,33 @@ public class DataDisplayActivity extends Activity{
 
             dataLayout = new LinearLayoutManager(this);
             dataDisplay.setLayoutManager(dataLayout);
-            displayAdapter = new RatListDisplayAdapter(ratData);
+            displayAdapter = new RatListDisplayAdapter(ratData, this, new ClickListener() {
+                @Override
+                public void onPositionClicked(int position) {
+                    //callback performed on click
+                }
+
+                @Override
+                public void onLongClicked(int position) {
+                    //callback performed on click
+                }
+            });
             dataDisplay.setAdapter(displayAdapter);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        Button mLogOut = (Button) findViewById(R.id.btnLogout);
+        mLogOut.setText("Logout");
+        mLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // GET INTENT
+                RatAppModel.getInstance().clearCurrentUser();
+                Intent loginScreen = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(loginScreen);
+            }
+        });
     }
 
     /**

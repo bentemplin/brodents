@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/key"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Unique Key" />
+
+    <TextView
+        android:id="@+id/createdDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Date Created" />
+
+    <TextView
+        android:id="@+id/locationType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Loation Type" />
+
+    <TextView
+        android:id="@+id/incidentZip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Incedent Zip" />
+
+    <TextView
+        android:id="@+id/incidentAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="incidentAddress" />
+
+    <TextView
+        android:id="@+id/city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="City" />
+
+    <TextView
+        android:id="@+id/borough"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Borough" />
+
+    <TextView
+        android:id="@+id/lattitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lattitude" />
+
+    <TextView
+        android:id="@+id/longitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Longitude" />
+
+</LinearLayout>
