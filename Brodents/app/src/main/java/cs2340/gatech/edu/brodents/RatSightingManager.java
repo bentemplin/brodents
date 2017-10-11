@@ -53,12 +53,11 @@ public class RatSightingManager {
      * @param startRow How many results from the beginning of the set to start the block.
      * @return RatSighting array containing the block of sightings.
      */
-    RatSighting[] getSightingBlock(int size, int startRow) {
-        String statmentText = "SELECT * FROM sightingInfo" +
+    RatSighting[] getSightingBlock(int size, int startRow) throws SQLException {
+        String statementText = "SELECT * FROM sightingInfo" +
                 " ORDER BY createdDate DESC" +
                 " LIMIT ?";
-        try {
-            PreparedStatement statement = db.getStatement(statmentText);
+            PreparedStatement statement = db.getStatement(statementText);
             statement.setInt(1, size + startRow);
             ResultSet sightingInfo = db.query(statement);
             RatSighting[] results = new RatSighting[size];
@@ -101,29 +100,24 @@ public class RatSightingManager {
                 String borough = locResults.getString("borough");
                 double lat = locResults.getDouble("latitude");
                 double longitude = locResults.getDouble("longitude");
+                String address = locResults.getString("address");
                 locResults.close();
                 test = new RatSighting(key, cDate, aCode, aName, complaintType, status,
-                        dueDate, closedDate, resUpdateDate, locType, zip, city, borough, lat,
-                        longitude);
+                        dueDate, closedDate, resUpdateDate, locType, zip, city, borough, address,
+                        lat, longitude);
                 results[i] = test;
                 lastRow++;
-//                sightingInfo.next();
             }
             sightingInfo.close();
             Log.d(TAG, Integer.toString(lastRow));
             return results;
-        } catch (SQLException e) {
-            Log.e(TAG, e.getMessage());
-            e.printStackTrace();
-            return null;
-        }
     }
 
     /**
      * This method gets a block of 100 rat sightings starting at the last sighting fetched.
      * @return RatSighting array of size 100 with the 100 sightings fetched.
      */
-    RatSighting[] getNextBlock() {
+    RatSighting[] getNextBlock() throws SQLException {
         return getSightingBlock(100, lastRow);
     }
 
@@ -132,7 +126,7 @@ public class RatSightingManager {
      * @param size How many sightings to get.
      * @return RatSighting array with the sightings fetched.
      */
-    RatSighting[] getNextBlock(int size) {
+    RatSighting[] getNextBlock(int size) throws SQLException {
         return getSightingBlock(size, lastRow);
     }
 

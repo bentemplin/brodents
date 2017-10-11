@@ -27,10 +27,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.util.Log;
 
-import java.io.UnsupportedEncodingException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+//import java.io.UnsupportedEncodingException;
+//import java.sql.PreparedStatement;
+//import java.sql.ResultSet;
+//import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -277,8 +277,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 Log.i("LoginActivity", "onPostExecute Success");
-                Intent logoutScreen = new Intent(getApplicationContext(), LogoutActivity.class);
-                startActivity(logoutScreen);
+                Intent listScreen = new Intent(getApplicationContext(), DataDisplayActivity.class);
+                startActivity(listScreen);
 
 //                finish();
             } else {
