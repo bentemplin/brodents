@@ -171,8 +171,8 @@ public class RegistrationActivity extends AppCompatActivity {
             if (success) {
                 Log.i("RegistrationActivity", "onPostExecute Success");
 
-                Intent logoutScreen = new Intent(getApplicationContext(), LogoutActivity.class);
-                startActivity(logoutScreen);
+                Intent listScreen = new Intent(getApplicationContext(), DataDisplayActivity.class);
+                startActivity(listScreen);
             }
         }
 

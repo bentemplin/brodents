@@ -31,6 +31,7 @@ public class RatSighting {
     private String borough;
     private double latitude;
     private double longitude;
+    private String address;
 
     /**
      * The constructor for a RatSighting object. You can pass stuff in as null, but note that this
@@ -54,7 +55,7 @@ public class RatSighting {
     RatSighting(int key, Date createdDate, String agencyCode, String agencyName,
                 String complaintType, String status, Date dueDate, Date closedDate,
                 Date resActionUpdated, String locationType, int incidentZip, String city,
-                String borough, double latitude, double longitude) {
+                String borough, String address, double latitude, double longitude) {
         this.key = key;
         this.createdDate = createdDate;
         this.agencyCode = agencyCode;
@@ -67,9 +68,11 @@ public class RatSighting {
         this.incidentZip = incidentZip;
         this.city = city;
         this.borough = borough;
+        this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
         this.resActionUpdated = resActionUpdated;
+        //todo add address
     }
 
     // Here go all of the getters!
@@ -149,6 +152,11 @@ public class RatSighting {
      * @return The date the sighting last had a resolution action taken.
      */
     Date getDateUpdated() {return resActionUpdated;}
+
+    /**
+     * @return The address of the sighting location. Often null.
+     */
+    String getAddress() {return address;}
 
     /**
      * ToString method for RatSightings
