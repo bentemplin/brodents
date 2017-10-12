@@ -15,23 +15,69 @@ public class RatSighting {
     private int key;
     private Date createdDate;
     private String agencyCode;
-    private String agencyName;
-    private String complaintType;
+    private String agencyName; //forced to Brodents
+    private String complaintType; //provided
 
     // From the sightingStatus table
-    private String status;
+    private String status; //provided
     private Date dueDate;
     private Date closedDate;
     private Date resActionUpdated;
 
     // From the sightingLocation table
-    private String locationType;
-    private int incidentZip;
-    private String city;
-    private String borough;
-    private double latitude;
-    private double longitude;
-    private String address;
+    private String locationType; //Provided
+    private int incidentZip; //Provided
+    private String city; //Provided
+    private String borough; //Provided
+    private double latitude; //Provided
+    private double longitude; //Provided
+    private String address; //Provided
+
+    private String createdBy;
+
+    /**
+     * The constructor for a RatSighting object. You can pass stuff in as null, but note that this
+     * only makes the information holder object. It does not actually communicate with the database.
+     * @param key Unique key for the sighting
+     * @param createdDate Date created
+     * @param agencyCode Agency code
+     * @param agencyName Full agency name
+     * @param complaintType Type of complaint
+     * @param status Resolution status
+     * @param dueDate Due date (often null)
+     * @param closedDate Date the issue was closed
+     * @param resActionUpdated Last time issue was updated
+     * @param locationType Type of location
+     * @param incidentZip Zip for the incident
+     * @param city City for the incident
+     * @param borough Borough for the incident
+     * @param latitude Latitude for the incident
+     * @param longitude Longitude for the incident
+     * @param createdBy Who created it. Defaults to "Not Specified"
+     */
+    RatSighting(int key, Date createdDate, String agencyCode, String agencyName,
+                String complaintType, String status, Date dueDate, Date closedDate,
+                Date resActionUpdated, String locationType, int incidentZip, String city,
+                String borough, String address, double latitude, double longitude,
+                String createdBy) {
+        this.key = key;
+        this.createdDate = createdDate;
+        this.agencyCode = agencyCode;
+        this.agencyName = agencyName;
+        this.closedDate = closedDate;
+        this.complaintType = complaintType;
+        this.status = status;
+        this.dueDate = dueDate;
+        this.locationType = locationType;
+        this.incidentZip = incidentZip;
+        this.city = city;
+        this.borough = borough;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.resActionUpdated = resActionUpdated;
+        this.createdBy = createdBy;
+    }
 
     /**
      * The constructor for a RatSighting object. You can pass stuff in as null, but note that this
@@ -72,7 +118,7 @@ public class RatSighting {
         this.latitude = latitude;
         this.longitude = longitude;
         this.resActionUpdated = resActionUpdated;
-        //todo add address
+        this.createdBy = "Not Specified";
     }
 
     // Here go all of the getters!
@@ -157,6 +203,11 @@ public class RatSighting {
      * @return The address of the sighting location. Often null.
      */
     String getAddress() {return address;}
+
+    /**
+     * @return The username of the person who created the sighting.
+     */
+    String getCreatedBy() {return createdBy;}
 
     /**
      * ToString method for RatSightings
