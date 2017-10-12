@@ -51,8 +51,6 @@ public class DatabaseConnector {
         }
     }
 
-    protected DatabaseConnector() {}
-
     //Logs param text only if debug param is set to false
     private void debugMessage(String message) {
         if (debug) {
