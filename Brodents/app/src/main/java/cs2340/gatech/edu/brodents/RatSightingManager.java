@@ -5,6 +5,8 @@ import android.util.Log;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.Date;
 
 /**
@@ -15,9 +17,9 @@ import java.util.Date;
  * @version 1.0
  */
 
-public class RatSightingManager {
+class RatSightingManager {
     private DatabaseConnector db;
-    private boolean isInit = false;
+    private boolean isInit;
     private int lastRow;
     private static RatSightingManager instance = null;
     private static final String TAG = "RatSightingManager";
@@ -31,7 +33,7 @@ public class RatSightingManager {
      * This method initializes the RatSightingManager
      * @param dbConnector DatabaseConnector that links the RatSightingManager to the database.
      */
-    public static void initialize(DatabaseConnector dbConnector) {
+    static void initialize(DatabaseConnector dbConnector) {
         instance = new RatSightingManager(dbConnector);
         instance.isInit = true;
     }
@@ -41,8 +43,8 @@ public class RatSightingManager {
      * this returns null.
      * @return currently initialized instance of RatSightingManager
      */
-    public static RatSightingManager getInstance() {
-        if (instance == null || instance.isInit == false) {return null;}
+    static RatSightingManager getInstance() {
+        if (instance == null || !instance.isInit) {return null;}
         return instance;
     }
 
@@ -128,6 +130,99 @@ public class RatSightingManager {
      */
     RatSighting[] getNextBlock(int size) throws SQLException {
         return getSightingBlock(size, lastRow);
+    }
+
+    /**
+     * Lets you insert a sighting into the database. Make things null if they aren't specified.
+     * If zip, latitude, or longitude aren't specified, pass in 0.
+     * @param complaintType Complaint type of the sighting
+     * @param locationType Type of location
+     * @param zip Incident zip code, set 0 if unknown
+     * @param city City where sighting occurred
+     * @param borough Borough where sighting occurred
+     * @param address Address where sighting occurred
+     * @param latitude Latitude of sighting, set 0 if unknown
+     * @param longitude Longitude of sighting, set 0 if unknown
+     * @param dueDate Due date
+     * @return Boolean indicating the success of the insertion
+     */
+    boolean insertSighting(String complaintType, String locationType, int zip,
+                           String city, String borough, String address, double latitude, double longitude,
+                           Date dueDate) {
+        Timestamp currentDate = new Timestamp(new Date().getTime());
+        String agencyCode = "BRO";
+        try {
+            ResultSet maxKeySet = db.query(db.getStatement("SELECT MAX(uKey) FROM sightingInfo"));
+            int key = maxKeySet.getInt("MAX(uKey)") + 1;
+            maxKeySet.close();
+
+            String infoText = "INSERT INTO sightingInfo(uKey, createdDate, agency, complaintType, " +
+                    "createdBy) VALUES (?,?,?,?,?)";
+            PreparedStatement infoStmt = db.getStatement(infoText);
+            infoStmt.setInt(1, key);
+            infoStmt.setTimestamp(2, currentDate);
+            infoStmt.setString(3, agencyCode);
+            infoStmt.setString(4, complaintType);
+            infoStmt.setString(5, RatAppModel.getInstance().getCurrentUser().getUserName());
+            db.update(infoStmt);
+            infoStmt.close();
+
+            String statusText = "INSERT INTO sightingStatus(uKey, status, dueDate, closedDate"
+                    + ", resolutionActionUpdated) VALUES (?,?,?, null, ?)";
+            PreparedStatement statusStmt = db.getStatement(statusText);
+            statusStmt.setInt(1, key);
+            statusStmt.setString(2, "Pending");
+            if (dueDate != null) {
+                statusStmt.setTimestamp(3, new Timestamp(dueDate.getTime()));
+            } else {
+                statusStmt.setNull(3, Types.TIMESTAMP);
+            }
+            statusStmt.setTimestamp(4, currentDate);
+            db.update(statusStmt);
+            statusStmt.close();
+
+            String locationText = "INSERT INTO sightingLocation(uKey, locationType, incidentZip," +
+                    " city, borough, latitude, longitude, address) VALUES (?,?,?,?,?,?,?,?)";
+            PreparedStatement locStmt = db.getStatement(locationText);
+            locStmt.setInt(1, key);
+            locStmt.setString(2, locationType);
+            if (zip != 0) {
+                locStmt.setInt(3, zip);
+            } else {
+                locStmt.setNull(3, Types.INTEGER);
+            }
+            if (city != null && borough.length() > 0) {
+                locStmt.setString(4, city);
+            } else {
+                locStmt.setNull(4, Types.VARCHAR);
+            }
+            if (borough != null && borough.length() >0) {
+                locStmt.setString(5, borough);
+            } else {
+                locStmt.setNull(5, Types.VARCHAR);
+            }
+            if (latitude != 0) {
+                locStmt.setDouble(6, latitude);
+            } else {
+                locStmt.setNull(6, Types.DECIMAL);
+            }
+            if (longitude != 0) {
+                locStmt.setDouble(7, longitude);
+            } else {
+                locStmt.setNull(7, Types.DECIMAL);
+            }
+            if (address != null && address.length() > 0) {
+                locStmt.setString(8, address);
+            } else {
+                locStmt.setNull(8, Types.VARCHAR);
+            }
+            db.update(locStmt);
+            locStmt.close();
+            return true;
+        } catch (SQLException e) {
+            Log.e("Insert Sighting", e.getMessage());
+            return false;
+        }
     }
 
     /**
