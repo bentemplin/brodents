@@ -78,6 +78,16 @@ public class DataDisplayActivity extends AppCompatActivity {
                 Intent loginScreen = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(loginScreen);
             }
+
+        });
+        Button report = (Button) findViewById(R.id.btnReport);
+        report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // GET INTENT
+                Intent sightingReport = new Intent(getApplicationContext(), ReportRatSightingActivity.class);
+                startActivity(sightingReport);
+            }
         });
     }
     public static List<RatSighting> getRatData() {

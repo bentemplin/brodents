@@ -40,6 +40,10 @@
             android:name=".RegistrationActivity"
             android:label="@string/title_activity_registration"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ReportRatSightingActivity"
+            android:label="ReportRatSightingActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
@@ -10,18 +11,46 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
+        android:layout_marginStart="30dp"
         android:text="Rat Sighting Reports:"
-        android:textStyle="bold"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/searchText"
+            android:layout_width="295dp"
+            android:layout_height="wrap_content"
+            android:ems="5"
+            android:inputType="text|number"
+            android:hint="Search for Key"
+            tools:text="@string/action_sign_in" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Search" />
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_recycler_view"
         android:layout_width="wrap_content"
         android:layout_height="183dp"
-        android:layout_weight="1"
+        android:layout_weight="0.97"
         android:layout_marginStart="160dp"
         android:scrollbars="vertical" />
+
+    <Button
+        android:id="@+id/btnReport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Report New Rat Sighting" />
 
     <Button
         android:id="@+id/btnLogout"
