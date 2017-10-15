@@ -11,12 +11,20 @@ public class RatSelected {
     private static RatSighting selected;
 
     /**
-     * Selects a rat from the list of Rats
+     * Selects and saves a rat from the list of Rats
      * @param position The location in the list of rats the selected rat is
      */
     public RatSelected(int position){
         listOfRats = DataDisplayActivity.getRatData();
         selected = listOfRats.get(position);
+    }
+
+    /**
+     * Saves a Rat Sighting
+     * @param ratSighting the Rat Sighting to be saved
+     */
+    public RatSelected(RatSighting ratSighting) {
+        this.selected = ratSighting;
     }
 
     /**

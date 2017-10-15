@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -46,6 +47,8 @@ public class DataDisplayActivity extends AppCompatActivity {
 
         //Sets the view to the XML file rat_data_display
         setContentView(R.layout.rat_data_display);
+
+        //Builds the Recycler View
         dataDisplay = (RecyclerView) findViewById(R.id.my_recycler_view);
 
         dataDisplay.setHasFixedSize(true);
@@ -68,6 +71,32 @@ public class DataDisplayActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Code for Search Bar
+        EditText searchBar = (EditText) findViewById(R.id.searchText);
+        Button searchBtn = (Button) findViewById(R.id.btnSearch);
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // GET INTENT
+                int key  = Integer.parseInt(searchBar.getText().toString());
+                Log.i("text","key selected: "+ key);
+                Intent indRatSighting = new Intent(getApplicationContext(), IndDataPageActivity.class);
+                //startActivity(indRatSighting);
+            }
+        });
+
+        //Code for the report new sighting button
+        Button report = (Button) findViewById(R.id.btnReport);
+        report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // GET INTENT
+                Intent sightingReport = new Intent(getApplicationContext(), ReportRatSightingActivity.class);
+                startActivity(sightingReport);
+            }
+        });
+
+        //Code for the Log out button
         Button mLogOut = (Button) findViewById(R.id.btnLogout);
         mLogOut.setText("Logout");
         mLogOut.setOnClickListener(new View.OnClickListener() {
@@ -78,18 +107,13 @@ public class DataDisplayActivity extends AppCompatActivity {
                 Intent loginScreen = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(loginScreen);
             }
-
-        });
-        Button report = (Button) findViewById(R.id.btnReport);
-        report.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // GET INTENT
-                Intent sightingReport = new Intent(getApplicationContext(), ReportRatSightingActivity.class);
-                startActivity(sightingReport);
-            }
         });
     }
+
+    /**
+     * Getter for the List of Rats
+     * @return the current list of rats
+     */
     public static List<RatSighting> getRatData() {
         return ratData;
     }
@@ -106,7 +130,7 @@ public class DataDisplayActivity extends AppCompatActivity {
             RatAppModel model = RatAppModel.getInstance();
             RatSightingManager man = model.getSightingManager();
             try {
-                sightings = man.getNextBlock(100);
+                sightings = man.getNextBlock(75);
                 for (RatSighting r : sightings) {
                     list.add(r);
                 }

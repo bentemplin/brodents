@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
  * Created by Benjamin Yarmowich on 10/9/2017.
  */
 
-public class indDataPageActivity extends AppCompatActivity {
+public class IndDataPageActivity extends AppCompatActivity {
     private RatSighting rat;
     private Layout layout;
     private TextView key;

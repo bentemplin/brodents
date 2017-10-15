@@ -58,7 +58,7 @@ public class RatListDisplayAdapter extends
         public void onClick(View v){
             if (v.getId() == key.getId()) {
                 new RatSelected(Integer.valueOf(getAdapterPosition()));
-                Intent indDataPage = new Intent(a.getApplicationContext(), indDataPageActivity.class);
+                Intent indDataPage = new Intent(a.getApplicationContext(), IndDataPageActivity.class);
                 a.startActivity(indDataPage);
             }
         }
