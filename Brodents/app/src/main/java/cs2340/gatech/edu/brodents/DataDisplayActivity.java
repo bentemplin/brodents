@@ -23,7 +23,7 @@ public class DataDisplayActivity extends AppCompatActivity {
     private RecyclerView dataDisplay;
     private RecyclerView.Adapter displayAdapter;
     private RecyclerView.LayoutManager dataLayout;
-    private static List<RatSighting> ratData;
+    protected static List<RatSighting> ratData;
     private DataFetcher fetcher;
 
     /**
@@ -32,6 +32,7 @@ public class DataDisplayActivity extends AppCompatActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ratData = new ArrayList<>();
         super.onCreate(savedInstanceState);
 
         //Fetched the Rat Data from the Data Base
@@ -39,7 +40,7 @@ public class DataDisplayActivity extends AppCompatActivity {
         try {
             /* The .get() function makes the function wait for the AsyncTask to finish and gets the
                results */
-            ratData = fetcher.execute((Void) null).get();
+            fetcher.execute((Void) null).get();
         } catch (Exception e) {
             Log.e("DataDisplay", e.getMessage());
         }
@@ -52,14 +53,9 @@ public class DataDisplayActivity extends AppCompatActivity {
 
         dataLayout = new LinearLayoutManager(this);
         dataDisplay.setLayoutManager(dataLayout);
-        displayAdapter = new RatListDisplayAdapter(ratData, this, new ClickListener() {
+        displayAdapter = new RatListDisplayAdapter(dataDisplay, ratData, this, new ClickListener() {
             @Override
             public void onPositionClicked(int position) {
-                //callback performed on click
-            }
-
-            @Override
-            public void onLongClicked(int position) {
                 //callback performed on click
             }
         });
@@ -79,9 +75,33 @@ public class DataDisplayActivity extends AppCompatActivity {
                 startActivity(loginScreen);
             }
         });
+        ((RatListDisplayAdapter) displayAdapter).setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                loadMoreData();
+            }
+        });
     }
+
     public static List<RatSighting> getRatData() {
         return ratData;
+    }
+
+    public void loadMoreData() {
+        fetcher = new DataFetcher();
+        try {
+        /* The .get() function makes the function wait for the AsyncTask to finish and gets the
+           results */
+            ratData = fetcher.execute((Void) null).get();
+        } catch (Exception e) {
+            Log.e("DataDisplay", e.getMessage());
+        }
+        displayAdapter = new RatListDisplayAdapter(dataDisplay, ratData, this, new ClickListener() {
+            @Override
+            public void onPositionClicked(int position) {
+                //callback performed on click
+            }
+        });
     }
 
     /**
@@ -91,16 +111,15 @@ public class DataDisplayActivity extends AppCompatActivity {
         private RatSighting[] sightings;
         @Override
         protected ArrayList<RatSighting> doInBackground(Void... params) {
-            ArrayList<RatSighting> list = new ArrayList<>();
             RatAppModel.checkInitialization();
             RatAppModel model = RatAppModel.getInstance();
             RatSightingManager man = model.getSightingManager();
             try {
-                sightings = man.getNextBlock(100);
+                sightings = man.getNextBlock(25);
                 for (RatSighting r : sightings) {
-                    list.add(r);
+                    ratData.add(r);
                 }
-                return  list;
+                return  (ArrayList) ratData;
             } catch (SQLException e) {
                 Log.e("SQL EXCEPTION", e.getMessage());
                 return null;

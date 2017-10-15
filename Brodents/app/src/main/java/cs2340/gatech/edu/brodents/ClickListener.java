@@ -6,6 +6,4 @@ package cs2340.gatech.edu.brodents;
 
 public interface ClickListener {
     void onPositionClicked(int position);
-
-    void onLongClicked(int position);
 }
