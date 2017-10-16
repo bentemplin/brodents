@@ -80,7 +80,7 @@ public class DataDisplayActivity extends AppCompatActivity {
             public void onClick(View view) {
                 key = Integer.parseInt(searchBar.getText().toString());
                 Log.i("text", "key selected: " + key);
-                if (key < 10000000 || key > 40000000) {
+                if (key < 11400000 || key > 38000000) {
                     searchBar.setError("valid keys are between 10000000 and 40000000");
                 } else {
                     searchFetch = new SearchFetcher();
@@ -106,7 +106,7 @@ public class DataDisplayActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // GET INTENT
-                Intent sightingReport = new Intent(getApplicationContext(), ReportRatSightingActivity.class);
+                Intent sightingReport = new Intent(getApplicationContext(), MapsActivity.class);
                 startActivity(sightingReport);
             }
         });

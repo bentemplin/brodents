@@ -271,7 +271,7 @@ class RatSightingManager {
             String status = statusSet.getString("status");
             Date dueDate = statusSet.getDate("dueDate");
             Date closedDate = statusSet.getDate("closedDate");
-            Date resActionUpdated = statusSet.getDate("resolutionActionUpdate");
+            Date resActionUpdated = statusSet.getDate("resolutionActionUpdated");
             statusSet.close();
 
             ResultSet locSet = db.query(locStmt);
