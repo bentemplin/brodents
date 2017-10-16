@@ -158,5 +158,13 @@
                 android:text="@string/rat_longitude" />
         </TableRow>
     </TableLayout>
-
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:id="@+id/indMap"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cs2340.gatech.edu.brodents.MapsActivity" />
 </LinearLayout>
+

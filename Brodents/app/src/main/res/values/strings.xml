@@ -25,5 +25,6 @@
     <string name="rat_borough">Borough: </string>
     <string name="rat_date">Created Date: </string>
     <string name="rat_type">Location Type: </string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

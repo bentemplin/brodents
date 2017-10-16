@@ -1,12 +1,18 @@
 package cs2340.gatech.edu.brodents;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.text.Layout;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
+
 import android.widget.TextView;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -15,9 +21,10 @@ import java.text.SimpleDateFormat;
  * Created by Benjamin Yarmowich on 10/9/2017.
  */
 
-public class IndDataPageActivity extends AppCompatActivity {
+public class IndDataPageActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    private GoogleMap mMap;
     private RatSighting rat;
-    private Layout layout;
     private TextView key;
     private TextView createdDate;
     private TextView locationType;
@@ -63,5 +70,31 @@ public class IndDataPageActivity extends AppCompatActivity {
         borough.setText(rat.getBorough());
         lattitude.setText(Double.toString(rat.getLatitude()));
         longitude.setText(Double.toString(rat.getLongitude()));
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.indMap);
+        Log.i("text", "Map call should have been made here");
+        mapFragment.getMapAsync(this);
+    }
+
+
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+     * we just add a marker near Sydney, Australia.
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        Log.i("test", "Map attempt called");
+
+        // Add where current rat sighting is nd move camera
+        LatLng sighting = new LatLng(rat.getLatitude(), rat.getLongitude());
+        mMap.addMarker(new MarkerOptions().position(sighting).title("Rat Sighting: #" + Integer.toString(rat.getKey())));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sighting));
     }
 }

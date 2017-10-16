@@ -78,17 +78,19 @@ public class DataDisplayActivity extends AppCompatActivity {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                key  = Integer.parseInt(searchBar.getText().toString());
-                Log.i("text","key selected: "+ key);
-                searchFetch = new SearchFetcher();
-                try {
-                    searchFetch.execute((Void) null).get();
-                } catch (Exception e){
-                    Log.e("SQL EXCEPTION", "Bumped up");
+                key = Integer.parseInt(searchBar.getText().toString());
+                Log.i("text", "key selected: " + key);
+                if (key > 10000000 && key < 40000000) {
+                    searchFetch = new SearchFetcher();
+                    try {
+                        new RatSelected(searchFetch.execute((Void) null).get());
+                    } catch (Exception e) {
+                        Log.e("SQL EXCEPTION", "Bumped up");
+                    }
+                    Log.i("text", "Rat selected: " + RatSelected.getSelected().toString());
+                    Intent indRatSighting = new Intent(getApplicationContext(), IndDataPageActivity.class);
+                    //startActivity(indRatSighting);
                 }
-                Log.i("text", "Rat selected: " + RatSelected.getSelected().toString());
-                Intent indRatSighting = new Intent(getApplicationContext(), IndDataPageActivity.class);
-                //startActivity(indRatSighting);
             }
         });
 
@@ -149,16 +151,15 @@ public class DataDisplayActivity extends AppCompatActivity {
         }
     }
 
-    private class SearchFetcher extends AsyncTask<Void, Void, List<RatSighting>> {
+    private class SearchFetcher extends AsyncTask<Void, Void, RatSighting> {
         @Override
-        protected ArrayList<RatSighting> doInBackground(Void... params) {
+        protected RatSighting doInBackground(Void... params) {
             RatAppModel.checkInitialization();
             RatAppModel model = RatAppModel.getInstance();
             RatSightingManager manager = model.getSightingManager();
             try {
                 Log.i("text", "Access: " +key + ": " + manager.getSighting(key));
-                new RatSelected(manager.getSighting(key));
-                return null;
+                return manager.getSighting(key);
             } catch (Exception e) {
                 Log.e("SQL EXCEPTION", e.getMessage());
                 return null;
