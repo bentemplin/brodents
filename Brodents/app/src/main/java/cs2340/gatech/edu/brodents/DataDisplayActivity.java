@@ -26,6 +26,8 @@ public class DataDisplayActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager dataLayout;
     private static List<RatSighting> ratData;
     private DataFetcher fetcher;
+    private SearchFetcher searchFetch;
+    protected int key;
 
     /**
      * Starts the Data Display Activity
@@ -60,7 +62,6 @@ public class DataDisplayActivity extends AppCompatActivity {
             public void onPositionClicked(int position) {
                 //callback performed on click
             }
-
             @Override
             public void onLongClicked(int position) {
                 //callback performed on click
@@ -74,15 +75,18 @@ public class DataDisplayActivity extends AppCompatActivity {
         //Code for Search Bar
         EditText searchBar = (EditText) findViewById(R.id.searchText);
         Button searchBtn = (Button) findViewById(R.id.btnSearch);
-        RatAppModel model = RatAppModel.getInstance();
-        RatSightingManager manager = model.getSightingManager();
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int key  = Integer.parseInt(searchBar.getText().toString());
+                key  = Integer.parseInt(searchBar.getText().toString());
                 Log.i("text","key selected: "+ key);
-                new RatSelected(manager.getSighting(key));
-                Log.i("text", "rat selected: " + manager.getSighting(key));
+                searchFetch = new SearchFetcher();
+                try {
+                    searchFetch.execute((Void) null).get();
+                } catch (Exception e){
+                    Log.e("SQL EXCEPTION", "Bumped up");
+                }
+                Log.i("text", "Rat selected: " + RatSelected.getSelected().toString());
                 Intent indRatSighting = new Intent(getApplicationContext(), IndDataPageActivity.class);
                 //startActivity(indRatSighting);
             }
@@ -145,5 +149,21 @@ public class DataDisplayActivity extends AppCompatActivity {
         }
     }
 
+    private class SearchFetcher extends AsyncTask<Void, Void, List<RatSighting>> {
+        @Override
+        protected ArrayList<RatSighting> doInBackground(Void... params) {
+            RatAppModel.checkInitialization();
+            RatAppModel model = RatAppModel.getInstance();
+            RatSightingManager manager = model.getSightingManager();
+            try {
+                Log.i("text", "Access: " +key + ": " + manager.getSighting(key));
+                new RatSelected(manager.getSighting(key));
+                return null;
+            } catch (Exception e) {
+                Log.e("SQL EXCEPTION", e.getMessage());
+                return null;
+            }
+        }
+    }
 
 }
