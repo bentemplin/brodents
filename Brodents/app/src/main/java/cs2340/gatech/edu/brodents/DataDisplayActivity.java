@@ -84,10 +84,10 @@ public class DataDisplayActivity extends AppCompatActivity {
                     searchFetch = new SearchFetcher();
                     try {
                         new RatSelected(searchFetch.execute((Void) null).get());
+                        Log.i("text", "Rat selected: " + RatSelected.getSelected().toString());
                     } catch (Exception e) {
                         Log.e("SQL EXCEPTION", "Bumped up");
                     }
-                    Log.i("text", "Rat selected: " + RatSelected.getSelected().toString());
                     Intent indRatSighting = new Intent(getApplicationContext(), IndDataPageActivity.class);
                     //startActivity(indRatSighting);
                 }
