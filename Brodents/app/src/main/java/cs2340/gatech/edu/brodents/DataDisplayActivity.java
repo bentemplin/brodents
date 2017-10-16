@@ -74,12 +74,15 @@ public class DataDisplayActivity extends AppCompatActivity {
         //Code for Search Bar
         EditText searchBar = (EditText) findViewById(R.id.searchText);
         Button searchBtn = (Button) findViewById(R.id.btnSearch);
+        RatAppModel model = RatAppModel.getInstance();
+        RatSightingManager manager = model.getSightingManager();
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // GET INTENT
                 int key  = Integer.parseInt(searchBar.getText().toString());
                 Log.i("text","key selected: "+ key);
+                new RatSelected(manager.getSighting(key));
+                Log.i("text", "rat selected: " + manager.getSighting(key));
                 Intent indRatSighting = new Intent(getApplicationContext(), IndDataPageActivity.class);
                 //startActivity(indRatSighting);
             }

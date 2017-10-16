@@ -29,7 +29,7 @@
             android:label="Rat Data"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".indDataPageActivity"
+            android:name=".IndDataPageActivity"
             android:label="InvidualDataPage"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
