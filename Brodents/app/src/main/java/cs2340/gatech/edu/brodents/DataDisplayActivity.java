@@ -80,7 +80,9 @@ public class DataDisplayActivity extends AppCompatActivity {
             public void onClick(View view) {
                 key = Integer.parseInt(searchBar.getText().toString());
                 Log.i("text", "key selected: " + key);
-                if (key > 10000000 && key < 40000000) {
+                if (key < 10000000 || key > 40000000) {
+                    searchBar.setError("valid keys are between 10000000 and 40000000");
+                } else {
                     searchFetch = new SearchFetcher();
                     try {
                         new RatSelected(searchFetch.execute((Void) null).get());
@@ -88,8 +90,12 @@ public class DataDisplayActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         Log.e("SQL EXCEPTION", "Bumped up");
                     }
-                    Intent indRatSighting = new Intent(getApplicationContext(), IndDataPageActivity.class);
-                    //startActivity(indRatSighting);
+                    if (RatSelected.getSelected() != null) {
+                        Intent indRatSighting = new Intent(getApplicationContext(), IndDataPageActivity.class);
+                        startActivity(indRatSighting);
+                    } else {
+                        searchBar.setError("The key you have entered cannot be found");
+                    }
                 }
             }
         });
