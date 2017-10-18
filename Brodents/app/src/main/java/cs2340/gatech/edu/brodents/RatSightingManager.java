@@ -56,7 +56,8 @@ class RatSightingManager {
      * @return RatSighting array containing the block of sightings.
      */
     RatSighting[] getSightingBlock(int size, int startRow) throws SQLException {
-        String statementText = "SELECT * FROM sightingInfo" +
+        String statementText = "SELECT * FROM sightingInfo NATURAL JOIN sightingStatus NATURAL" +
+                " JOIN sightingLocation NATURAL JOIN agencyLookup" +
                 " ORDER BY createdDate DESC" +
                 " LIMIT ?";
             PreparedStatement statement = db.getStatement(statementText);
@@ -72,39 +73,39 @@ class RatSightingManager {
                 String aCode = sightingInfo.getString("agency");
                 String complaintType = sightingInfo.getString("complaintType");
                 String createdBy = sightingInfo.getString("createdBy");
+//
+//                String aLookup = "SELECT name FROM agencyLookup WHERE agency=?";
+//                PreparedStatement aLookupStmt = db.getStatement(aLookup);
+//                aLookupStmt.setString(1, aCode);
+//                ResultSet aLookupResults = db.query(aLookupStmt);
+//                aLookupResults.next();
+                String aName = sightingInfo.getString("name");
+//                aLookupResults.close();
 
-                String aLookup = "SELECT name FROM agencyLookup WHERE agency=?";
-                PreparedStatement aLookupStmt = db.getStatement(aLookup);
-                aLookupStmt.setString(1, aCode);
-                ResultSet aLookupResults = db.query(aLookupStmt);
-                aLookupResults.next();
-                String aName = aLookupResults.getString("name");
-                aLookupResults.close();
+//                String statusLookup = "SELECT * FROM sightingStatus WHERE uKey=?";
+//                PreparedStatement statusLookupStmt = db.getStatement(statusLookup);
+//                statusLookupStmt.setInt(1, key);
+//                ResultSet statusResults = db.query(statusLookupStmt);
+//                statusResults.next();
+                String status = sightingInfo.getString("status");
+                Date dueDate = sightingInfo.getDate("dueDate");
+                Date closedDate = sightingInfo.getDate("closedDate");
+                Date resUpdateDate = sightingInfo.getDate("resolutionActionUpdated");
+//                statusResults.close();
 
-                String statusLookup = "SELECT * FROM sightingStatus WHERE uKey=?";
-                PreparedStatement statusLookupStmt = db.getStatement(statusLookup);
-                statusLookupStmt.setInt(1, key);
-                ResultSet statusResults = db.query(statusLookupStmt);
-                statusResults.next();
-                String status = statusResults.getString("status");
-                Date dueDate = statusResults.getDate("dueDate");
-                Date closedDate = statusResults.getDate("closedDate");
-                Date resUpdateDate = statusResults.getDate("resolutionActionUpdated");
-                statusResults.close();
-
-                String locationLookup = "SELECT * FROM sightingLocation WHERE uKey=?";
-                PreparedStatement locLookup = db.getStatement(locationLookup);
-                locLookup.setInt(1, key);
-                ResultSet locResults = db.query(locLookup);
-                locResults.next();
-                String locType = locResults.getString("locationType");
-                int zip = locResults.getInt("incidentZip");
-                String city = locResults.getString("city");
-                String borough = locResults.getString("borough");
-                double lat = locResults.getDouble("latitude");
-                double longitude = locResults.getDouble("longitude");
-                String address = locResults.getString("address");
-                locResults.close();
+//                String locationLookup = "SELECT * FROM sightingLocation WHERE uKey=?";
+//                PreparedStatement locLookup = db.getStatement(locationLookup);
+//                locLookup.setInt(1, key);
+//                ResultSet locResults = db.query(locLookup);
+//                locResults.next();
+                String locType = sightingInfo.getString("locationType");
+                int zip = sightingInfo.getInt("incidentZip");
+                String city = sightingInfo.getString("city");
+                String borough = sightingInfo.getString("borough");
+                double lat = sightingInfo.getDouble("latitude");
+                double longitude = sightingInfo.getDouble("longitude");
+                String address = sightingInfo.getString("address");
+//                locResults.close();
                 if (createdBy != null && createdBy.length() > 0) {
                     test = new RatSighting(key, cDate, aCode, aName, complaintType, status,
                             dueDate, closedDate, resUpdateDate, locType, zip, city, borough, address,
@@ -238,19 +239,20 @@ class RatSightingManager {
      * @return The RatSighting with the passed in key. Null if no sighting is found for that key.
      */
     RatSighting getSighting(int key) {
-        String infoTxt = "SELECT * FROM sightingInfo WHERE uKey=?";
-        String statusTxt = "SELECT * FROM sightingStatus WHERE uKey=?";
-        String locTxt = "SELECT * FROM sightingLocation WHERE uKey=?";
-        String agencyTxt = "SELECT name FROM agencyLookup WHERE agency=?";
+        String infoTxt = "SELECT * FROM sightingInfo NATURAL JOIN sightingStatus NATURAL JOIN" +
+                "sightingLocation NATURAL JOIN agencyLookup WHERE uKey=?";
+//        String statusTxt = "SELECT * FROM sightingStatus WHERE uKey=?";
+//        String locTxt = "SELECT * FROM sightingLocation WHERE uKey=?";
+//        String agencyTxt = "SELECT name FROM agencyLookup WHERE agency=?";
         try {
             PreparedStatement infoStmt = db.getStatement(infoTxt);
-            PreparedStatement statusStmt = db.getStatement(statusTxt);
-            PreparedStatement locStmt = db.getStatement(locTxt);
-            PreparedStatement agencyStmt = db.getStatement(agencyTxt);
+//            PreparedStatement statusStmt = db.getStatement(statusTxt);
+//            PreparedStatement locStmt = db.getStatement(locTxt);
+//            PreparedStatement agencyStmt = db.getStatement(agencyTxt);
 
             infoStmt.setInt(1, key);
-            statusStmt.setInt(1, key);
-            locStmt.setInt(1, key);
+//            statusStmt.setInt(1, key);
+//            locStmt.setInt(1, key);
 
             ResultSet infoSet = db.query(infoStmt);
             if (!infoSet.next()) {return null;}
@@ -258,32 +260,32 @@ class RatSightingManager {
             Date cDate = infoSet.getDate("createdDate");
             String complaintType = infoSet.getString("complaintType");
             String createdBy = infoSet.getString("createdBy");
-            agencyStmt.setString(1, agencyCode);
+//            agencyStmt.setString(1, agencyCode);
+//            infoSet.close();
+
+//            ResultSet lookupSet = db.query(agencyStmt);
+//            if (!lookupSet.next()) {return null;}
+            String agencyName = infoSet.getString("name");
+//            lookupSet.close();
+
+//            ResultSet statusSet = db.query(statusStmt);
+//            if (!statusSet.next()) {return null;}
+            String status = infoSet.getString("status");
+            Date dueDate = infoSet.getDate("dueDate");
+            Date closedDate = infoSet.getDate("closedDate");
+            Date resActionUpdated = infoSet.getDate("resolutionActionUpdated");
             infoSet.close();
 
-            ResultSet lookupSet = db.query(agencyStmt);
-            if (!lookupSet.next()) {return null;}
-            String agencyName = lookupSet.getString("name");
-            lookupSet.close();
-
-            ResultSet statusSet = db.query(statusStmt);
-            if (!statusSet.next()) {return null;}
-            String status = statusSet.getString("status");
-            Date dueDate = statusSet.getDate("dueDate");
-            Date closedDate = statusSet.getDate("closedDate");
-            Date resActionUpdated = statusSet.getDate("resolutionActionUpdated");
-            statusSet.close();
-
-            ResultSet locSet = db.query(locStmt);
-            if (!locSet.next()) {return null;}
-            String locType = locSet.getString("locationType");
-            int incidentZip = locSet.getInt("incidentZip");
-            String city = locSet.getString("city");
-            String borough = locSet.getString("borough");
-            String address = locSet.getString("address");
-            double latitude = locSet.getDouble("latitude");
-            double longitude = locSet.getDouble("longitude");
-            locSet.close();
+//            ResultSet locSet = db.query(locStmt);
+//            if (!locSet.next()) {return null;}
+            String locType = infoSet.getString("locationType");
+            int incidentZip = infoSet.getInt("incidentZip");
+            String city = infoSet.getString("city");
+            String borough = infoSet.getString("borough");
+            String address = infoSet.getString("address");
+            double latitude = infoSet.getDouble("latitude");
+            double longitude = infoSet.getDouble("longitude");
+            infoSet.close();
 
             return new RatSighting(key, cDate, agencyCode, agencyName, complaintType, status,
                     dueDate, closedDate, resActionUpdated, locType, incidentZip, city, borough,
