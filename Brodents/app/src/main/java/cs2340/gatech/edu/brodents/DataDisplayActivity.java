@@ -29,7 +29,7 @@ public class DataDisplayActivity extends AppCompatActivity {
     private DataFetcher fetcher;
     private SearchFetcher searchFetch;
     protected int key;
-    private Date created;
+    private Date lastUpdate;
 
     /**
      * Starts the Data Display Activity
@@ -41,7 +41,7 @@ public class DataDisplayActivity extends AppCompatActivity {
 
         //Fetched the Rat Data from the Data Base
         fetcher = new DataFetcher();
-        created = new Date();
+        lastUpdate = new Date();
         try {
             /* The .get() function makes the function wait for the AsyncTask to finish and gets the
                results */
@@ -131,6 +131,7 @@ public class DataDisplayActivity extends AppCompatActivity {
         try {
             ArrayList<RatSighting> newAdds = newSightings.execute((Void) null).get();
             ratData.addAll(0, newAdds);
+            lastUpdate = new Date();
         } catch (Exception e) {
             Log.e("Error", e.getMessage(), e);
         }
@@ -201,7 +202,7 @@ public class DataDisplayActivity extends AppCompatActivity {
             RatAppModel.checkInitialization();
             RatSightingManager manager = RatAppModel.getInstance().getSightingManager();
             try {
-                return manager.getNewSightings(created);
+                return manager.getNewSightings(lastUpdate);
             } catch (Exception e) {
                 Log.e("Get New Sighting", e.getMessage(), e);
                 return null;
