@@ -38,19 +38,21 @@
         <activity
             android:name=".IndDataPageActivity"
             android:label="InvidualDataPage"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity
             android:name=".LogoutActivity"
             android:label="@string/title_activity_logout"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".RegistrationActivity"
             android:label="@string/title_activity_registration"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ReportRatSightingActivity"
-            android:label="ReportRatSightingActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="Report a Rat"
+            android:parentActivityName=".DataDisplayActivity"
+            />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
