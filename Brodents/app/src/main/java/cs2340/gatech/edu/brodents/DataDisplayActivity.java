@@ -14,6 +14,7 @@ import android.widget.EditText;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,6 +29,7 @@ public class DataDisplayActivity extends AppCompatActivity {
     private DataFetcher fetcher;
     private SearchFetcher searchFetch;
     protected int key;
+    private Date created;
 
     /**
      * Starts the Data Display Activity
@@ -39,6 +41,7 @@ public class DataDisplayActivity extends AppCompatActivity {
 
         //Fetched the Rat Data from the Data Base
         fetcher = new DataFetcher();
+        created = new Date();
         try {
             /* The .get() function makes the function wait for the AsyncTask to finish and gets the
                results */
@@ -121,6 +124,29 @@ public class DataDisplayActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GetNewSightings newSightings = new GetNewSightings();
+        try {
+            ArrayList<RatSighting> newAdds = newSightings.execute((Void) null).get();
+            ratData.addAll(0, newAdds);
+        } catch (Exception e) {
+            Log.e("Error", e.getMessage(), e);
+        }
+        displayAdapter = new RatListDisplayAdapter(ratData, this, new ClickListener() {
+            @Override
+            public void onPositionClicked(int position) {
+                //callback performed on click
+            }
+            @Override
+            public void onLongClicked(int position) {
+                //callback performed on click
+            }
+        });
+        dataDisplay.setAdapter(displayAdapter);
+    }
+
     /**
      * Getter for the List of Rats
      * @return the current list of rats
@@ -163,7 +189,21 @@ public class DataDisplayActivity extends AppCompatActivity {
                 Log.i("text", "Access: " +key + ": " + manager.getSighting(key));
                 return manager.getSighting(key);
             } catch (Exception e) {
-                Log.e("SQL EXCEPTION", e.getMessage());
+                Log.e("Search Fetch EXCEPTION", e.getMessage());
+                return null;
+            }
+        }
+    }
+
+    private class GetNewSightings extends AsyncTask<Void, Void, ArrayList<RatSighting>> {
+        @Override
+        protected ArrayList<RatSighting> doInBackground(Void... params) {
+            RatAppModel.checkInitialization();
+            RatSightingManager manager = RatAppModel.getInstance().getSightingManager();
+            try {
+                return manager.getNewSightings(created);
+            } catch (Exception e) {
+                Log.e("Get New Sighting", e.getMessage(), e);
                 return null;
             }
         }

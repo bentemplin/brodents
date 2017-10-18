@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -220,7 +221,7 @@ class RatSightingManager {
      */
     RatSighting getSighting(int key) {
         String infoTxt = "SELECT * FROM sightingInfo NATURAL JOIN sightingStatus NATURAL JOIN" +
-                "sightingLocation NATURAL JOIN agencyLookup WHERE uKey=?";
+                " sightingLocation NATURAL JOIN agencyLookup WHERE uKey=?";
         try {
             PreparedStatement infoStmt = db.getStatement(infoTxt);
 
@@ -237,8 +238,6 @@ class RatSightingManager {
             Date dueDate = infoSet.getDate("dueDate");
             Date closedDate = infoSet.getDate("closedDate");
             Date resActionUpdated = infoSet.getDate("resolutionActionUpdated");
-            infoSet.close();
-
             String locType = infoSet.getString("locationType");
             int incidentZip = infoSet.getInt("incidentZip");
             String city = infoSet.getString("city");
@@ -253,6 +252,54 @@ class RatSightingManager {
                     address, latitude, longitude, createdBy);
         } catch (SQLException e) {
             Log.e("GetSighting", e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * This will get all of the ratSightings created since the start date passed in.
+     * @param start Date after which to get sightings
+     * @return New RatSightings
+     */
+    ArrayList<RatSighting> getNewSightings(Date start) {
+        try {
+            String query = "SELECT * FROM sightingInfo NATURAL JOIN sightingStatus NATURAL JOIN" +
+                    " sightingLocation NATURAL JOIN agencyLookup WHERE createdDate >= ? ORDER BY" +
+                    " createdDate ASC";
+            PreparedStatement stmt = db.getStatement(query);
+            Timestamp sqlDate = new Timestamp(start.getTime());
+            stmt.setTimestamp(1, sqlDate);
+            ResultSet infoSet = db.query(stmt);
+            ArrayList<RatSighting> sightings = new ArrayList<>();
+            while (infoSet.next()) {
+                int key = infoSet.getInt("uKey");
+                String agencyCode = infoSet.getString("agency");
+                Date cDate = infoSet.getDate("createdDate");
+                String complaintType = infoSet.getString("complaintType");
+                String createdBy = infoSet.getString("createdBy");
+                String agencyName = infoSet.getString("name");
+                String status = infoSet.getString("status");
+                Date dueDate = infoSet.getDate("dueDate");
+                Date closedDate = infoSet.getDate("closedDate");
+                Date resActionUpdated = infoSet.getDate("resolutionActionUpdated");
+                String locType = infoSet.getString("locationType");
+                int incidentZip = infoSet.getInt("incidentZip");
+                String city = infoSet.getString("city");
+                String borough = infoSet.getString("borough");
+                String address = infoSet.getString("address");
+                double latitude = infoSet.getDouble("latitude");
+                double longitude = infoSet.getDouble("longitude");
+
+                sightings.add(new RatSighting(key, cDate, agencyCode, agencyName, complaintType, status,
+                        dueDate, closedDate, resActionUpdated, locType, incidentZip, city, borough,
+                        address, latitude, longitude, createdBy));
+
+            }
+            infoSet.close();
+            return sightings;
+
+        } catch (SQLException e) {
+            Log.e(TAG, e.getMessage(), e);
             return null;
         }
     }
