@@ -3,4 +3,264 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="15dp"
+        android:paddingTop="10dp"
+        android:text="Report a Rat"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:text="Agency Information:"
+        android:textAppearance="@android:style/TextAppearance.Material.Subhead" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp"
+            android:text="Name:"
+            android:textAppearance="@android:style/TextAppearance.Material.Widget.TextView" />
+
+        <EditText
+            android:id="@+id/etAgencyName"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:ems="10"
+            android:enabled="false"
+            android:hint="Agency Name"
+            android:inputType="textPersonName"
+            android:text="Brodents"
+            android:textAppearance="@android:style/TextAppearance.Material.Widget.EditText" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="0.50"
+            android:text="Code: "
+            android:textAlignment="textStart" />
+
+        <EditText
+            android:id="@+id/etAgencyCode"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:enabled="false"
+            android:hint="Agency Code"
+            android:inputType="textPersonName"
+            android:text="BRO"
+            android:textAppearance="@android:style/TextAppearance.Material.Widget.EditText" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:text="Incident Location Information:"
+        android:textAppearance="@android:style/TextAppearance.Material.Subhead" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp"
+            android:text="Address:"
+            android:textAppearance="@android:style/TextAppearance.Material.Widget.TextView" />
+
+        <EditText
+            android:id="@+id/etAddress"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Address"
+            android:inputType="textPostalAddress"
+            android:textAppearance="@android:style/TextAppearance.Material.Widget.EditText" />
+
+        <EditText
+            android:id="@+id/etZIP"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="ZIP Code"
+            android:inputType="number"
+            android:textAppearance="@android:style/TextAppearance.Material.Widget.EditText" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp"
+            android:text="City:"
+            android:textAppearance="@android:style/TextAppearance.Material.Widget.TextView" />
+
+        <EditText
+            android:id="@+id/etCityName"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="City Name"
+            android:inputType="textPostalAddress"
+            android:textAppearance="@android:style/TextAppearance.Material.Widget.EditText" />
+
+        <EditText
+            android:id="@+id/etCityBorough"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="City Borough"
+            android:inputType="textPersonName"
+            android:textAppearance="@android:style/TextAppearance.Material.Widget.EditText" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp"
+            android:text="Coordinates:"
+            android:textAppearance="@android:style/TextAppearance.Material.Widget.TextView" />
+
+        <EditText
+            android:id="@+id/etLatitude"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Latitude"
+            android:inputType="numberDecimal"
+            android:textAppearance="@android:style/TextAppearance.Material.Widget.EditText" />
+
+        <EditText
+            android:id="@+id/etLongitude"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Longitude"
+            android:inputType="textPersonName|numberDecimal"
+            android:textAppearance="@android:style/TextAppearance.Material.Widget.EditText" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/etLocationType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="10dp"
+        android:ems="10"
+        android:hint="Location Type"
+        android:inputType="textPostalAddress"
+        android:textAppearance="@android:style/TextAppearance.Material.Widget.EditText" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:text="Complaint Information"
+        android:textAppearance="@android:style/TextAppearance.Material.Subhead" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <EditText
+            android:id="@+id/etComplaintType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Complaint Type"
+            android:inputType="textPostalAddress"
+            android:textAppearance="@android:style/TextAppearance.Material.Widget.EditText" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnReport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:text="Report" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:text="Cancel" />
+    </LinearLayout>
 </LinearLayout>
