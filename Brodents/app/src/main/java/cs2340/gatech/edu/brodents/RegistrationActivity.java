@@ -173,6 +173,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 Intent listScreen = new Intent(getApplicationContext(), DataDisplayActivity.class);
                 startActivity(listScreen);
+                finish();
             }
         }
 
