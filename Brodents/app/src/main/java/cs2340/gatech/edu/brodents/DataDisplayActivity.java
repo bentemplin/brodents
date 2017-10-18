@@ -114,14 +114,10 @@ public class DataDisplayActivity extends AppCompatActivity {
         //Code for the Log out button
         Button mLogOut = (Button) findViewById(R.id.btnLogout);
         mLogOut.setText("Logout");
-        mLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // GET INTENT
-                RatAppModel.getInstance().clearCurrentUser();
-                Intent loginScreen = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(loginScreen);
-            }
+        mLogOut.setOnClickListener(view -> {
+            // INTENT NOT NEEDED, JUST POP THE ACTIVITY FROM THE STACK, login is parent
+            RatAppModel.getInstance().clearCurrentUser();
+            finish();
         });
     }
 
