@@ -1,12 +1,14 @@
 package cs2340.gatech.edu.brodents;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.util.Log;
 
 import java.util.Date;
 
@@ -110,10 +112,52 @@ public class ReportRatSightingActivity extends AppCompatActivity{
         // TODO: check for valid data, ie. valid zip code
 
 
-        RatAppModel.getInstance().getSightingManager().insertSighting(complaintType, locationType,
-                incidentZIP, city, borough, address, latitude, longitude, null);
+//        RatAppModel.getInstance().getSightingManager().insertSighting(complaintType, locationType,
+//                incidentZIP, city, borough, address, latitude, longitude, null);
 
-        return true;
+        AddSightingTask add = new AddSightingTask(address, complaintType, city, borough, locationType,
+                incidentZIP, latitude, longitude);
+        try {
+            return add.execute((Void) null).get();
+        } catch (Exception e) {
+            Log.e("In ReportRatSighting", e.getMessage(), e);
+            return false;
+        }
+    }
+
+    private class AddSightingTask extends AsyncTask<Void, Void, Boolean> {
+        String addr;
+        String complaintType;
+        String city;
+        String borough;
+        String locType;
+        int zip;
+        double lat;
+        double longit;
+
+        private AddSightingTask(String addr, String compType, String city, String borough,
+            String locType, int zip, double lat, double longitude) {
+            this.addr = addr;
+            this.complaintType = compType;
+            this.city = city;
+            this.borough = borough;
+            this.locType = locType;
+            this.zip = zip;
+            this.lat = lat;
+            this.longit = longitude;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                RatAppModel.getInstance().getSightingManager().insertSighting(complaintType, locType,
+                        zip, city, borough, addr, lat, longit, null);
+                return true;
+            } catch (Exception e) {
+                Log.e("Add sighting", e.getMessage(), e);
+                return false;
+            }
+        }
     }
 
 
