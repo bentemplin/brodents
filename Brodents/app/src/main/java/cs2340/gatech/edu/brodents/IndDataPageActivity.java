@@ -73,7 +73,6 @@ public class IndDataPageActivity extends FragmentActivity implements OnMapReadyC
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.indMap);
-        Log.i("text", "Map call should have been made here");
         mapFragment.getMapAsync(this);
     }
 
@@ -93,8 +92,9 @@ public class IndDataPageActivity extends FragmentActivity implements OnMapReadyC
         Log.i("test", "Map attempt called");
 
         // Add where current rat sighting is nd move camera
+        float zoom = 14f;
         LatLng sighting = new LatLng(rat.getLatitude(), rat.getLongitude());
         mMap.addMarker(new MarkerOptions().position(sighting).title("Rat Sighting: #" + Integer.toString(rat.getKey())));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sighting));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sighting,zoom));
     }
 }
