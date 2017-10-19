@@ -1,6 +1,7 @@
 package cs2340.gatech.edu.brodents;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * This class will represent a single rat sighting report. It will have all of the information that
@@ -217,5 +218,20 @@ public class RatSighting {
     public String toString() {
         return "Sighting " + Integer.toString(key) + ": Created by " + agencyName + " on "
                 + createdDate.toString() + ". Type: " + complaintType;
+    }
+
+    /**
+     * Standard equals method for RatSightings, compares keys
+     * @param o Object to compare with
+     * @return Whether the objects are RatSightings with equal keys
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || !(o instanceof RatSighting)) {
+            return false;
+        } else {
+            RatSighting or = (RatSighting) o;
+            return this.key == or.key;
+        }
     }
 }

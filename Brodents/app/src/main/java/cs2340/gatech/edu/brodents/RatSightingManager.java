@@ -21,13 +21,11 @@ import java.util.Date;
 class RatSightingManager {
     private DatabaseConnector db;
     private boolean isInit;
-    private int lastRow;
     private static RatSightingManager instance = null;
     private static final String TAG = "RatSightingManager";
 
     private RatSightingManager(DatabaseConnector connector) {
         db = connector;
-        lastRow = 1;
     }
 
     /**
@@ -66,9 +64,8 @@ class RatSightingManager {
             ResultSet sightingInfo = db.query(statement);
             RatSighting[] results = new RatSighting[size];
             RatSighting test;
-            lastRow = startRow;
             for (int i = 0; i < size; i++) {
-                sightingInfo.absolute(lastRow);
+                sightingInfo.absolute(startRow);
                 int key = sightingInfo.getInt("uKey");
                 Date cDate = sightingInfo.getDate("createdDate");
                 String aCode = sightingInfo.getString("agency");
@@ -96,27 +93,28 @@ class RatSightingManager {
                             lat, longitude, createdBy);
                 }
                 results[i] = test;
-                lastRow++;
+                startRow++;
             }
             sightingInfo.close();
-            Log.d(TAG, Integer.toString(lastRow));
             return results;
     }
 
     /**
      * This method gets a block of 100 rat sightings starting at the last sighting fetched.
+     * @param lastRow Starting row from which to fetch the sightings.
      * @return RatSighting array of size 100 with the 100 sightings fetched.
      */
-    RatSighting[] getNextBlock() throws SQLException {
+    RatSighting[] getNextBlock(int lastRow) throws SQLException {
         return getSightingBlock(100, lastRow);
     }
 
     /**
      * This method gets a block of rat sightings starting at the last sighting fetched.
      * @param size How many sightings to get.
+     * @param lastRow Starting row from which to fetch the sightings.
      * @return RatSighting array with the sightings fetched.
      */
-    RatSighting[] getNextBlock(int size) throws SQLException {
+    RatSighting[] getNextBlock(int size, int lastRow) throws SQLException {
         return getSightingBlock(size, lastRow);
     }
 
@@ -296,26 +294,12 @@ class RatSightingManager {
 
             }
             infoSet.close();
+            if (sightings.size() == 0) {return null;}
             return sightings;
 
         } catch (SQLException e) {
             Log.e(TAG, e.getMessage(), e);
             return null;
         }
-    }
-
-    /**
-     * Sets the RatSightingManager to grab the most recent entry (i.e. sets the row counter to 1).
-     */
-    void resetRowCounter() {
-        lastRow = 1;
-    }
-
-    /**
-     * Sets the row counter to the passed in value.
-     * @param startRow Starting row to fetch sightings from.
-     */
-    void setRowCounter(int startRow) {
-        lastRow = startRow;
     }
 }
