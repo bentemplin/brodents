@@ -58,7 +58,7 @@ public class IndDataPageActivity extends FragmentActivity implements OnMapReadyC
         longitude = (TextView)findViewById(R.id.longitude);
 
         //Date to String Formatter
-        Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         //Sets Texts Views to data from Selected Rat
         key.setText(Integer.toString(rat.getKey()));
