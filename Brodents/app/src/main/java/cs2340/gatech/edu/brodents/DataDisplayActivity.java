@@ -116,12 +116,24 @@ public class DataDisplayActivity extends AppCompatActivity {
 
         //Code for the Log out button
         Button mLogOut = (Button) findViewById(R.id.btnLogout);
-        mLogOut.setText("Logout");
         mLogOut.setOnClickListener(view -> {
             // INTENT NOT NEEDED, JUST POP THE ACTIVITY FROM THE STACK, login is parent
             RatAppModel.getInstance().clearCurrentUser();
             finish();
         });
+        Button mMaps = (Button) findViewById(R.id.btnMap);
+        mMaps.setOnClickListener(view -> {
+            // INTENT NOT NEEDED, JUST POP THE ACTIVITY FROM THE STACK, login is parent
+            Intent maps = new Intent(getApplicationContext(), MapsActivity.class);
+            startActivity(maps);
+        });
+        Button mGraph = (Button) findViewById(R.id.btnGraph);
+        mGraph.setOnClickListener(view -> {
+            // INTENT NOT NEEDED, JUST POP THE ACTIVITY FROM THE STACK, login is parent
+            Intent graph = new Intent(getApplicationContext(), GraphActivity.class);
+            startActivity(graph);
+        });
+
     }
 
     @Override

@@ -36,26 +36,53 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Search" />
+
+
+
+
     </LinearLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/my_recycler_view"
-        android:layout_width="wrap_content"
-        android:layout_height="183dp"
-        android:layout_weight="0.97"
-        android:layout_marginStart="160dp"
-        android:scrollbars="vertical" />
-
-    <Button
-        android:id="@+id/btnReport"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Report New Rat Sighting" />
+        android:layout_height="480dp"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnLogout"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/my_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="160dp"
+            android:scrollbars="vertical" />
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Logout" />
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Report" />
+        <Button
+            android:id="@+id/btnMap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Map" />
+        <Button
+            android:id="@+id/btnGraph"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Graph" />
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Logout" />
+    </LinearLayout>
 
 </LinearLayout>

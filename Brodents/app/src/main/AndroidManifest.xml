@@ -50,8 +50,13 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ReportRatSightingActivity"
-            android:label="Report a Rat"
+            android:label="ReportARat"
             android:parentActivityName=".DataDisplayActivity"
+            />
+        <activity
+            android:name=".GraphActivity"
+            android:label="DisplayGraphs"
+            android:parentActivityName=".GraphActivity"
             />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
