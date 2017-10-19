@@ -29,6 +29,7 @@ public class DataDisplayActivity extends AppCompatActivity {
     private DataFetcher fetcher;
     private SearchFetcher searchFetch;
     protected int key;
+    private int lastRow;
     private Date lastUpdate;
 
     /**
@@ -40,6 +41,7 @@ public class DataDisplayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         //Fetched the Rat Data from the Data Base
+        lastRow = 1;
         fetcher = new DataFetcher();
         lastUpdate = new Date();
         try {
@@ -141,9 +143,12 @@ public class DataDisplayActivity extends AppCompatActivity {
         super.onResume();
         GetNewSightings newSightings = new GetNewSightings();
         try {
-            ArrayList<RatSighting> newAdds = newSightings.execute((Void) null).get();
-            ratData.addAll(0, newAdds);
-            lastUpdate = new Date();
+            Object[] newAdds = newSightings.execute((Void) null).get();
+            for (Object r : newAdds) {
+                if (!ratData.contains(r)) {
+                    ratData.add(0, (RatSighting) r);
+                }
+            }
         } catch (Exception e) {
             Log.e("Error", e.getMessage(), e);
         }
@@ -180,10 +185,11 @@ public class DataDisplayActivity extends AppCompatActivity {
             RatAppModel model = RatAppModel.getInstance();
             RatSightingManager man = model.getSightingManager();
             try {
-                sightings = man.getNextBlock(75);
+                sightings = man.getNextBlock(75, lastRow);
                 for (RatSighting r : sightings) {
                     list.add(r);
                 }
+                lastRow += 75;
                 return  list;
             } catch (SQLException e) {
                 Log.e("SQL EXCEPTION", e.getMessage());
@@ -208,13 +214,13 @@ public class DataDisplayActivity extends AppCompatActivity {
         }
     }
 
-    private class GetNewSightings extends AsyncTask<Void, Void, ArrayList<RatSighting>> {
+    private class GetNewSightings extends AsyncTask<Void, Void, Object[]> {
         @Override
-        protected ArrayList<RatSighting> doInBackground(Void... params) {
+        protected Object[] doInBackground(Void... params) {
             RatAppModel.checkInitialization();
             RatSightingManager manager = RatAppModel.getInstance().getSightingManager();
             try {
-                return manager.getNewSightings(lastUpdate);
+                return manager.getNewSightings(lastUpdate).toArray();
             } catch (Exception e) {
                 Log.e("Get New Sighting", e.getMessage(), e);
                 return null;
