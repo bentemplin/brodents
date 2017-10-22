@@ -47,57 +47,57 @@ class RatSightingManager {
         return instance;
     }
 
-    /**
-     * This method will get a block of rat sightings in order of most recent creation date.
-     * The method will return null if there is an error.
-     * @param size Size of the block of sighting reports to be returned
-     * @param startRow How many results from the beginning of the set to start the block.
-     * @return RatSighting array containing the block of sightings.
-     */
-    RatSighting[] getSightingBlock(int size, int startRow) throws SQLException {
-        String statementText = "SELECT * FROM sightingInfo NATURAL JOIN sightingStatus NATURAL" +
-                " JOIN sightingLocation NATURAL JOIN agencyLookup" +
-                " ORDER BY createdDate DESC" +
-                " LIMIT ?";
-            PreparedStatement statement = db.getStatement(statementText);
-            statement.setInt(1, size + startRow);
-            ResultSet sightingInfo = db.query(statement);
-            RatSighting[] results = new RatSighting[size];
-            RatSighting test;
-            for (int i = 0; i < size; i++) {
-                sightingInfo.absolute(startRow);
-                int key = sightingInfo.getInt("uKey");
-                Date cDate = sightingInfo.getDate("createdDate");
-                String aCode = sightingInfo.getString("agency");
-                String complaintType = sightingInfo.getString("complaintType");
-                String createdBy = sightingInfo.getString("createdBy");
-                String aName = sightingInfo.getString("name");
-                String status = sightingInfo.getString("status");
-                Date dueDate = sightingInfo.getDate("dueDate");
-                Date closedDate = sightingInfo.getDate("closedDate");
-                Date resUpdateDate = sightingInfo.getDate("resolutionActionUpdated");
-                String locType = sightingInfo.getString("locationType");
-                int zip = sightingInfo.getInt("incidentZip");
-                String city = sightingInfo.getString("city");
-                String borough = sightingInfo.getString("borough");
-                double lat = sightingInfo.getDouble("latitude");
-                double longitude = sightingInfo.getDouble("longitude");
-                String address = sightingInfo.getString("address");
-                if (createdBy != null && createdBy.length() > 0) {
-                    test = new RatSighting(key, cDate, aCode, aName, complaintType, status,
-                            dueDate, closedDate, resUpdateDate, locType, zip, city, borough, address,
-                            lat, longitude);
-                } else {
-                    test = new RatSighting(key, cDate, aCode, aName, complaintType, status,
-                            dueDate, closedDate, resUpdateDate, locType, zip, city, borough, address,
-                            lat, longitude, createdBy);
-                }
-                results[i] = test;
-                startRow++;
-            }
-            sightingInfo.close();
-            return results;
-    }
+//    /**
+//     * This method will get a block of rat sightings in order of most recent creation date.
+//     * The method will return null if there is an error.
+//     * @param size Size of the block of sighting reports to be returned
+//     * @param startRow How many results from the beginning of the set to start the block.
+//     * @return RatSighting array containing the block of sightings.
+//     */
+//    RatSighting[] getSightingBlock(int size, int startRow) throws SQLException {
+//        String statementText = "SELECT * FROM sightingInfo NATURAL JOIN sightingStatus NATURAL" +
+//                " JOIN sightingLocation NATURAL JOIN agencyLookup" +
+//                " ORDER BY createdDate DESC" +
+//                " LIMIT ?";
+//            PreparedStatement statement = db.getStatement(statementText);
+//            statement.setInt(1, size + startRow);
+//            ResultSet sightingInfo = db.query(statement);
+//            RatSighting[] results = new RatSighting[size];
+//            RatSighting test;
+//            for (int i = 0; i < size; i++) {
+//                sightingInfo.absolute(startRow);
+//                int key = sightingInfo.getInt("uKey");
+//                Date cDate = sightingInfo.getDate("createdDate");
+//                String aCode = sightingInfo.getString("agency");
+//                String complaintType = sightingInfo.getString("complaintType");
+//                String createdBy = sightingInfo.getString("createdBy");
+//                String aName = sightingInfo.getString("name");
+//                String status = sightingInfo.getString("status");
+//                Date dueDate = sightingInfo.getDate("dueDate");
+//                Date closedDate = sightingInfo.getDate("closedDate");
+//                Date resUpdateDate = sightingInfo.getDate("resolutionActionUpdated");
+//                String locType = sightingInfo.getString("locationType");
+//                int zip = sightingInfo.getInt("incidentZip");
+//                String city = sightingInfo.getString("city");
+//                String borough = sightingInfo.getString("borough");
+//                double lat = sightingInfo.getDouble("latitude");
+//                double longitude = sightingInfo.getDouble("longitude");
+//                String address = sightingInfo.getString("address");
+//                if (createdBy != null && createdBy.length() > 0) {
+//                    test = new RatSighting(key, cDate, aCode, aName, complaintType, status,
+//                            dueDate, closedDate, resUpdateDate, locType, zip, city, borough, address,
+//                            lat, longitude);
+//                } else {
+//                    test = new RatSighting(key, cDate, aCode, aName, complaintType, status,
+//                            dueDate, closedDate, resUpdateDate, locType, zip, city, borough, address,
+//                            lat, longitude, createdBy);
+//                }
+//                results[i] = test;
+//                startRow++;
+//            }
+//            sightingInfo.close();
+//            return results;
+//    }
 
     /**
      * This method gets a block of 100 rat sightings starting at the last sighting fetched.
@@ -105,7 +105,7 @@ class RatSightingManager {
      * @return RatSighting array of size 100 with the 100 sightings fetched.
      */
     RatSighting[] getNextBlock(int lastRow) throws SQLException {
-        return getSightingBlock(100, lastRow);
+        return getNextBlock(100, lastRow);
     }
 
     /**
@@ -115,7 +115,48 @@ class RatSightingManager {
      * @return RatSighting array with the sightings fetched.
      */
     RatSighting[] getNextBlock(int size, int lastRow) throws SQLException {
-        return getSightingBlock(size, lastRow);
+        String statementText = "SELECT * FROM sightingInfo NATURAL JOIN sightingStatus NATURAL" +
+                " JOIN sightingLocation NATURAL JOIN agencyLookup" +
+                " ORDER BY createdDate DESC" +
+                " LIMIT ?";
+        PreparedStatement statement = db.getStatement(statementText);
+        statement.setInt(1, size + lastRow);
+        ResultSet sightingInfo = db.query(statement);
+        RatSighting[] results = new RatSighting[size];
+        RatSighting test;
+        for (int i = 0; i < size; i++) {
+            sightingInfo.absolute(lastRow);
+            int key = sightingInfo.getInt("uKey");
+            Date cDate = sightingInfo.getDate("createdDate");
+            String aCode = sightingInfo.getString("agency");
+            String complaintType = sightingInfo.getString("complaintType");
+            String createdBy = sightingInfo.getString("createdBy");
+            String aName = sightingInfo.getString("name");
+            String status = sightingInfo.getString("status");
+            Date dueDate = sightingInfo.getDate("dueDate");
+            Date closedDate = sightingInfo.getDate("closedDate");
+            Date resUpdateDate = sightingInfo.getDate("resolutionActionUpdated");
+            String locType = sightingInfo.getString("locationType");
+            int zip = sightingInfo.getInt("incidentZip");
+            String city = sightingInfo.getString("city");
+            String borough = sightingInfo.getString("borough");
+            double lat = sightingInfo.getDouble("latitude");
+            double longitude = sightingInfo.getDouble("longitude");
+            String address = sightingInfo.getString("address");
+            if (createdBy != null && createdBy.length() > 0) {
+                test = new RatSighting(key, cDate, aCode, aName, complaintType, status,
+                        dueDate, closedDate, resUpdateDate, locType, zip, city, borough, address,
+                        lat, longitude);
+            } else {
+                test = new RatSighting(key, cDate, aCode, aName, complaintType, status,
+                        dueDate, closedDate, resUpdateDate, locType, zip, city, borough, address,
+                        lat, longitude, createdBy);
+            }
+            results[i] = test;
+            lastRow++;
+        }
+        sightingInfo.close();
+        return results;
     }
 
     /**
