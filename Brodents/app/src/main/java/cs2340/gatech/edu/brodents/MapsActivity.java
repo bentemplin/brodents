@@ -87,20 +87,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         LatLng cameraPointer = new LatLng(40.848057255, -73.914879001);
         int added = 0;
-        while (added < 11){
-            Log.i("loop", "infinite loop");
-            try {
-                if (sightingList.get(endPointer).getLongitude() < -60 && sightingList.get(endPointer).getLatitude() > 30) {
-                    // Add a marker at rat Sighting i and move the camera
-                    LatLng sightingPos = new LatLng(sightingList.get(endPointer).getLatitude(), sightingList.get(endPointer).getLongitude());
-                    mMap.addMarker(new MarkerOptions().position(sightingPos).title("Rat Sighting: " + sightingList.get(endPointer).getKey()));
-                    cameraPointer = sightingPos;
-                    added++;
-                }
-                endPointer++;
-            } catch (IndexOutOfBoundsException e){
-                added = 10;
+        while (added < 11) {
+            if (!(endPointer < sightingList.size())) {
+                break;
+            } else if (sightingList.get(endPointer).getLongitude() < -60 && sightingList.get(endPointer).getLatitude() > 30) {
+                // Add a marker at rat Sighting i and move the camera
+                LatLng sightingPos = new LatLng(sightingList.get(endPointer).getLatitude(), sightingList.get(endPointer).getLongitude());
+                mMap.addMarker(new MarkerOptions().position(sightingPos).title("Rat Sighting: " + sightingList.get(endPointer).getKey()));
+                cameraPointer = sightingPos;
+                added++;
             }
+            endPointer++;
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cameraPointer,10f));
     }
