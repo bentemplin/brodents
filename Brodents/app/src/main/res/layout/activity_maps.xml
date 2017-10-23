@@ -13,9 +13,25 @@
         android:layout_height="match_parent"
         tools:context="cs2340.gatech.edu.brodents.MapsActivity" />
 
-    <Button
-        android:id="@+id/more"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Show 10 More Sightings" />
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/more"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Show 10 More Sightings" />
+
+        <Button
+            android:id="@+id/btnGetbyDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Get By Date" />
+
+    </LinearLayout>
+
 </FrameLayout>

@@ -1,11 +1,15 @@
 package cs2340.gatech.edu.brodents;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,6 +28,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private List<RatSighting> sightingList;
     private int lastRow = 1;
     private int endPointer;
+    private String inputText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Button more = (Button) findViewById(R.id.more);
         more.setOnClickListener(view -> {
             mapFragment.getMapAsync(this);
+        });
+
+        Button btnGetByDate = (Button) findViewById(R.id.btnGetbyDate);
+        btnGetByDate.setOnClickListener(view -> {
+            String m_Text = "";
+            //Make the alert box
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Input Date");
+            builder.setMessage("Put in the oldest date to display in the form MM-DD-YYYY");
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_DATETIME_VARIATION_DATE);
+            builder.setView(input);
+
+            //Set up buttons in the alert box
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    inputText = input.getText().toString();
+                }
+            });
+
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.show();
         });
     }
     /**
