@@ -144,9 +144,11 @@ public class DataDisplayActivity extends AppCompatActivity {
         GetNewSightings newSightings = new GetNewSightings();
         try {
             Object[] newAdds = newSightings.execute((Void) null).get();
-            for (Object r : newAdds) {
-                if (!ratData.contains(r)) {
-                    ratData.add(0, (RatSighting) r);
+            if (newAdds != null) {
+                for (Object r : newAdds) {
+                    if (!ratData.contains(r)) {
+                        ratData.add(0, (RatSighting) r);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -207,8 +209,8 @@ public class DataDisplayActivity extends AppCompatActivity {
             try {
                 Log.i("text", "Access: " +key + ": " + manager.getSighting(key));
                 return manager.getSighting(key);
-            } catch (Exception e) {
-                Log.e("Search Fetch EXCEPTION", e.getMessage());
+            } catch (NullPointerException e) {
+                Log.e("Search Fetch NPE", e.getMessage());
                 return null;
             }
         }
@@ -221,8 +223,8 @@ public class DataDisplayActivity extends AppCompatActivity {
             RatSightingManager manager = RatAppModel.getInstance().getSightingManager();
             try {
                 return manager.getNewSightings(lastUpdate).toArray();
-            } catch (Exception e) {
-                Log.e("Get New Sighting", e.getMessage(), e);
+            } catch (NullPointerException e) {
+                Log.e("Get New NPE", e.getMessage(), e);
                 return null;
             }
         }
