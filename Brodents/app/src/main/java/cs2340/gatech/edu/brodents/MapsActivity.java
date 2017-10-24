@@ -1,6 +1,7 @@
 package cs2340.gatech.edu.brodents;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.sql.SQLException;
@@ -27,13 +29,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
     private List<RatSighting> sightingList;
     private List<RatSighting> displayList;
     private int lastRow;
-    private int endPointer;
     private String inputTextStart;
     private String inputTextEnd;
 
@@ -103,6 +104,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             });
             builder.show();
         });
+
     }
     /**
      * Manipulates the map once available.
@@ -116,16 +118,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng cameraPointer = new LatLng(40.848057255, -73.914879001);
+        LatLng cameraPointer = new LatLng(40.7800077,-73.9278835);
         int added = 0;
         while (added < displayList.size()) {
                 // Add a marker at rat Sighting i and move the camera
                 LatLng sightingPos = new LatLng(displayList.get(added).getLatitude(), displayList.get(added).getLongitude());
-                mMap.addMarker(new MarkerOptions().position(sightingPos).title("Rat Sighting: " + displayList.get(added).getKey()));
-                cameraPointer = sightingPos;
+                mMap.addMarker(new MarkerOptions().position(sightingPos).title("Rat Sighting: " + displayList.get(added).getKey()).snippet("Click here for more info"));
                 added++;
             }
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cameraPointer,10f));
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cameraPointer,11f));
+        mMap.setOnInfoWindowClickListener(this);
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker){
+        char id = marker.getId().charAt(1);
+        int index = id - 48;
+        new RatSelected(displayList.get(index));
+        Intent indRatSighting = new Intent(getApplicationContext(), IndDataPageActivity.class);
+        startActivity(indRatSighting);
     }
 
     private void populateList(int start, int size) {
