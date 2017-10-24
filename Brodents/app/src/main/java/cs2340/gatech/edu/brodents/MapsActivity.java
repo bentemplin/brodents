@@ -52,8 +52,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         Button more = (Button) findViewById(R.id.more);
         more.setOnClickListener(view -> {
-            populateList(lastRow, 10);
-            lastRow += 10;
+            try {
+                populateList(lastRow, 10);
+                lastRow += 10;
+            } catch (NullPointerException e) {
+                displayList = new ArrayList<RatSighting>();
+                lastRow += 10;
+                populateList(0, lastRow);
+            }
             mapFragment.getMapAsync(this);
         });
 
@@ -63,7 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Input Date");
             builder.setMessage("Put in the oldest date and the newest date " +
-                    "to display in the form MM-DD-YYYY");
+                    "to display");
             final EditText inputStart = new EditText(this);
             final EditText inputEnd = new EditText(this);
             inputStart.setInputType(InputType.TYPE_DATETIME_VARIATION_DATE);
@@ -84,12 +90,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     try {
                         Date startDateRaw = formatter.parse(inputTextStart);
                         Date endDateRaw = formatter.parse(inputTextEnd);
-                        GetTimedSightings sightingFetcher = new GetTimedSightings();
-                        displayList.clear();
-                        displayList = sightingFetcher.execute(startDateRaw, endDateRaw).get();
+                        Date earliest = formatter.parse("01-01-2010");
+                        if (validateRange(startDateRaw, endDateRaw, earliest)) {
+                            GetTimedSightings sightingFetcher = new GetTimedSightings();
+                            displayList = new ArrayList<RatSighting>();
+                            displayList = sightingFetcher.execute(startDateRaw, endDateRaw).get();
+                        } else {
+                            return;
+                        }
                     } catch (ParseException e) {
                         // TODO Put a toast here
                         Log.e("InputClick", e.getMessage(), e);
+                        displayAlert("Invalid Date", "Input date in format MM-DD-YYYY");
+                        displayList = new ArrayList<RatSighting>();
                     } catch (Exception e) {
                         Log.e("InputClick", e.getMessage(), e);
                     }
@@ -126,7 +139,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.addMarker(new MarkerOptions().position(sightingPos).title("Rat Sighting: " + displayList.get(added).getKey()).snippet("Click here for more info"));
                 added++;
             }
-        if (displayList == null) {mMap.clear();}
+        if (displayList == null) {
+            //This means no sightings found, so clear the markers
+            mMap.clear();
+            //Raise an alert to let the user know there are no sightings for this period.
+            displayAlert("No Sightings Found", "There are no sightings for this date range");
+
+        }
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cameraPointer,11f));
         mMap.setOnInfoWindowClickListener(this);
     }
@@ -162,6 +181,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.e("GetTimedSightings", e.getMessage(), e);
                 return null;
             }
+        }
+    }
+
+    private void displayAlert(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.show();
+    }
+
+    private boolean validateRange(Date start, Date end, Date earliest) {
+        Date now = new Date();
+        if (start.after(end) || start.after(now) || end.after(now)) {
+            displayAlert("Invalid Range", "Please enter dates in the format MM-DD-YYYY and that " +
+                    "are not in the future");
+            return false;
+        } else if (end.before(earliest)) {
+            displayAlert("Warning", "The earliest sighting is on 01-01-2010. Your date range ends " +
+                    "before that.");
+            return false;
+        } else {
+            return true;
         }
     }
 }
