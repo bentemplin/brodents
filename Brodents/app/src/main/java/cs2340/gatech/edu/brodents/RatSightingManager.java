@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * This class will interface the Brodents app with the database of rat sightings. It is designed in
@@ -257,38 +258,62 @@ class RatSightingManager {
             Timestamp sqlDate = new Timestamp(start.getTime());
             stmt.setTimestamp(1, sqlDate);
             ResultSet infoSet = db.query(stmt);
-            ArrayList<RatSighting> sightings = new ArrayList<>();
-            while (infoSet.next()) {
-                int key = infoSet.getInt("uKey");
-                String agencyCode = infoSet.getString("agency");
-                Date cDate = infoSet.getDate("createdDate");
-                String complaintType = infoSet.getString("complaintType");
-                String createdBy = infoSet.getString("createdBy");
-                String agencyName = infoSet.getString("name");
-                String status = infoSet.getString("status");
-                Date dueDate = infoSet.getDate("dueDate");
-                Date closedDate = infoSet.getDate("closedDate");
-                Date resActionUpdated = infoSet.getDate("resolutionActionUpdated");
-                String locType = infoSet.getString("locationType");
-                int incidentZip = infoSet.getInt("incidentZip");
-                String city = infoSet.getString("city");
-                String borough = infoSet.getString("borough");
-                String address = infoSet.getString("address");
-                double latitude = infoSet.getDouble("latitude");
-                double longitude = infoSet.getDouble("longitude");
-
-                sightings.add(new RatSighting(key, cDate, agencyCode, agencyName, complaintType, status,
-                        dueDate, closedDate, resActionUpdated, locType, incidentZip, city, borough,
-                        address, latitude, longitude, createdBy));
-
-            }
-            infoSet.close();
-            if (sightings.size() == 0) {return null;}
-            return sightings;
+            return resultSetToRatList(infoSet);
 
         } catch (SQLException e) {
             Log.e(TAG, e.getMessage(), e);
             return null;
         }
+    }
+
+    /**
+     * Gets sightings from the database between the start and end dates
+     * @param start Oldest sightings to fetch
+     * @param end Newest sightings to fecth
+     * @return ArrayList containing the fetched RatSightings
+     * @throws SQLException
+     */
+    ArrayList<RatSighting> getSightingsBetween(Date start, Date end) throws SQLException {
+        Timestamp startTime = new Timestamp(start.getTime());
+        Timestamp endTime = new Timestamp(end.getTime());
+        String qText = "SELECT * FROM sightingInfo NATURAL JOIN sightingStatus NATURAL JOIN" +
+                " sightingLocation NATURAL JOIN agencyLookup WHERE createdDate >= ? AND createdDate " +
+                "<= ? ORDER BY createdDate ASC";
+        PreparedStatement statement = db.getStatement(qText);
+        statement.setTimestamp(1, startTime);
+        statement.setTimestamp(2, endTime);
+        ResultSet results = db.query(statement);
+        return resultSetToRatList(results);
+    }
+
+    private ArrayList<RatSighting> resultSetToRatList (ResultSet infoSet) throws SQLException {
+        ArrayList<RatSighting> sightings = new ArrayList<>();
+        while (infoSet.next()) {
+            int key = infoSet.getInt("uKey");
+            String agencyCode = infoSet.getString("agency");
+            Date cDate = infoSet.getDate("createdDate");
+            String complaintType = infoSet.getString("complaintType");
+            String createdBy = infoSet.getString("createdBy");
+            String agencyName = infoSet.getString("name");
+            String status = infoSet.getString("status");
+            Date dueDate = infoSet.getDate("dueDate");
+            Date closedDate = infoSet.getDate("closedDate");
+            Date resActionUpdated = infoSet.getDate("resolutionActionUpdated");
+            String locType = infoSet.getString("locationType");
+            int incidentZip = infoSet.getInt("incidentZip");
+            String city = infoSet.getString("city");
+            String borough = infoSet.getString("borough");
+            String address = infoSet.getString("address");
+            double latitude = infoSet.getDouble("latitude");
+            double longitude = infoSet.getDouble("longitude");
+
+            sightings.add(new RatSighting(key, cDate, agencyCode, agencyName, complaintType, status,
+                    dueDate, closedDate, resActionUpdated, locType, incidentZip, city, borough,
+                    address, latitude, longitude, createdBy));
+
+        }
+        infoSet.close();
+        if (sightings.size() == 0) {return null;}
+        return sightings;
     }
 }
