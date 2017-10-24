@@ -120,13 +120,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         LatLng cameraPointer = new LatLng(40.7800077,-73.9278835);
         int added = 0;
-        while (added < displayList.size()) {
+        while (displayList!=null && added < displayList.size()) {
                 // Add a marker at rat Sighting i and move the camera
                 LatLng sightingPos = new LatLng(displayList.get(added).getLatitude(), displayList.get(added).getLongitude());
                 mMap.addMarker(new MarkerOptions().position(sightingPos).title("Rat Sighting: " + displayList.get(added).getKey()).snippet("Click here for more info"));
                 added++;
             }
-
+        if (displayList == null) {mMap.clear();}
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cameraPointer,11f));
         mMap.setOnInfoWindowClickListener(this);
     }
