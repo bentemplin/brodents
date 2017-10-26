@@ -95,11 +95,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             GetTimedSightings sightingFetcher = new GetTimedSightings();
                             displayList = new ArrayList<RatSighting>();
                             displayList = sightingFetcher.execute(startDateRaw, endDateRaw).get();
+                            mMap.clear();
                         } else {
                             return;
                         }
                     } catch (ParseException e) {
-                        // TODO Put a toast here
                         Log.e("InputClick", e.getMessage(), e);
                         displayAlert("Invalid Date", "Input date in format MM-DD-YYYY");
                         displayList = new ArrayList<RatSighting>();
