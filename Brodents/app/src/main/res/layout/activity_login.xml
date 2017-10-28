@@ -77,6 +77,12 @@
                 android:text="Register" />
 
             <Button
+                android:id="@+id/btnForgotPassword"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/forgot_password" />
+
+            <Button
                 android:id="@+id/btnCancel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

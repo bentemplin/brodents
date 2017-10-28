@@ -95,6 +95,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        Button btnResetPassword = (Button) findViewById(R.id.btnForgotPassword);
+        btnResetPassword.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent resetPage = new Intent(getApplicationContext(), ResetPasswordActivity.class);
+                startActivity(resetPage);
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 

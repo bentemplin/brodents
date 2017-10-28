@@ -188,4 +188,49 @@ class RatAppModel {
         }
     }
 
+    /**
+     * This method will change the user's password if they pass in the correct homeLocation for
+     * that particular user.
+     * @param userName Username of the user to reset the password.
+     * @param homeLocation HomeLocation for authentication.
+     * @param newPassword Password to change the password to.
+     * @return An integer code indicating the success of the update. 0 if update
+     *         succeeds, 1 if the update fails because they passed in the incorrect homeLocation,
+     *         and 2 if a SQLException occurs during the update.
+     */
+    int changePassword(String userName, String homeLocation, String newPassword) {
+        try {
+            //Get values from passed in User
+            String qText = "SELECT salt, homeLocation FROM users WHERE userName = ?";
+            PreparedStatement stmt = db.getStatement(qText);
+            stmt.setString(1, userName);
+            ResultSet results = db.query(stmt);
+            results.next();
+            String salt = results.getString("salt");
+            String homeLoc = results.getString("homeLocation");
+            results.close();
+            //Here is where we "Authenticate" the user. If they correctly answer the homeLocation,
+            //they can change the password
+            if (homeLocation.equals(homeLoc)) {
+                //Update the password
+                String newPass = PasswordHasher.getSecurePassword(salt, newPassword);
+                String qText2 = "UPDATE users SET password = ? WHERE userName = ?";
+                PreparedStatement stmt2 = db.getStatement(qText2);
+                stmt2.setString(1, newPass);
+                stmt2.setString(2, userName);
+                Log.d("Change Password", "Attempting...");
+                db.update(stmt2);
+                Log.d("Change Password", "Success!");
+                return 0;
+            } else {
+                Log.d("Change Password", "Failed attempt");
+                return 1;
+            }
+
+        } catch (SQLException e) {
+            Log.e("Change Password", e.getMessage(), e);
+            return 2;
+        }
+    }
+
 }
