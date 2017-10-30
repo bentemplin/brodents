@@ -11,7 +11,6 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,7 +26,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
@@ -56,7 +54,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 populateList(lastRow, 10);
                 lastRow += 10;
             } catch (NullPointerException e) {
-                displayList = new ArrayList<RatSighting>();
+                displayList = new ArrayList<>();
                 lastRow += 10;
                 populateList(0, lastRow);
             }
@@ -80,41 +78,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             layout.addView(inputEnd);
             builder.setView(layout);
             //Set up buttons in the alert box
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    inputTextStart = inputStart.getText().toString();
-                    inputTextEnd = inputEnd.getText().toString();
-                    String datePattern = "MM-dd-yyyy";
-                    SimpleDateFormat formatter = new SimpleDateFormat(datePattern);
-                    try {
-                        Date startDateRaw = formatter.parse(inputTextStart);
-                        Date endDateRaw = formatter.parse(inputTextEnd);
-                        Date earliest = formatter.parse("01-01-2010");
-                        if (validateRange(startDateRaw, endDateRaw, earliest)) {
-                            GetTimedSightings sightingFetcher = new GetTimedSightings();
-                            displayList = new ArrayList<RatSighting>();
-                            displayList = sightingFetcher.execute(startDateRaw, endDateRaw).get();
-                            mMap.clear();
-                        } else {
-                            return;
-                        }
-                    } catch (ParseException e) {
-                        Log.e("InputClick", e.getMessage(), e);
-                        displayAlert("Invalid Date", "Input date in format MM-DD-YYYY");
-                        displayList = new ArrayList<RatSighting>();
-                    } catch (Exception e) {
-                        Log.e("InputClick", e.getMessage(), e);
+            builder.setPositiveButton("OK", (dialog, which) -> {
+                inputTextStart = inputStart.getText().toString();
+                inputTextEnd = inputEnd.getText().toString();
+                String datePattern = "MM-dd-yyyy";
+                SimpleDateFormat formatter = new SimpleDateFormat(datePattern);
+                try {
+                    Date startDateRaw = formatter.parse(inputTextStart);
+                    Date endDateRaw = formatter.parse(inputTextEnd);
+                    Date earliest = formatter.parse("01-01-2010");
+                    if (validateRange(startDateRaw, endDateRaw, earliest)) {
+                        GetTimedSightings sightingFetcher = new GetTimedSightings();
+                        displayList = new ArrayList<>();
+                        displayList = sightingFetcher.execute(startDateRaw, endDateRaw).get();
+                        mMap.clear();
+                    } else {
+                        return;
                     }
-                    mapFragment.getMapAsync(MapsActivity.this);
+                } catch (ParseException e) {
+                    Log.e("InputClick", e.getMessage(), e);
+                    displayAlert("Invalid Date", "Input date in format MM-DD-YYYY");
+                    displayList = new ArrayList<>();
+                } catch (Exception e) {
+                    Log.e("InputClick", e.getMessage(), e);
                 }
+                mapFragment.getMapAsync(MapsActivity.this);
             });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
             builder.show();
         });
 
@@ -133,7 +123,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         LatLng cameraPointer = new LatLng(40.7800077,-73.9278835);
         int added = 0;
-        while (displayList!=null && added < displayList.size()) {
+        while ((displayList != null) && (added < displayList.size())) {
                 // Add a marker at rat Sighting i and move the camera
                 LatLng sightingPos = new LatLng(displayList.get(added).getLatitude(), displayList.get(added).getLongitude());
                 mMap.addMarker(new MarkerOptions().position(sightingPos).title("Rat Sighting: " + displayList.get(added).getKey()).snippet("Click here for more info"));
@@ -162,8 +152,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void populateList(int start, int size) {
         int added = 0;
         int index = start;
-        while (added <= size && index < sightingList.size()) {
-            if (sightingList.get(index).getLongitude() < -60 && sightingList.get(index).getLatitude() > 30) {
+        while ((added <= size) && (index < sightingList.size())) {
+            if ((sightingList.get(index).getLongitude() < -60) && (sightingList.get(index).getLatitude() > 30)) {
                 displayList.add(sightingList.get(index));
                 added++;
             }
@@ -184,7 +174,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void displayAlert(String title, String message) {
+    private void displayAlert(CharSequence title, CharSequence message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
         builder.setMessage(message);

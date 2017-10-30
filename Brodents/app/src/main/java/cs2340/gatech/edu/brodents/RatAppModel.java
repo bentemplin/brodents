@@ -1,5 +1,6 @@
 package cs2340.gatech.edu.brodents;
 
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.security.SecureRandom;
@@ -15,16 +16,18 @@ import java.sql.SQLException;
  * @version 1.0
  */
 
-class RatAppModel {
+final class RatAppModel {
     private DatabaseConnector db;
     private boolean dbInitialized;
+    @Nullable
     private User currentUser;
     private RatSightingManager sightingManager;
     private static RatAppModel model;
+    private static final int SALT_SIZE = 32;
 
-    private RatAppModel(String userName, String password, String host) {
+    private RatAppModel() {
         try {
-            db = new DatabaseConnector(userName, password, host);
+            db = new DatabaseConnector("ratapp", "2Z2MqYE!cLgNJu8R", "104.236.213.171:3306/rats");
             dbInitialized = true;
             currentUser = null;
             RatSightingManager.initialize(db);
@@ -36,15 +39,17 @@ class RatAppModel {
     }
 
     static void checkInitialization() {
-        if (model == null || !model.dbInitialized) RatAppModel.initialize();
+        if ((model == null) || !model.dbInitialized) {
+            RatAppModel.initialize();
+        }
     }
 
     /**
      * This method initializes the model and tries to create a database connection.
      */
     static void initialize() {
-        model = new RatAppModel("ratapp", "2Z2MqYE!cLgNJu8R",
-                "104.236.213.171:3306/rats");
+        model = new RatAppModel(
+        );
         Log.d("RatAppModel", "Initialized");
     }
 
@@ -165,7 +170,7 @@ class RatAppModel {
             if (checkResults.next()) { //Check for username already in use
                 return 1;
             } else {
-                int salt = saltShaker.nextInt(32);
+                int salt = saltShaker.nextInt(SALT_SIZE);
                 String hashedPass = PasswordHasher.getSecurePassword(Integer.toString(salt),
                         password);
                 String registrationText = "INSERT INTO users(userName, password, profileName, "

@@ -22,14 +22,14 @@ import java.util.List;
 public class RatListDisplayAdapter extends
         RecyclerView.Adapter<RatListDisplayAdapter.ViewHolder>{
 
-    private List<RatSighting> sightingList;
-    private ClickListener listener;
-    private Activity parentActivity;
+    private final List<RatSighting> sightingList;
+    private final ClickListener listener;
+    private final Activity parentActivity;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
-        private TextView key;
-        private WeakReference<ClickListener> listenerRef;
-        private Activity a;
+        private final TextView key;
+        private final WeakReference<ClickListener> listenerRef;
+        private final Activity a;
 
         /**
          * Creates a the View Holder for the Rat List Adapter
@@ -53,7 +53,7 @@ public class RatListDisplayAdapter extends
         @Override
         public void onClick(View v){
             if (v.getId() == key.getId()) {
-                new RatSelected(Integer.valueOf(getAdapterPosition()));
+                new RatSelected(getAdapterPosition());
                 Intent indDataPage = new Intent(a.getApplicationContext(), IndDataPageActivity.class);
                 a.startActivity(indDataPage);
             }
@@ -92,8 +92,7 @@ public class RatListDisplayAdapter extends
     public  ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.my_text_view, parent, false);
-        ViewHolder vh = new ViewHolder(v, parentActivity);
-        return vh;
+        return new ViewHolder(v, parentActivity);
     }
 
     /**

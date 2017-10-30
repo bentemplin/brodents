@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -32,6 +33,7 @@ import android.util.Log;
 //import java.sql.ResultSet;
 //import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -42,6 +44,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
+    @Nullable
     private UserLoginTask mAuthTask = null;
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -58,50 +61,33 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
+        mPasswordView.setOnEditorActionListener((textView, id, keyEvent) -> {
+            if ((id == R.id.login) || (id == EditorInfo.IME_NULL)) {
+                attemptLogin();
+                return true;
             }
+            return false;
         });
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
+        mEmailSignInButton.setOnClickListener(view -> attemptLogin());
 
         Button btnCancel = (Button) findViewById(R.id.btnCancel);
-        btnCancel.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mEmailView.setText("");
-                mPasswordView.setText("");
-            }
+        btnCancel.setOnClickListener(v -> {
+            mEmailView.setText("");
+            mPasswordView.setText("");
         });
 
         Button btnRegister = (Button) findViewById(R.id.btnRegister);
-        btnRegister.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent regPage = new Intent(getApplicationContext(), RegistrationActivity.class);
-                startActivity(regPage);
-            }
+        btnRegister.setOnClickListener(v -> {
+            Intent regPage = new Intent(getApplicationContext(), RegistrationActivity.class);
+            startActivity(regPage);
         });
 
         Button btnResetPassword = (Button) findViewById(R.id.btnForgotPassword);
-        btnResetPassword.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent resetPage = new Intent(getApplicationContext(), ResetPasswordActivity.class);
-                startActivity(resetPage);
-            }
+        btnResetPassword.setOnClickListener(v -> {
+            Intent resetPage = new Intent(getApplicationContext(), ResetPasswordActivity.class);
+            startActivity(resetPage);
         });
 
         mLoginFormView = findViewById(R.id.login_form);
@@ -134,19 +120,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
         }
@@ -183,32 +160,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
+        mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+        mLoginFormView.animate().setDuration(shortAnimTime).alpha(
+                show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            }
+        });
 
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
+        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        mProgressView.animate().setDuration(shortAnimTime).alpha(
+                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 
     @Override
@@ -230,7 +200,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        List<String> emails = new ArrayList<>();
+        Collection<String> emails = new ArrayList<>();
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             emails.add(cursor.getString(ProfileQuery.ADDRESS));

@@ -3,16 +3,13 @@ package cs2340.gatech.edu.brodents;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-
-import java.util.concurrent.ExecutionException;
 
 /**
  * Class controller to manage registration for Brodents.
@@ -20,6 +17,7 @@ import java.util.concurrent.ExecutionException;
  * @version 1.0
  */
 public class ResetPasswordActivity extends AppCompatActivity {
+    @Nullable
     private PasswordResetTask mAuthTask;
     private EditText mUser;
     private EditText mPassword;
@@ -38,20 +36,12 @@ public class ResetPasswordActivity extends AppCompatActivity {
         mAuthTask = null;
 
         Button mResetPassword = (Button) findViewById(R.id.btnSubmit);
-        mResetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptResetPassword();
-            }
-        });
+        mResetPassword.setOnClickListener(view -> attemptResetPassword());
 
         Button mCancel = (Button) findViewById(R.id.btnCancel);
-        mCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent loginPage = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(loginPage);
-            }
+        mCancel.setOnClickListener(view -> {
+            Intent loginPage = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(loginPage);
         });
     }
 
@@ -116,7 +106,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         return email.contains("@") && email.contains(".");
     }
 
-    private boolean isPasswordValid(String password) {
+    private boolean isPasswordValid(CharSequence password) {
         return password.length() >= 6;
     }
 

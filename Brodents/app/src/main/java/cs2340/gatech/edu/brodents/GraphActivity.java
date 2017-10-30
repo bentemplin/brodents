@@ -2,7 +2,6 @@ package cs2340.gatech.edu.brodents;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 
 /**
  * Created by Benjamin Yarmowich on 10/18/2017.

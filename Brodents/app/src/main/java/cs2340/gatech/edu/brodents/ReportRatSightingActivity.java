@@ -10,8 +10,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.util.Log;
 
-import java.util.Date;
-
 /**
  * Created by Benjamin Yarmowich on 10/15/2017.
  * Implemented by Rikesh Subedi on 10/16/2017
@@ -20,14 +18,14 @@ import java.util.Date;
 public class ReportRatSightingActivity extends AppCompatActivity{
 
     // UI Containers
-    EditText etIncidentAddress;
-    EditText etIncidentZIP;
-    EditText etCityName;
-    EditText etCityBorough;
-    EditText etLongitude;
-    EditText etLatitude;
-    EditText etComplaintType;
-    EditText etLocationType;
+    private EditText etIncidentAddress;
+    private EditText etIncidentZIP;
+    private EditText etCityName;
+    private EditText etCityBorough;
+    private EditText etLongitude;
+    private EditText etLatitude;
+    private EditText etComplaintType;
+    private EditText etLocationType;
 
 
     @Override
@@ -51,24 +49,16 @@ public class ReportRatSightingActivity extends AppCompatActivity{
         Button btnReport = (Button) findViewById(R.id.btnReport);
         Button btnCancel = (Button) findViewById(R.id.btnCancel);
 
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        btnCancel.setOnClickListener(view -> finish());
+
+
+        btnReport.setOnClickListener(view -> {
+            //attemptRegistration();
+            boolean success = submitReport();
+
+            if (success) {
+                // Data has already been submitted in isValidSubmit() method
                 finish();
-            }
-        });
-
-
-        btnReport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //attemptRegistration();
-                boolean success = submitReport();
-
-                if (success) {
-                    // Data has already been submitted in isValidSubmit() method
-                    finish();
-                }
             }
         });
 
@@ -93,10 +83,10 @@ public class ReportRatSightingActivity extends AppCompatActivity{
         double longitude = Double.parseDouble(etLongitude.getText().toString());
         double latitude = Double.parseDouble(etLatitude.getText().toString());
 
-        if (complaintType.trim().length() == 0 || city.trim().length() == 0 ||
-                locationType.trim().length() == 0 || borough.trim().length() == 0 ||
-                address.trim().length() == 0 || incidentZIP == 0 || longitude == 0 ||
-                latitude == 0) {
+        if (complaintType.trim().isEmpty() || city.trim().isEmpty() ||
+                locationType.trim().isEmpty() || borough.trim().isEmpty() ||
+                address.trim().isEmpty() || (incidentZIP == 0) || (longitude == 0) ||
+                (latitude == 0)) {
             // One of the fields is empty. Make specific if-statements later to specify message
 
             // Display a toast warning the user that a field is incomplete
@@ -125,15 +115,15 @@ public class ReportRatSightingActivity extends AppCompatActivity{
         }
     }
 
-    private class AddSightingTask extends AsyncTask<Void, Void, Boolean> {
-        String addr;
-        String complaintType;
-        String city;
-        String borough;
-        String locType;
-        int zip;
-        double lat;
-        double longit;
+    private final class AddSightingTask extends AsyncTask<Void, Void, Boolean> {
+        final String addr;
+        final String complaintType;
+        final String city;
+        final String borough;
+        final String locType;
+        final int zip;
+        final double lat;
+        final double longit;
 
         private AddSightingTask(String addr, String compType, String city, String borough,
             String locType, int zip, double lat, double longitude) {
@@ -151,7 +141,7 @@ public class ReportRatSightingActivity extends AppCompatActivity{
         protected Boolean doInBackground(Void... params) {
             try {
                 RatAppModel.getInstance().getSightingManager().insertSighting(complaintType, locType,
-                        zip, city, borough, addr, lat, longit, null);
+                        zip, city, borough, addr, lat, longit);
                 return true;
             } catch (Exception e) {
                 Log.e("Add sighting", e.getMessage(), e);

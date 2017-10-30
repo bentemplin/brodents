@@ -14,6 +14,7 @@ import android.widget.EditText;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -24,13 +25,15 @@ import java.util.List;
 public class DataDisplayActivity extends AppCompatActivity {
     private RecyclerView dataDisplay;
     private RecyclerView.Adapter displayAdapter;
-    private RecyclerView.LayoutManager dataLayout;
     private static List<RatSighting> ratData;
-    private DataFetcher fetcher;
     private SearchFetcher searchFetch;
-    protected int key;
+    private int key;
     private int lastRow;
     private Date lastUpdate;
+
+    private static final int MIN_KEY = 10000000;
+    private static final int MAX_KEY = 40000000;
+    private static final int DEFAULT_BLOCK_SIZE = 75;
 
     /**
      * Starts the Data Display Activity
@@ -42,7 +45,7 @@ public class DataDisplayActivity extends AppCompatActivity {
 
         //Fetched the Rat Data from the Data Base
         lastRow = 1;
-        fetcher = new DataFetcher();
+        DataFetcher fetcher = new DataFetcher();
         lastUpdate = new Date();
         try {
             /* The .get() function makes the function wait for the AsyncTask to finish and gets the
@@ -60,7 +63,7 @@ public class DataDisplayActivity extends AppCompatActivity {
 
         dataDisplay.setHasFixedSize(true);
 
-        dataLayout = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager dataLayout = new LinearLayoutManager(this);
         dataDisplay.setLayoutManager(dataLayout);
         displayAdapter = new RatListDisplayAdapter(ratData, this, new ClickListener() {
             @Override
@@ -80,27 +83,24 @@ public class DataDisplayActivity extends AppCompatActivity {
         //Code for Search Bar
         EditText searchBar = (EditText) findViewById(R.id.searchText);
         Button searchBtn = (Button) findViewById(R.id.btnSearch);
-        searchBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                key = Integer.parseInt(searchBar.getText().toString());
-                Log.i("text", "key selected: " + key);
-                if (key < 11400000 || key > 38000000) {
-                    searchBar.setError("valid keys are between 10000000 and 40000000");
+        searchBtn.setOnClickListener(view -> {
+            key = Integer.parseInt(searchBar.getText().toString());
+            Log.i("text", "key selected: " + key);
+            if (key < MIN_KEY || key > MAX_KEY) {
+                searchBar.setError("valid keys are between 10000000 and 40000000");
+            } else {
+                searchFetch = new SearchFetcher();
+                try {
+                    new RatSelected(searchFetch.execute((Void) null).get());
+                    Log.i("text", "Rat selected: " + RatSelected.getSelected().toString());
+                } catch (Exception e) {
+                    Log.e("SQL EXCEPTION", "Bumped up");
+                }
+                if (RatSelected.getSelected() != null) {
+                    Intent indRatSighting = new Intent(getApplicationContext(), IndDataPageActivity.class);
+                    startActivity(indRatSighting);
                 } else {
-                    searchFetch = new SearchFetcher();
-                    try {
-                        new RatSelected(searchFetch.execute((Void) null).get());
-                        Log.i("text", "Rat selected: " + RatSelected.getSelected().toString());
-                    } catch (Exception e) {
-                        Log.e("SQL EXCEPTION", "Bumped up");
-                    }
-                    if (RatSelected.getSelected() != null) {
-                        Intent indRatSighting = new Intent(getApplicationContext(), IndDataPageActivity.class);
-                        startActivity(indRatSighting);
-                    } else {
-                        searchBar.setError("The key you have entered cannot be found");
-                    }
+                    searchBar.setError("The key you have entered cannot be found");
                 }
             }
         });
@@ -160,11 +160,9 @@ public class DataDisplayActivity extends AppCompatActivity {
             RatAppModel model = RatAppModel.getInstance();
             RatSightingManager man = model.getSightingManager();
             try {
-                sightings = man.getNextBlock(75, lastRow);
-                for (RatSighting r : sightings) {
-                    list.add(r);
-                }
-                lastRow += 75;
+                sightings = man.getNextBlock(DEFAULT_BLOCK_SIZE, lastRow);
+                Collections.addAll(list, sightings);
+                lastRow += DEFAULT_BLOCK_SIZE;
                 return  list;
             } catch (SQLException e) {
                 Log.e("SQL EXCEPTION", e.getMessage());

@@ -6,7 +6,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet; 
+import java.sql.ResultSet;
+import java.util.Arrays;
 
 /**
  * A class allowing the interface of a Java application and an SQL database.
@@ -16,7 +17,7 @@ import java.sql.ResultSet;
  * @version 1.0
  * @author Ben Templin
  */
-public class DatabaseConnector {
+class DatabaseConnector {
     private String dbUserName;
     private String dbPassword;
     private String host;
@@ -30,8 +31,8 @@ public class DatabaseConnector {
      * at a time. These are all private methods to restrict what users can do
      * to manipulate the database and the connector itself.
      */
-    protected DatabaseConnector(String userName, String password,
-        String hostName) throws SQLException {
+    DatabaseConnector(String userName, String password,
+                      String hostName) throws SQLException {
         try {
             dbUserName = userName;
             dbPassword = password;
@@ -42,12 +43,8 @@ public class DatabaseConnector {
                 DriverManager.getConnection(this.host, dbUserName, dbPassword);
             debugMessage("SQL Connection Succeeded");
             dbConnection = finalConnection;
-        } catch (InstantiationException e) {
-            debugMessage(e.getStackTrace().toString());
-        } catch (ClassNotFoundException e) {
-            debugMessage(e.getStackTrace().toString());
-        } catch (IllegalAccessException e) {
-            debugMessage(e.getStackTrace().toString());
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+            debugMessage(Arrays.toString(e.getStackTrace()));
         }
     }
 
@@ -62,15 +59,16 @@ public class DatabaseConnector {
      * This method allows you to query a table in the database.
      * @param statement A PreparedStatement of the query to be executed.
      * @return A ResultSet of the results of the query.
+     * @throws SQLException
      */
     public ResultSet query(PreparedStatement statement) throws SQLException{
-            ResultSet results = statement.executeQuery();
-            return results;
+        return statement.executeQuery();
     }
 
     /**
      * This method allows you to update a table in the database.
      * @param statement A PreparedStatement of the update to be executed.
+     * @throws SQLException
      */
     public void update(PreparedStatement statement) throws SQLException {
         statement.executeUpdate();
@@ -107,6 +105,7 @@ public class DatabaseConnector {
      * database.
      * @param text Text for the prepared statement.
      * @return A PreparedStatement object ready to be parameterized
+     * @throws SQLException
      */
     public PreparedStatement getStatement(String text) throws SQLException {
         return dbConnection.prepareStatement(text);
@@ -119,6 +118,7 @@ public class DatabaseConnector {
      * @param userName The username as a String for the database.
      * @param pass The password as a String for the database.
      * @param host The hostname of the database as a String.
+     * @return
      */
     public boolean changeConnection(String userName, String pass,
         String host) {
@@ -140,7 +140,7 @@ public class DatabaseConnector {
             changed = false;
             dbConnection = tempConnection;
         } catch (Exception e) {
-            debugMessage(e.getStackTrace().toString());
+            debugMessage(Arrays.toString(e.getStackTrace()));
             changed = false;
         }
         return changed;

@@ -1,7 +1,6 @@
 package cs2340.gatech.edu.brodents;
 
 import java.util.Date;
-import java.util.Objects;
 
 /**
  * This class will represent a single rat sighting report. It will have all of the information that
@@ -13,28 +12,28 @@ import java.util.Objects;
 
 public class RatSighting {
     // From the sightingInfo table
-    private int key;
-    private Date createdDate;
-    private String agencyCode;
-    private String agencyName; //forced to Brodents
-    private String complaintType; //provided
+    private final int key;
+    private final Date createdDate;
+    private final String agencyCode;
+    private final String agencyName; //forced to Brodents
+    private final String complaintType; //provided
 
     // From the sightingStatus table
-    private String status; //provided
-    private Date dueDate;
-    private Date closedDate;
-    private Date resActionUpdated;
+    private final String status; //provided
+    private final Date dueDate;
+    private final Date closedDate;
+    private final Date resActionUpdated;
 
     // From the sightingLocation table
-    private String locationType; //Provided
-    private int incidentZip; //Provided
-    private String city; //Provided
-    private String borough; //Provided
-    private double latitude; //Provided
-    private double longitude; //Provided
-    private String address; //Provided
+    private final String locationType; //Provided
+    private final int incidentZip; //Provided
+    private final String city; //Provided
+    private final String borough; //Provided
+    private final double latitude; //Provided
+    private final double longitude; //Provided
+    private final String address; //Provided
 
-    private String createdBy;
+    private final String createdBy;
 
     /**
      * The constructor for a RatSighting object. You can pass stuff in as null, but note that this
@@ -168,7 +167,7 @@ public class RatSighting {
     /**
      * @return The location type for the sighting.
      */
-    String getLocationType() {return locationType;}
+    CharSequence getLocationType() {return locationType;}
 
     /**
      * @return The zip code for the sighting.
@@ -178,12 +177,12 @@ public class RatSighting {
     /**
      * @return The city of the sighting.
      */
-    String getCity() {return city;}
+    CharSequence getCity() {return city;}
 
     /**
      * @return The borough of the sighting.
      */
-    String getBorough() {return borough;}
+    CharSequence getBorough() {return borough;}
 
     /**
      * @return The latitude of the sighting.
@@ -203,7 +202,7 @@ public class RatSighting {
     /**
      * @return The address of the sighting location. Often null.
      */
-    String getAddress() {return address;}
+    CharSequence getAddress() {return address;}
 
     /**
      * @return The username of the person who created the sighting.
@@ -227,7 +226,7 @@ public class RatSighting {
      */
     @Override
     public boolean equals(Object o) {
-        if (o == null || !(o instanceof RatSighting)) {
+        if ((o == null) || !(o instanceof RatSighting)) {
             return false;
         } else {
             RatSighting or = (RatSighting) o;

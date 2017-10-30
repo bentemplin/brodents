@@ -6,11 +6,9 @@ package cs2340.gatech.edu.brodents;
  * @author Ben Templin
  * @version 1.o
  */
-public class User {
-    private String userName;
-    private String profileName;
-    private String address;
-    private boolean isAdmin;
+class User {
+    private final String userName;
+    private final String profileName;
 
     /**
      * Constructor for the User class
@@ -22,8 +20,8 @@ public class User {
     public User(String userName, String profileName, String address, boolean isAdmin) {
         this.userName = userName;
         this.profileName = profileName;
-        this.address = address;
-        this.isAdmin = isAdmin;
+        String address1 = address;
+        boolean isAdmin1 = isAdmin;
     }
 
     /**

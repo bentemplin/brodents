@@ -3,6 +3,7 @@ package cs2340.gatech.edu.brodents;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -18,6 +19,7 @@ import android.widget.EditText;
  * @version 1.0
  */
 public class RegistrationActivity extends AppCompatActivity {
+    @Nullable
     private UserRegistrationTask mAuthTask = null;
     private EditText mUser;
     private EditText mPassword;
@@ -40,20 +42,12 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
         Button mRegister = (Button) findViewById(R.id.btnSubmit);
-        mRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptRegistration();
-            }
-        });
+        mRegister.setOnClickListener(view -> attemptRegistration());
 
         Button mCancel = (Button) findViewById(R.id.btnCancel);
-        mCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent loginPage = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(loginPage);
-            }
+        mCancel.setOnClickListener(view -> {
+            Intent loginPage = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(loginPage);
         });
     }
 
@@ -115,7 +109,7 @@ public class RegistrationActivity extends AppCompatActivity {
         return email.contains("@") && email.contains(".");
     }
 
-    private boolean isPasswordValid(String password) {
+    private boolean isPasswordValid(CharSequence password) {
         return password.length() >= 6;
     }
 

@@ -19,14 +19,11 @@ public class LogoutActivity extends AppCompatActivity {
 
         Button mLogOut = (Button) findViewById(R.id.btnLogout);
         mLogOut.setText("Logout");
-        mLogOut.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // GET INTENT
-                RatAppModel.getInstance().clearCurrentUser();
-                Intent loginScreen = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(loginScreen);
-            }
+        mLogOut.setOnClickListener(view -> {
+            // GET INTENT
+            RatAppModel.getInstance().clearCurrentUser();
+            Intent loginScreen = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(loginScreen);
         });
     }
 

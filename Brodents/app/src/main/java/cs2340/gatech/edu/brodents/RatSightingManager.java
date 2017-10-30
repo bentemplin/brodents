@@ -19,8 +19,8 @@ import java.util.List;
  * @version 1.0
  */
 
-class RatSightingManager {
-    private DatabaseConnector db;
+final class RatSightingManager {
+    private final DatabaseConnector db;
     private boolean isInit;
     private static RatSightingManager instance = null;
     private static final String TAG = "RatSightingManager";
@@ -44,7 +44,7 @@ class RatSightingManager {
      * @return currently initialized instance of RatSightingManager
      */
     static RatSightingManager getInstance() {
-        if (instance == null || !instance.isInit) {return null;}
+        if ((instance == null) || !instance.isInit) {return null;}
         return instance;
     }
 
@@ -92,7 +92,7 @@ class RatSightingManager {
             double lat = sightingInfo.getDouble("latitude");
             double longitude = sightingInfo.getDouble("longitude");
             String address = sightingInfo.getString("address");
-            if (createdBy != null && createdBy.length() > 0) {
+            if ((createdBy != null) && !createdBy.isEmpty()) {
                 test = new RatSighting(key, cDate, aCode, aName, complaintType, status,
                         dueDate, closedDate, resUpdateDate, locType, zip, city, borough, address,
                         lat, longitude);
@@ -119,12 +119,10 @@ class RatSightingManager {
      * @param address Address where sighting occurred
      * @param latitude Latitude of sighting, set 0 if unknown
      * @param longitude Longitude of sighting, set 0 if unknown
-     * @param dueDate Due date
      * @return Boolean indicating the success of the insertion
      */
     boolean insertSighting(String complaintType, String locationType, int zip,
-                           String city, String borough, String address, double latitude, double longitude,
-                           Date dueDate) {
+                           String city, String borough, String address, double latitude, double longitude) {
         Timestamp currentDate = new Timestamp(new Date().getTime());
         String agencyCode = "BRO";
         try {
@@ -149,8 +147,8 @@ class RatSightingManager {
             PreparedStatement statusStmt = db.getStatement(statusText);
             statusStmt.setInt(1, key);
             statusStmt.setString(2, "Pending");
-            if (dueDate != null) {
-                statusStmt.setTimestamp(3, new Timestamp(dueDate.getTime()));
+            if (null != null) {
+                statusStmt.setTimestamp(3, new Timestamp(((Date) null).getTime()));
             } else {
                 statusStmt.setNull(3, Types.TIMESTAMP);
             }
@@ -168,12 +166,12 @@ class RatSightingManager {
             } else {
                 locStmt.setNull(3, Types.INTEGER);
             }
-            if (city != null && borough.length() > 0) {
+            if ((city != null) && !borough.isEmpty()) {
                 locStmt.setString(4, city);
             } else {
                 locStmt.setNull(4, Types.VARCHAR);
             }
-            if (borough != null && borough.length() >0) {
+            if ((borough != null) && !borough.isEmpty()) {
                 locStmt.setString(5, borough);
             } else {
                 locStmt.setNull(5, Types.VARCHAR);
@@ -188,7 +186,7 @@ class RatSightingManager {
             } else {
                 locStmt.setNull(7, Types.DECIMAL);
             }
-            if (address != null && address.length() > 0) {
+            if ((address != null) && !address.isEmpty()) {
                 locStmt.setString(8, address);
             } else {
                 locStmt.setNull(8, Types.VARCHAR);
@@ -249,7 +247,7 @@ class RatSightingManager {
      * @param start Date after which to get sightings
      * @return New RatSightings
      */
-    ArrayList<RatSighting> getNewSightings(Date start) {
+    List<RatSighting> getNewSightings(Date start) {
         try {
             String query = "SELECT * FROM sightingInfo NATURAL JOIN sightingStatus NATURAL JOIN" +
                     " sightingLocation NATURAL JOIN agencyLookup WHERE createdDate >= ? ORDER BY" +
@@ -313,7 +311,7 @@ class RatSightingManager {
 
         }
         infoSet.close();
-        if (sightings.size() == 0) {return null;}
+        if (sightings.isEmpty()) {return null;}
         return sightings;
     }
 }

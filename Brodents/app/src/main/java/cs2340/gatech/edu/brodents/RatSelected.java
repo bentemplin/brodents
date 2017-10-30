@@ -6,8 +6,7 @@ import java.util.List;
  * Created by Benjamin Yarmowich on 10/10/2017.
  */
 
-public class RatSelected {
-    private List<RatSighting> listOfRats;
+class RatSelected {
     private static RatSighting selected;
 
     /**
@@ -15,7 +14,7 @@ public class RatSelected {
      * @param position The location in the list of rats the selected rat is
      */
     public RatSelected(int position){
-        listOfRats = DataDisplayActivity.getRatData();
+        List<RatSighting> listOfRats = DataDisplayActivity.getRatData();
         selected = listOfRats.get(position);
     }
 
@@ -24,7 +23,7 @@ public class RatSelected {
      * @param ratSighting the Rat Sighting to be saved
      */
     public RatSelected(RatSighting ratSighting) {
-        this.selected = ratSighting;
+        selected = ratSighting;
     }
 
     /**

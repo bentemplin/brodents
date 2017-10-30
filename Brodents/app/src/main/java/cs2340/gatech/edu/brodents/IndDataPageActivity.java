@@ -2,7 +2,6 @@ package cs2340.gatech.edu.brodents;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.text.Layout;
 import android.util.Log;
 
 import android.widget.TextView;
@@ -23,17 +22,7 @@ import java.text.SimpleDateFormat;
 
 public class IndDataPageActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
     private RatSighting rat;
-    private TextView key;
-    private TextView createdDate;
-    private TextView locationType;
-    private TextView incidentZip;
-    private TextView incidentAddress;
-    private TextView city;
-    private TextView borough;
-    private TextView lattitude;
-    private TextView longitude;
 
 
     /**
@@ -47,15 +36,15 @@ public class IndDataPageActivity extends FragmentActivity implements OnMapReadyC
         rat = RatSelected.getSelected(); //retrieves the selected rat
 
         //Links TextViews to the XML file
-        key = (TextView)findViewById(R.id.key);
-        createdDate = (TextView)findViewById(R.id.createdDate);
-        locationType = (TextView)findViewById(R.id.locationType);
-        incidentZip = (TextView)findViewById(R.id.incidentZip);
-        incidentAddress = (TextView)findViewById(R.id.incidentAddress);
-        city = (TextView)findViewById(R.id.city);
-        borough = (TextView)findViewById(R.id.borough);
-        lattitude = (TextView)findViewById(R.id.lattitude);
-        longitude = (TextView)findViewById(R.id.longitude);
+        TextView key = (TextView) findViewById(R.id.key);
+        TextView createdDate = (TextView) findViewById(R.id.createdDate);
+        TextView locationType = (TextView) findViewById(R.id.locationType);
+        TextView incidentZip = (TextView) findViewById(R.id.incidentZip);
+        TextView incidentAddress = (TextView) findViewById(R.id.incidentAddress);
+        TextView city = (TextView) findViewById(R.id.city);
+        TextView borough = (TextView) findViewById(R.id.borough);
+        TextView lattitude = (TextView) findViewById(R.id.lattitude);
+        TextView longitude = (TextView) findViewById(R.id.longitude);
 
         //Date to String Formatter
         Format formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -88,7 +77,7 @@ public class IndDataPageActivity extends FragmentActivity implements OnMapReadyC
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        GoogleMap mMap = googleMap;
         Log.i("test", "Map attempt called");
 
         // Add where current rat sighting is nd move camera

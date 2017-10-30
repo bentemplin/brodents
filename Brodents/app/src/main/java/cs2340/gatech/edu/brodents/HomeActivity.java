@@ -2,8 +2,6 @@ package cs2340.gatech.edu.brodents;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -19,13 +17,10 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         //Code for the report new sighting button
         Button report = (Button) findViewById(R.id.btnReport);
-        report.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // GET INTENT
-                Intent sightingReport = new Intent(getApplicationContext(), ReportRatSightingActivity.class);
-                startActivity(sightingReport);
-            }
+        report.setOnClickListener(view -> {
+            // GET INTENT
+            Intent sightingReport = new Intent(getApplicationContext(), ReportRatSightingActivity.class);
+            startActivity(sightingReport);
         });
 
         //Code for the Log out button

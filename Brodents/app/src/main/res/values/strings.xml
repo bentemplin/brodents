@@ -20,7 +20,7 @@
     <string name="rat_key">Report ID: </string>
     <string name="rat_address">Location Address: </string>
     <string name="rat_zip">Location Zip: </string>
-    <string name="rat_lattitude">Lattitude: </string>
+    <string name="rat_lattitude">Latitude: </string>
     <string name="rat_longitude">longitude: </string>
     <string name="rat_city">City: </string>
     <string name="rat_borough">Borough: </string>
