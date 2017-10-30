@@ -147,7 +147,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onInfoWindowClick(Marker marker){
         char id = marker.getId().charAt(1);
         int index = id - 48;
-        new RatSelected(displayList.get(index));
+        RatSelected.setRatSelected(displayList.get(index));
         Intent indRatSighting = new Intent(getApplicationContext(), IndDataPageActivity.class);
         startActivity(indRatSighting);
     }

@@ -91,7 +91,7 @@ public class DataDisplayActivity extends AppCompatActivity {
             } else {
                 searchFetch = new SearchFetcher();
                 try {
-                    new RatSelected(searchFetch.execute((Void) null).get());
+                   RatSelected.setRatSelected(searchFetch.execute((Void) null).get());
                     Log.i("text", "Rat selected: " + RatSelected.getSelected().toString());
                 } catch (Exception e) {
                     Log.e("SQL EXCEPTION", "Bumped up");
