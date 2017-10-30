@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -92,12 +91,14 @@ public class DataDisplayActivity extends AppCompatActivity {
                 searchFetch = new SearchFetcher();
                 try {
                     new RatSelected(searchFetch.execute((Void) null).get());
-                    Log.i("text", "Rat selected: " + RatSelected.getSelected().toString());
+                    Log.i("text", "Rat selected: " +
+                            RatSelected.getSelected().toString());
                 } catch (Exception e) {
                     Log.e("SQL EXCEPTION", "Bumped up");
                 }
                 if (RatSelected.getSelected() != null) {
-                    Intent indRatSighting = new Intent(getApplicationContext(), IndDataPageActivity.class);
+                    Intent indRatSighting = new Intent(getApplicationContext(),
+                            IndDataPageActivity.class);
                     startActivity(indRatSighting);
                 } else {
                     searchBar.setError("The key you have entered cannot be found");
@@ -119,6 +120,9 @@ public class DataDisplayActivity extends AppCompatActivity {
             Object[] newAdds = newSightings.execute((Void) null).get();
             if (newAdds != null) {
                 for (Object r : newAdds) {
+                    /*
+                        Only add the new sighting if it isn't already in the list
+                     */
                     if (!ratData.contains(r)) {
                         ratData.add(0, (RatSighting) r);
                     }
@@ -193,7 +197,13 @@ public class DataDisplayActivity extends AppCompatActivity {
             RatAppModel.checkInitialization();
             RatSightingManager manager = RatAppModel.getInstance().getSightingManager();
             try {
-                return manager.getNewSightings(lastUpdate).toArray();
+
+                List<RatSighting> newSightings = manager.getNewSightings(lastUpdate);
+                if (!newSightings.isEmpty()) {
+                    return newSightings.toArray();
+                } else {
+                    return null;
+                }
             } catch (NullPointerException e) {
                 Log.e("Get New NPE", e.getMessage(), e);
                 return null;
