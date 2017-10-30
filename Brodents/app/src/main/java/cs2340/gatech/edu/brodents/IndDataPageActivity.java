@@ -83,7 +83,8 @@ public class IndDataPageActivity extends FragmentActivity implements OnMapReadyC
         // Add where current rat sighting is nd move camera
         float zoom = 14f;
         LatLng sighting = new LatLng(rat.getLatitude(), rat.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(sighting).title("Rat Sighting: #" + Integer.toString(rat.getKey())));
+        mMap.addMarker(new MarkerOptions().position(sighting).title("Rat Sighting: #" +
+                Integer.toString(rat.getKey())));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sighting,zoom));
     }
 }

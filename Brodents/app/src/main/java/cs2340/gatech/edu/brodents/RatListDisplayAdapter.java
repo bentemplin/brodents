@@ -26,7 +26,8 @@ public class RatListDisplayAdapter extends
     private final ClickListener listener;
     private final Activity parentActivity;
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
+            View.OnLongClickListener{
         private final TextView key;
         private final WeakReference<ClickListener> listenerRef;
         private final Activity a;
@@ -54,7 +55,8 @@ public class RatListDisplayAdapter extends
         public void onClick(View v){
             if (v.getId() == key.getId()) {
                 new RatSelected(getAdapterPosition());
-                Intent indDataPage = new Intent(a.getApplicationContext(), IndDataPageActivity.class);
+                Intent indDataPage = new Intent(a.getApplicationContext(),
+                        IndDataPageActivity.class);
                 a.startActivity(indDataPage);
             }
         }
@@ -76,7 +78,8 @@ public class RatListDisplayAdapter extends
      * @param a The current DataDisplayActivity to pass onto the View Adapter
      * @param listener A ClickListener used to accept clicks
      */
-    public RatListDisplayAdapter(List<RatSighting> sightingList, Activity a, ClickListener listener) {
+    public RatListDisplayAdapter(List<RatSighting> sightingList, Activity a,
+                                 ClickListener listener) {
         this.sightingList = sightingList;
         this.listener = listener;
         this.parentActivity = a;

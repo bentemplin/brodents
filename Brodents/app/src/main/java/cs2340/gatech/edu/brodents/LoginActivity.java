@@ -18,14 +18,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.util.Log;
 
 //import java.io.UnsupportedEncodingException;
@@ -34,7 +31,6 @@ import android.util.Log;
 //import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * A login screen that offers login via email/password.
@@ -141,14 +137,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        //return email.contains("@");
         return email != null;
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        //return password.length() > 4;
         return password != null;
     }
 
@@ -234,7 +226,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         private final String mPassword;
 
         UserLoginTask(String email, String password) {
-            // TODO: implement password hashing -> the mPassword field should contain a hashed value
             mEmail = email;
             mPassword = password;
         }

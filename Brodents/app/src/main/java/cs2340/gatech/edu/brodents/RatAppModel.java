@@ -27,7 +27,8 @@ final class RatAppModel {
 
     private RatAppModel() {
         try {
-            db = new DatabaseConnector("ratapp", "2Z2MqYE!cLgNJu8R", "104.236.213.171:3306/rats");
+            db = new DatabaseConnector("ratapp", "2Z2MqYE!cLgNJu8R",
+                    "104.236.213.171:3306/rats");
             dbInitialized = true;
             currentUser = null;
             RatSightingManager.initialize(db);
@@ -80,6 +81,7 @@ final class RatAppModel {
      * This method gets the current user's username.
      * @return String of current user's username
      */
+    @Nullable
     User getCurrentUser() {return currentUser;}
 
     /**
@@ -93,7 +95,7 @@ final class RatAppModel {
      * Sets the current user to the one passed in.
      * @param newCurrentUser The new current user
      */
-    void setCurrentUser(User newCurrentUser) {
+    void setCurrentUser(@Nullable User newCurrentUser) {
         currentUser = newCurrentUser;
     }
 
@@ -163,8 +165,8 @@ final class RatAppModel {
         RatAppModel.checkInitialization();
         SecureRandom saltShaker = new SecureRandom();
         try {
-            PreparedStatement checkStatement = db.getStatement("SELECT * FROM users WHERE userName"
-            + "=?");
+            PreparedStatement checkStatement = db.getStatement(
+                    "SELECT * FROM users WHERE userName" + "=?");
             checkStatement.setString(1, userName);
             ResultSet checkResults = db.query(checkStatement);
             if (checkResults.next()) { //Check for username already in use

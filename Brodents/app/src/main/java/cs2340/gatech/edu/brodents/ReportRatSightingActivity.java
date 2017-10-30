@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -43,7 +42,6 @@ public class ReportRatSightingActivity extends AppCompatActivity{
         etComplaintType = (EditText) findViewById(R.id.etComplaintType);
         etLocationType = (EditText) findViewById(R.id.etLocationType);
 
-        // TODO: make report button unclickable until all fields full
 
 
         Button btnReport = (Button) findViewById(R.id.btnReport);
@@ -98,14 +96,8 @@ public class ReportRatSightingActivity extends AppCompatActivity{
             return false;
         }
 
-
-        // TODO: check for valid data, ie. valid zip code
-
-
-//        RatAppModel.getInstance().getSightingManager().insertSighting(complaintType, locationType,
-//                incidentZIP, city, borough, address, latitude, longitude, null);
-
-        AddSightingTask add = new AddSightingTask(address, complaintType, city, borough, locationType,
+        AddSightingTask add = new AddSightingTask(address, complaintType, city, borough,
+                locationType,
                 incidentZIP, latitude, longitude);
         try {
             return add.execute((Void) null).get();
@@ -140,8 +132,8 @@ public class ReportRatSightingActivity extends AppCompatActivity{
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                RatAppModel.getInstance().getSightingManager().insertSighting(complaintType, locType,
-                        zip, city, borough, addr, lat, longit);
+                RatAppModel.getInstance().getSightingManager().insertSighting(complaintType,
+                        locType, zip, city, borough, addr, lat, longit);
                 return true;
             } catch (Exception e) {
                 Log.e("Add sighting", e.getMessage(), e);

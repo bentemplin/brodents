@@ -122,23 +122,26 @@ final class RatSightingManager {
      * @return Boolean indicating the success of the insertion
      */
     boolean insertSighting(String complaintType, String locationType, int zip,
-                           String city, String borough, String address, double latitude, double longitude) {
+                           String city, String borough, String address, double latitude,
+                           double longitude) {
         Timestamp currentDate = new Timestamp(new Date().getTime());
         String agencyCode = "BRO";
         try {
-            ResultSet maxKeySet = db.query(db.getStatement("SELECT MAX(uKey) FROM sightingInfo"));
+            ResultSet maxKeySet = db.query(db.getStatement(
+                    "SELECT MAX(uKey) FROM sightingInfo"));
             maxKeySet.next();
             int key = maxKeySet.getInt("MAX(uKey)") + 1;
             maxKeySet.close();
 
-            String infoText = "INSERT INTO sightingInfo(uKey, createdDate, agency, complaintType, " +
-                    "createdBy) VALUES (?,?,?,?,?)";
+            String infoText = "INSERT INTO sightingInfo(uKey, createdDate, agency, complaintType, "
+                    + "createdBy) VALUES (?,?,?,?,?)";
             PreparedStatement infoStmt = db.getStatement(infoText);
             infoStmt.setInt(1, key);
             infoStmt.setTimestamp(2, currentDate);
             infoStmt.setString(3, agencyCode);
             infoStmt.setString(4, complaintType);
-            infoStmt.setString(5, RatAppModel.getInstance().getCurrentUser().getUserName());
+            RatAppModel model = RatAppModel.getInstance();
+            infoStmt.setString(5, model.getCurrentUser().getUserName());
             db.update(infoStmt);
             infoStmt.close();
 
@@ -147,11 +150,7 @@ final class RatSightingManager {
             PreparedStatement statusStmt = db.getStatement(statusText);
             statusStmt.setInt(1, key);
             statusStmt.setString(2, "Pending");
-            if (null != null) {
-                statusStmt.setTimestamp(3, new Timestamp(((Date) null).getTime()));
-            } else {
-                statusStmt.setNull(3, Types.TIMESTAMP);
-            }
+            statusStmt.setNull(3, Types.TIMESTAMP);
             statusStmt.setTimestamp(4, currentDate);
             db.update(statusStmt);
             statusStmt.close();
@@ -275,8 +274,8 @@ final class RatSightingManager {
         Timestamp startTime = new Timestamp(start.getTime());
         Timestamp endTime = new Timestamp(end.getTime());
         String qText = "SELECT * FROM sightingInfo NATURAL JOIN sightingStatus NATURAL JOIN" +
-                " sightingLocation NATURAL JOIN agencyLookup WHERE createdDate >= ? AND createdDate " +
-                "<= ? ORDER BY createdDate ASC";
+                " sightingLocation NATURAL JOIN agencyLookup WHERE createdDate >= ? AND createdDate"
+                + " <= ? ORDER BY createdDate ASC";
         PreparedStatement statement = db.getStatement(qText);
         statement.setTimestamp(1, startTime);
         statement.setTimestamp(2, endTime);

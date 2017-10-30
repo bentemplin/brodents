@@ -1,6 +1,5 @@
 package cs2340.gatech.edu.brodents;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
@@ -27,7 +26,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+        GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
     private List<RatSighting> sightingList;
@@ -125,15 +125,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         int added = 0;
         while ((displayList != null) && (added < displayList.size())) {
                 // Add a marker at rat Sighting i and move the camera
-                LatLng sightingPos = new LatLng(displayList.get(added).getLatitude(), displayList.get(added).getLongitude());
-                mMap.addMarker(new MarkerOptions().position(sightingPos).title("Rat Sighting: " + displayList.get(added).getKey()).snippet("Click here for more info"));
+                LatLng sightingPos = new LatLng(displayList.get(added).getLatitude(),
+                        displayList.get(added).getLongitude());
+                mMap.addMarker(new MarkerOptions().position(sightingPos).title("Rat Sighting: " +
+                        displayList.get(added).getKey()).snippet("Click here for more info"));
                 added++;
             }
         if (displayList == null) {
             //This means no sightings found, so clear the markers
             mMap.clear();
             //Raise an alert to let the user know there are no sightings for this period.
-            displayAlert("No Sightings Found", "There are no sightings for this date range");
+            displayAlert("No Sightings Found",
+                    "There are no sightings for this date range");
 
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cameraPointer,11f));
@@ -153,7 +156,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         int added = 0;
         int index = start;
         while ((added <= size) && (index < sightingList.size())) {
-            if ((sightingList.get(index).getLongitude() < -60) && (sightingList.get(index).getLatitude() > 30)) {
+            if ((sightingList.get(index).getLongitude() < -60) &&
+                    (sightingList.get(index).getLatitude() > 30)) {
                 displayList.add(sightingList.get(index));
                 added++;
             }
@@ -184,11 +188,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean validateRange(Date start, Date end, Date earliest) {
         Date now = new Date();
         if (start.after(end) || start.after(now) || end.after(now)) {
-            displayAlert("Invalid Range", "Please enter dates in the format MM-DD-YYYY and that " +
+            displayAlert("Invalid Range",
+                    "Please enter dates in the format MM-DD-YYYY and that " +
                     "are not in the future");
             return false;
         } else if (end.before(earliest)) {
-            displayAlert("Warning", "The earliest sighting is on 01-01-2010. Your date range ends " +
+            displayAlert("Warning",
+                    "The earliest sighting is on 01-01-2010. Your date range ends " +
                     "before that.");
             return false;
         } else {
