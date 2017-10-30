@@ -104,39 +104,12 @@ public class DataDisplayActivity extends AppCompatActivity {
                 }
             }
         });
-
-        //Code for the report new sighting button
-        Button report = (Button) findViewById(R.id.btnReport);
-        report.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // GET INTENT
-                Intent sightingReport = new Intent(getApplicationContext(), ReportRatSightingActivity.class);
-                startActivity(sightingReport);
-            }
-        });
-
-        //Code for the Log out button
-        Button mLogOut = (Button) findViewById(R.id.btnLogout);
-        mLogOut.setOnClickListener(view -> {
-            // INTENT NOT NEEDED, JUST POP THE ACTIVITY FROM THE STACK, login is parent
-            RatAppModel.getInstance().clearCurrentUser();
-            finish();
-        });
         Button mMaps = (Button) findViewById(R.id.btnMap);
         mMaps.setOnClickListener(view -> {
             // INTENT NOT NEEDED, JUST POP THE ACTIVITY FROM THE STACK, login is parent
-            Intent maps = new Intent(getApplicationContext(), MapsActivity.class);
-            startActivity(maps);
-        });
-        Button mGraph = (Button) findViewById(R.id.btnGraph);
-        mGraph.setOnClickListener(view -> {
-            // INTENT NOT NEEDED, JUST POP THE ACTIVITY FROM THE STACK, login is parent
-            Intent graph = new Intent(getApplicationContext(), GraphActivity.class);
-            startActivity(graph);
-        });
-
-    }
+            Intent map = new Intent(getApplicationContext(), MapsActivity.class);
+            startActivity(map);
+        });    }
 
     @Override
     protected void onResume() {

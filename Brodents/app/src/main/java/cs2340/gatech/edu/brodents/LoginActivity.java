@@ -283,8 +283,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 Log.i("LoginActivity", "onPostExecute Success");
-                Intent listScreen = new Intent(getApplicationContext(), DataDisplayActivity.class);
-                startActivity(listScreen);
+                Intent homeScreen = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(homeScreen);
 
 //                finish();
             } else {
