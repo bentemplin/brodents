@@ -13,7 +13,7 @@ class RatSelected {
      * Selects and saves a rat from the list of Rats
      * @param position The location in the list of rats the selected rat is
      */
-    public RatSelected(int position){
+    public static void setRatSelected(int position){
         List<RatSighting> listOfRats = DataDisplayActivity.getRatData();
         selected = listOfRats.get(position);
     }
@@ -22,7 +22,7 @@ class RatSelected {
      * Saves a Rat Sighting
      * @param ratSighting the Rat Sighting to be saved
      */
-    public RatSelected(RatSighting ratSighting) {
+    public static void setRatSelected(RatSighting ratSighting) {
         selected = ratSighting;
     }
 

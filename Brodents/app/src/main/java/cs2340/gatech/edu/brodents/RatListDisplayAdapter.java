@@ -54,7 +54,7 @@ public class RatListDisplayAdapter extends
         @Override
         public void onClick(View v){
             if (v.getId() == key.getId()) {
-                new RatSelected(getAdapterPosition());
+                RatSelected.setRatSelected(getAdapterPosition());
                 Intent indDataPage = new Intent(a.getApplicationContext(),
                         IndDataPageActivity.class);
                 a.startActivity(indDataPage);
