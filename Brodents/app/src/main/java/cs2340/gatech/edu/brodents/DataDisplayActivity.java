@@ -90,7 +90,7 @@ public class DataDisplayActivity extends AppCompatActivity {
             } else {
                 searchFetch = new SearchFetcher();
                 try {
-                    new RatSelected(searchFetch.execute((Void) null).get());
+                    RatSelected.setRatSelected(searchFetch.execute((Void) null).get());
                     Log.i("text", "Rat selected: " +
                             RatSelected.getSelected().toString());
                 } catch (Exception e) {
@@ -104,6 +104,7 @@ public class DataDisplayActivity extends AppCompatActivity {
                     searchBar.setError("The key you have entered cannot be found");
                 }
             }
+
         });
         Button mMaps = (Button) findViewById(R.id.btnMap);
         mMaps.setOnClickListener(view -> {
