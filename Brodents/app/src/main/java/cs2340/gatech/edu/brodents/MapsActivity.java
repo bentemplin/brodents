@@ -36,6 +36,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String inputTextStart;
     private String inputTextEnd;
 
+    //TODO: I think the update to android SDK 8 changed around some of the method calls...fix errors
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,14 +51,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         Button more = findViewById(R.id.more);
         more.setOnClickListener(view -> {
-            try {
-                populateList(lastRow, 10);
-                lastRow += 10;
-            } catch (NullPointerException e) {
-                displayList = new ArrayList<>();
-                lastRow += 10;
-                populateList(0, lastRow);
-            }
+            populateList(lastRow, 10);
+            lastRow += 10;
             mapFragment.getMapAsync(this);
         });
 
@@ -156,9 +151,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         int added = 0;
         int index = start;
         while ((added <= size) && (index < sightingList.size())) {
-            if ((sightingList.get(index).getLongitude() < -60) &&
-                    (sightingList.get(index).getLatitude() > 30)) {
-                displayList.add(sightingList.get(index));
+            RatSighting r = sightingList.get(index);
+            if ((r.getLongitude() < -60) && (r.getLatitude() > 30)) {
+                displayList.add(r);
                 added++;
             }
             index++;
