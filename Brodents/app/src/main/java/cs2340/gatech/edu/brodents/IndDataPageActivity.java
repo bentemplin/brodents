@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /**
  * Created by Benjamin Yarmowich on 10/9/2017.
@@ -36,29 +37,29 @@ public class IndDataPageActivity extends FragmentActivity implements OnMapReadyC
         rat = RatSelected.getSelected(); //retrieves the selected rat
 
         //Links TextViews to the XML file
-        TextView key = (TextView) findViewById(R.id.key);
-        TextView createdDate = (TextView) findViewById(R.id.createdDate);
-        TextView locationType = (TextView) findViewById(R.id.locationType);
-        TextView incidentZip = (TextView) findViewById(R.id.incidentZip);
-        TextView incidentAddress = (TextView) findViewById(R.id.incidentAddress);
-        TextView city = (TextView) findViewById(R.id.city);
-        TextView borough = (TextView) findViewById(R.id.borough);
-        TextView lattitude = (TextView) findViewById(R.id.lattitude);
-        TextView longitude = (TextView) findViewById(R.id.longitude);
+        TextView key = findViewById(R.id.key);
+        TextView createdDate = findViewById(R.id.createdDate);
+        TextView locationType = findViewById(R.id.locationType);
+        TextView incidentZip = findViewById(R.id.incidentZip);
+        TextView incidentAddress = findViewById(R.id.incidentAddress);
+        TextView city = findViewById(R.id.city);
+        TextView borough = findViewById(R.id.borough);
+        TextView lattitude = findViewById(R.id.lattitude);
+        TextView longitude = findViewById(R.id.longitude);
 
         //Date to String Formatter
-        Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Format formatter = SimpleDateFormat.getDateInstance();
 
         //Sets Texts Views to data from Selected Rat
-        key.setText(Integer.toString(rat.getKey()));
+        key.setText(String.format(Locale.getDefault(), "%d", rat.getKey()));
         createdDate.setText(formatter.format(rat.getCreatedDate()));
         locationType.setText(rat.getLocationType());
         incidentAddress.setText(rat.getAddress());
-        incidentZip.setText(Integer.toString(rat.getZip()));
+        incidentZip.setText((String.format(Locale.getDefault(), "%d", rat.getZip())));
         city.setText(rat.getCity());
         borough.setText(rat.getBorough());
-        lattitude.setText(Double.toString(rat.getLatitude()));
-        longitude.setText(Double.toString(rat.getLongitude()));
+        lattitude.setText((String.format(Locale.getDefault(),"%f", rat.getLatitude())));
+        longitude.setText((String.format(Locale.getDefault(), "%f", rat.getLongitude())));
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.indMap);
@@ -77,14 +78,13 @@ public class IndDataPageActivity extends FragmentActivity implements OnMapReadyC
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        GoogleMap mMap = googleMap;
         Log.i("test", "Map attempt called");
 
         // Add where current rat sighting is nd move camera
         float zoom = 14f;
         LatLng sighting = new LatLng(rat.getLatitude(), rat.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(sighting).title("Rat Sighting: #" +
+        googleMap.addMarker(new MarkerOptions().position(sighting).title("Rat Sighting: #" +
                 Integer.toString(rat.getKey())));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sighting,zoom));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sighting,zoom));
     }
 }

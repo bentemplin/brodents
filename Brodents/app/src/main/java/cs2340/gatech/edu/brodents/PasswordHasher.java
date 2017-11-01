@@ -14,7 +14,7 @@ class PasswordHasher {
  * @param salt String to be prepended to password
  * @return Hashed String value.
  */
-    public static String getSecurePassword(String salt, String passwordToHash){
+    public String getSecurePassword(String salt, String passwordToHash){
         String generatedPassword = null;
         try {
             String passwordAndSalt = salt + passwordToHash;

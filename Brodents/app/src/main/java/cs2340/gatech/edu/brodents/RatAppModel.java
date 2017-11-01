@@ -24,15 +24,17 @@ final class RatAppModel {
     private RatSightingManager sightingManager;
     private static RatAppModel model;
     private static final int SALT_SIZE = 32;
+    private PasswordHasher hasher;
 
     private RatAppModel() {
         try {
-            db = new DatabaseConnector("ratapp", "2Z2MqYE!cLgNJu8R",
-                    "104.236.213.171:3306/rats");
+            db = new DatabaseConnector(
+            );
             dbInitialized = true;
             currentUser = null;
             RatSightingManager.initialize(db);
             sightingManager = RatSightingManager.getInstance();
+            hasher = new PasswordHasher();
         } catch (SQLException e) {
             Log.e("RatAppModel", e.getMessage());
             dbInitialized = false;
@@ -122,7 +124,7 @@ final class RatAppModel {
             } else {
                 String dbPass = results.getString("password");
                 int salt = results.getInt("salt");
-                String hashPass = PasswordHasher.getSecurePassword(Integer.toString(salt),
+                String hashPass = hasher.getSecurePassword(Integer.toString(salt),
                         password);
                 if (dbPass.equals(hashPass)) {
                     Log.i("login", "auth success");
@@ -173,7 +175,7 @@ final class RatAppModel {
                 return 1;
             } else {
                 int salt = saltShaker.nextInt(SALT_SIZE);
-                String hashedPass = PasswordHasher.getSecurePassword(Integer.toString(salt),
+                String hashedPass = hasher.getSecurePassword(Integer.toString(salt),
                         password);
                 String registrationText = "INSERT INTO users(userName, password, profileName, "
                         + "homeLocation, salt, isAdmin) VALUES(?, ?, ?, ?, ?, ?)";
@@ -220,7 +222,7 @@ final class RatAppModel {
             //they can change the password
             if (homeLocation.equals(homeLoc)) {
                 //Update the password
-                String newPass = PasswordHasher.getSecurePassword(salt, newPassword);
+                String newPass = hasher.getSecurePassword(salt, newPassword);
                 String qText2 = "UPDATE users SET password = ? WHERE userName = ?";
                 PreparedStatement stmt2 = db.getStatement(qText2);
                 stmt2.setString(1, newPass);

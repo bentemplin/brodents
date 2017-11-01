@@ -20,7 +20,7 @@ import android.widget.EditText;
  */
 public class RegistrationActivity extends AppCompatActivity {
     @Nullable
-    private UserRegistrationTask mAuthTask = null;
+    private static UserRegistrationTask mAuthTask = null;
     private EditText mUser;
     private EditText mPassword;
     private EditText mName;
@@ -31,20 +31,20 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mUser = (EditText) findViewById(R.id.txtUsername);
-        mPassword = (EditText) findViewById(R.id.txtPassword);
-        mName = (EditText) findViewById(R.id.txtName);
-        mHome = (EditText) findViewById(R.id.txtHome);
-        mAdmin = (CheckBox) findViewById(R.id.chkAdmin);
+        mUser = findViewById(R.id.txtUsername);
+        mPassword = findViewById(R.id.txtPassword);
+        mName = findViewById(R.id.txtName);
+        mHome = findViewById(R.id.txtHome);
+        mAdmin = findViewById(R.id.chkAdmin);
 
 
-        Button mRegister = (Button) findViewById(R.id.btnSubmit);
+        Button mRegister = findViewById(R.id.btnSubmit);
         mRegister.setOnClickListener(view -> attemptRegistration());
 
-        Button mCancel = (Button) findViewById(R.id.btnCancel);
+        Button mCancel = findViewById(R.id.btnCancel);
         mCancel.setOnClickListener(view -> {
             Intent loginPage = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(loginPage);
@@ -102,7 +102,18 @@ public class RegistrationActivity extends AppCompatActivity {
             // kick off a background task to
             // perform the user login attempt.
             mAuthTask = new UserRegistrationTask(email, password, name, home, isAdmin);
-            mAuthTask.execute((Void) null);
+            try {
+                boolean success = mAuthTask.execute((Void) null).get();
+                if (success) {
+                    Log.i("RegistrationActivity", "onPostExecute Success");
+
+                    Intent listScreen = new Intent(getApplicationContext(), DataDisplayActivity.class);
+                    startActivity(listScreen);
+                    finish();
+                }
+            } catch (Exception e) {
+                Log.e("attemptRegistration", e.getMessage(), e);
+            }
         }
     }
     private boolean isEmailValid(String email) {
@@ -117,7 +128,7 @@ public class RegistrationActivity extends AppCompatActivity {
      * Represents an asynchronous registration task used to authenticate
      * the user.
      */
-    private class UserRegistrationTask extends AsyncTask<Void, Void, Boolean> {
+    private static class UserRegistrationTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
         private final String mPassword;
@@ -161,14 +172,6 @@ public class RegistrationActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
-
-            if (success) {
-                Log.i("RegistrationActivity", "onPostExecute Success");
-
-                Intent listScreen = new Intent(getApplicationContext(), DataDisplayActivity.class);
-                startActivity(listScreen);
-                finish();
-            }
         }
 
         @Override

@@ -35,6 +35,9 @@ public class RatSighting {
 
     private final String createdBy;
 
+    /*
+        Constructor is super long due to the complicated nature of a single rat sighting
+     */
     /**
      * The constructor for a RatSighting object. You can pass stuff in as null, but note that this
      * only makes the information holder object. It does not actually communicate with the database.

@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:text="Agency Information:"
         android:textAppearance="@android:style/TextAppearance.Material.Subhead" />
 
@@ -44,7 +45,6 @@
             android:id="@+id/etAgencyName"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:editable="false"
             android:ems="10"
             android:enabled="false"
             android:hint="Agency Name"
@@ -81,6 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:text="Incident Location Information:"
         android:textAppearance="@android:style/TextAppearance.Material.Subhead" />
 
@@ -215,6 +216,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:text="Complaint Information"
         android:textAppearance="@android:style/TextAppearance.Material.Subhead" />
 
@@ -248,19 +250,19 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnReport"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:text="Report" />
-
-        <Button
             android:id="@+id/btnCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:text="Cancel" />
+
+        <Button
+            android:id="@+id/btnReport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:text="Report" />
     </LinearLayout>
 </LinearLayout>

@@ -12,10 +12,10 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //Code for the report new sighting button
-        Button report = (Button) findViewById(R.id.btnReport);
+        Button report = findViewById(R.id.btnReport);
         report.setOnClickListener(view -> {
             // GET INTENT
             Intent sightingReport = new Intent(getApplicationContext(),
@@ -24,19 +24,19 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         //Code for the Log out button
-        Button mLogOut = (Button) findViewById(R.id.btnLogout);
+        Button mLogOut = findViewById(R.id.btnLogout);
         mLogOut.setOnClickListener(view -> {
             // INTENT NOT NEEDED, JUST POP THE ACTIVITY FROM THE STACK, login is parent
             RatAppModel.getInstance().clearCurrentUser();
             finish();
         });
-        Button list = (Button) findViewById(R.id.btnList);
+        Button list = findViewById(R.id.btnList);
         list.setOnClickListener(view -> {
             // INTENT NOT NEEDED, JUST POP THE ACTIVITY FROM THE STACK, login is parent
             Intent listScreen = new Intent(getApplicationContext(), DataDisplayActivity.class);
             startActivity(listScreen);
         });
-        Button mGraph = (Button) findViewById(R.id.btnGraph);
+        Button mGraph = findViewById(R.id.btnGraph);
         mGraph.setOnClickListener(view -> {
             // INTENT NOT NEEDED, JUST POP THE ACTIVITY FROM THE STACK, login is parent
             Intent graph = new Intent(getApplicationContext(), GraphActivity.class);

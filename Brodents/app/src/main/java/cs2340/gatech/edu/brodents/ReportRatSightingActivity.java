@@ -33,19 +33,19 @@ public class ReportRatSightingActivity extends AppCompatActivity{
         setContentView(R.layout.report_sighting);
 
         // UI Logic here
-        etIncidentAddress = (EditText) findViewById(R.id.etAddress);
-        etIncidentZIP = (EditText) findViewById(R.id.etZIP);
-        etCityName = (EditText) findViewById(R.id.etCityName);
-        etCityBorough = (EditText) findViewById(R.id.etCityBorough);
-        etLongitude = (EditText) findViewById(R.id.etLongitude);
-        etLatitude = (EditText) findViewById(R.id.etLatitude);
-        etComplaintType = (EditText) findViewById(R.id.etComplaintType);
-        etLocationType = (EditText) findViewById(R.id.etLocationType);
+        etIncidentAddress = findViewById(R.id.etAddress);
+        etIncidentZIP = findViewById(R.id.etZIP);
+        etCityName = findViewById(R.id.etCityName);
+        etCityBorough = findViewById(R.id.etCityBorough);
+        etLongitude = findViewById(R.id.etLongitude);
+        etLatitude = findViewById(R.id.etLatitude);
+        etComplaintType = findViewById(R.id.etComplaintType);
+        etLocationType = findViewById(R.id.etLocationType);
 
 
 
-        Button btnReport = (Button) findViewById(R.id.btnReport);
-        Button btnCancel = (Button) findViewById(R.id.btnCancel);
+        Button btnReport = findViewById(R.id.btnReport);
+        Button btnCancel = findViewById(R.id.btnCancel);
 
         btnCancel.setOnClickListener(view -> finish());
 
@@ -107,7 +107,7 @@ public class ReportRatSightingActivity extends AppCompatActivity{
         }
     }
 
-    private final class AddSightingTask extends AsyncTask<Void, Void, Boolean> {
+    private static final class AddSightingTask extends AsyncTask<Void, Void, Boolean> {
         final String addr;
         final String complaintType;
         final String city;
@@ -117,6 +117,9 @@ public class ReportRatSightingActivity extends AppCompatActivity{
         final double lat;
         final double longit;
 
+        /*
+            Lots of parameters due to the complicated nature of RatSightings
+         */
         private AddSightingTask(String addr, String compType, String city, String borough,
             String locType, int zip, double lat, double longitude) {
             this.addr = addr;
