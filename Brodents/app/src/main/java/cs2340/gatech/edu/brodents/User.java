@@ -1,14 +1,19 @@
 package cs2340.gatech.edu.brodents;
 
 
+import android.support.annotation.NonNull;
+
 /**
  * This class represents a user for the Brodents app. This class is an information holder.
  * @author Ben Templin
  * @version 1.o
  */
 class User {
+    @NonNull
     private final String userName;
     private final String profileName;
+    private final String address;
+    private final boolean isAdmin;
 
     /**
      * Constructor for the User class
@@ -20,8 +25,8 @@ class User {
     public User(String userName, String profileName, String address, boolean isAdmin) {
         this.userName = userName;
         this.profileName = profileName;
-        String address1 = address;
-        boolean isAdmin1 = isAdmin;
+        this.address = address;
+        this.isAdmin = isAdmin;
     }
 
     /**

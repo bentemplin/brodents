@@ -18,7 +18,7 @@ import android.widget.EditText;
  */
 public class ResetPasswordActivity extends AppCompatActivity {
     @Nullable
-    private PasswordResetTask mAuthTask;
+    private static PasswordResetTask mAuthTask;
     private EditText mUser;
     private EditText mPassword;
     private EditText mHome;
@@ -30,15 +30,15 @@ public class ResetPasswordActivity extends AppCompatActivity {
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
-        mUser = (EditText) findViewById(R.id.txtUsername);
-        mPassword = (EditText) findViewById(R.id.txtPassword);
-        mHome = (EditText) findViewById(R.id.txtHome);
+        mUser = findViewById(R.id.txtUsername);
+        mPassword = findViewById(R.id.txtPassword);
+        mHome = findViewById(R.id.txtHome);
         mAuthTask = null;
 
-        Button mResetPassword = (Button) findViewById(R.id.btnSubmit);
+        Button mResetPassword = findViewById(R.id.btnSubmit);
         mResetPassword.setOnClickListener(view -> attemptResetPassword());
 
-        Button mCancel = (Button) findViewById(R.id.btnCancel);
+        Button mCancel = findViewById(R.id.btnCancel);
         mCancel.setOnClickListener(view -> {
             Intent loginPage = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(loginPage);
@@ -114,7 +114,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
      * Represents an asynchronous registration task used to authenticate
      * the user.
      */
-    private class PasswordResetTask extends AsyncTask<Void, Void, Boolean> {
+    private static class PasswordResetTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmailText;
         private final String mPasswordText;

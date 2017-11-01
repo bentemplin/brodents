@@ -48,7 +48,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.wholeMap);
         mapFragment.getMapAsync(this);
-        Button more = (Button) findViewById(R.id.more);
+        Button more = findViewById(R.id.more);
         more.setOnClickListener(view -> {
             try {
                 populateList(lastRow, 10);
@@ -61,7 +61,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mapFragment.getMapAsync(this);
         });
 
-        Button btnGetByDate = (Button) findViewById(R.id.btnGetbyDate);
+        Button btnGetByDate = findViewById(R.id.btnGetbyDate);
         btnGetByDate.setOnClickListener(view -> {
             //Make the alert box
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -165,7 +165,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private class GetTimedSightings extends AsyncTask<Date, Void, List<RatSighting>> {
+    private static class GetTimedSightings extends AsyncTask<Date, Void, List<RatSighting>> {
         @Override
         protected  ArrayList<RatSighting> doInBackground(Date... params) {
             try {

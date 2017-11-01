@@ -29,8 +29,7 @@ import android.util.Log;
 //import java.sql.PreparedStatement;
 //import java.sql.ResultSet;
 //import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
+
 
 /**
  * A login screen that offers login via email/password.
@@ -41,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     @Nullable
-    private UserLoginTask mAuthTask = null;
+    private static UserLoginTask mAuthTask = null;
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
@@ -55,8 +54,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        mPasswordView = (EditText) findViewById(R.id.password);
+        mEmailView = findViewById(R.id.email);
+        mPasswordView = findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener((textView, id, keyEvent) -> {
             if ((id == R.id.login) || (id == EditorInfo.IME_NULL)) {
                 attemptLogin();
@@ -65,22 +64,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             return false;
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(view -> attemptLogin());
 
-        Button btnCancel = (Button) findViewById(R.id.btnCancel);
+        Button btnCancel = findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(v -> {
             mEmailView.setText("");
             mPasswordView.setText("");
         });
 
-        Button btnRegister = (Button) findViewById(R.id.btnRegister);
+        Button btnRegister = findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(v -> {
             Intent regPage = new Intent(getApplicationContext(), RegistrationActivity.class);
             startActivity(regPage);
         });
 
-        Button btnResetPassword = (Button) findViewById(R.id.btnForgotPassword);
+        Button btnResetPassword = findViewById(R.id.btnForgotPassword);
         btnResetPassword.setOnClickListener(v -> {
             Intent resetPage = new Intent(getApplicationContext(), ResetPasswordActivity.class);
             startActivity(resetPage);
@@ -133,15 +132,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // perform the user login attempt.
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
-        }
-    }
-    private boolean isEmailValid(String email) {
-        return email != null;
-    }
+            try {
+                boolean success = mAuthTask.execute((Void) null).get();
+                showProgress(false);
 
-    private boolean isPasswordValid(String password) {
-        return password != null;
+                if (success) {
+                    Log.i("LoginActivity", "onPostExecute Success");
+                    Intent homeScreen = new Intent(getApplicationContext(), HomeActivity.class);
+                    startActivity(homeScreen);
+
+//                finish();
+                } else {
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                }
+            } catch (Exception e) {
+            }
+        }
     }
 
     /**
@@ -192,12 +199,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        Collection<String> emails = new ArrayList<>();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            emails.add(cursor.getString(ProfileQuery.ADDRESS));
-            cursor.moveToNext();
-        }
+//        Collection<String> emails = new ArrayList<>();
+//        cursor.moveToFirst();
+//        while (!cursor.isAfterLast()) {
+//            emails.add(cursor.getString(ProfileQuery.ADDRESS));
+//            cursor.moveToNext();
+//        }
     }
 
     @Override
@@ -212,7 +219,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         };
 
         int ADDRESS = 0;
-        int IS_PRIMARY = 1;
     }
 
 
@@ -220,7 +226,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    private static class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
         private final String mPassword;
@@ -240,28 +246,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
-            showProgress(false);
 
-            if (success) {
-                Log.i("LoginActivity", "onPostExecute Success");
-                Intent homeScreen = new Intent(getApplicationContext(), HomeActivity.class);
-                startActivity(homeScreen);
-
-//                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
         }
 
         @Override
         protected void onCancelled() {
             mAuthTask = null;
-            showProgress(false);
         }
     }
 
-    private class MakeDatabase extends AsyncTask<Void, Void, Boolean> {
+    private static class MakeDatabase extends AsyncTask<Void, Void, Boolean> {
         @Override
         protected Boolean doInBackground(Void... params) {
             RatAppModel.initialize();

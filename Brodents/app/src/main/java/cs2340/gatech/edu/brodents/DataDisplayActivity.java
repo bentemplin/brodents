@@ -26,9 +26,9 @@ public class DataDisplayActivity extends AppCompatActivity {
     private RecyclerView.Adapter displayAdapter;
     private static List<RatSighting> ratData;
     private SearchFetcher searchFetch;
-    private int key;
-    private int lastRow;
-    private Date lastUpdate;
+    private static int key;
+    private static int lastRow;
+    private static Date lastUpdate;
 
     private static final int MIN_KEY = 10000000;
     private static final int MAX_KEY = 40000000;
@@ -48,7 +48,7 @@ public class DataDisplayActivity extends AppCompatActivity {
         lastUpdate = new Date();
         try {
             /* The .get() function makes the function wait for the AsyncTask to finish and gets the
-               results */
+               results. */
             ratData = fetcher.execute((Void) null).get();
         } catch (Exception e) {
             Log.e("DataDisplay", e.getMessage());
@@ -58,7 +58,7 @@ public class DataDisplayActivity extends AppCompatActivity {
         setContentView(R.layout.rat_data_display);
 
         //Builds the Recycler View
-        dataDisplay = (RecyclerView) findViewById(R.id.my_recycler_view);
+        dataDisplay = findViewById(R.id.my_recycler_view);
 
         dataDisplay.setHasFixedSize(true);
 
@@ -76,16 +76,16 @@ public class DataDisplayActivity extends AppCompatActivity {
         });
         dataDisplay.setAdapter(displayAdapter);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //Code for Search Bar
-        EditText searchBar = (EditText) findViewById(R.id.searchText);
-        Button searchBtn = (Button) findViewById(R.id.btnSearch);
+        EditText searchBar = findViewById(R.id.searchText);
+        Button searchBtn = findViewById(R.id.btnSearch);
         searchBtn.setOnClickListener(view -> {
             key = Integer.parseInt(searchBar.getText().toString());
             Log.i("text", "key selected: " + key);
-            if (key < MIN_KEY || key > MAX_KEY) {
+            if ((key < MIN_KEY) || (key > MAX_KEY)) {
                 searchBar.setError("valid keys are between 10000000 and 40000000");
             } else {
                 searchFetch = new SearchFetcher();
@@ -105,7 +105,7 @@ public class DataDisplayActivity extends AppCompatActivity {
                 }
             }
         });
-        Button mMaps = (Button) findViewById(R.id.btnMap);
+        Button mMaps = findViewById(R.id.btnMap);
         mMaps.setOnClickListener(view -> {
             // INTENT NOT NEEDED, JUST POP THE ACTIVITY FROM THE STACK, login is parent
             Intent map = new Intent(getApplicationContext(), MapsActivity.class);
@@ -117,14 +117,14 @@ public class DataDisplayActivity extends AppCompatActivity {
         super.onResume();
         GetNewSightings newSightings = new GetNewSightings();
         try {
-            Object[] newAdds = newSightings.execute((Void) null).get();
+            RatSighting[] newAdds = (RatSighting[]) newSightings.execute((Void) null).get();
             if (newAdds != null) {
-                for (Object r : newAdds) {
+                for (RatSighting r : newAdds) {
                     /*
                         Only add the new sighting if it isn't already in the list
                      */
                     if (!ratData.contains(r)) {
-                        ratData.add(0, (RatSighting) r);
+                        ratData.add(0, r);
                     }
                 }
             }
@@ -155,7 +155,7 @@ public class DataDisplayActivity extends AppCompatActivity {
     /**
      * Need to use an AsyncTask to talk to the database, otherwise Android will kill the connection
      */
-    private class DataFetcher extends AsyncTask<Void, Void, List<RatSighting>> {
+    private static class DataFetcher extends AsyncTask<Void, Void, List<RatSighting>> {
         private RatSighting[] sightings;
         @Override
         protected ArrayList<RatSighting> doInBackground(Void... params) {
@@ -175,7 +175,7 @@ public class DataDisplayActivity extends AppCompatActivity {
         }
     }
 
-    private class SearchFetcher extends AsyncTask<Void, Void, RatSighting> {
+    private static class SearchFetcher extends AsyncTask<Void, Void, RatSighting> {
         @Override
         protected RatSighting doInBackground(Void... params) {
             RatAppModel.checkInitialization();
@@ -191,7 +191,7 @@ public class DataDisplayActivity extends AppCompatActivity {
         }
     }
 
-    private class GetNewSightings extends AsyncTask<Void, Void, Object[]> {
+    private static class GetNewSightings extends AsyncTask<Void, Void, Object[]> {
         @Override
         protected Object[] doInBackground(Void... params) {
             RatAppModel.checkInitialization();
@@ -199,7 +199,7 @@ public class DataDisplayActivity extends AppCompatActivity {
             try {
 
                 List<RatSighting> newSightings = manager.getNewSightings(lastUpdate);
-                if (!newSightings.isEmpty()) {
+                if ((newSightings != null) && (!newSightings.isEmpty())) {
                     return newSightings.toArray();
                 } else {
                     return null;

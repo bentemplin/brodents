@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -41,7 +43,7 @@ public class RatListDisplayAdapter extends
             super(v);
             this.a = a;
             listenerRef = new WeakReference<>(listener);
-            key = (TextView) v.findViewById(R.id.textView);
+            key = v.findViewById(R.id.textView);
 
             v.setOnClickListener(this);
             key.setOnClickListener(this);
@@ -78,9 +80,10 @@ public class RatListDisplayAdapter extends
      * @param a The current DataDisplayActivity to pass onto the View Adapter
      * @param listener A ClickListener used to accept clicks
      */
-    public RatListDisplayAdapter(List<RatSighting> sightingList, Activity a,
+    public RatListDisplayAdapter(Collection<RatSighting> sightingList, Activity a,
                                  ClickListener listener) {
-        this.sightingList = sightingList;
+        this.sightingList = new ArrayList<>();
+        this.sightingList.addAll(sightingList);
         this.listener = listener;
         this.parentActivity = a;
     }

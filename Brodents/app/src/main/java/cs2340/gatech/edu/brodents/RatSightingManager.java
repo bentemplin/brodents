@@ -57,13 +57,19 @@ final class RatSightingManager {
         return getNextBlock(100, lastRow);
     }
 
+    /*
+        getNextBlock is super long because there is a lot of information which must be pulled from
+        the database about each rat sighting.
+     */
+
     /**
      * This method gets a block of rat sightings starting at the last sighting fetched.
      * @param size How many sightings to get.
-     * @param lastRow Starting row from which to fetch the sightings.
+     * @param last Starting row from which to fetch the sightings.
      * @return RatSighting array with the sightings fetched.
      */
-    RatSighting[] getNextBlock(int size, int lastRow) throws SQLException {
+    RatSighting[] getNextBlock(int size, int last) throws SQLException {
+        int lastRow = last;
         String statementText = "SELECT * FROM sightingInfo NATURAL JOIN sightingStatus NATURAL" +
                 " JOIN sightingLocation NATURAL JOIN agencyLookup" +
                 " ORDER BY createdDate DESC" +
@@ -108,6 +114,11 @@ final class RatSightingManager {
         return results;
     }
 
+    /*
+        insertSighting is super long because there is a lot of information which must be input into
+        the database about each rat sighting.
+     */
+
     /**
      * Lets you insert a sighting into the database. Make things null if they aren't specified.
      * If zip, latitude, or longitude aren't specified, pass in 0.
@@ -141,7 +152,11 @@ final class RatSightingManager {
             infoStmt.setString(3, agencyCode);
             infoStmt.setString(4, complaintType);
             RatAppModel model = RatAppModel.getInstance();
-            infoStmt.setString(5, model.getCurrentUser().getUserName());
+            if (model.getCurrentUser().getUserName() != null) {
+                infoStmt.setString(5, model.getCurrentUser().getUserName());
+            } else {
+                infoStmt.setNull(5, Types.VARCHAR);
+            }
             db.update(infoStmt);
             infoStmt.close();
 
@@ -268,7 +283,8 @@ final class RatSightingManager {
      * @param start Oldest sightings to fetch
      * @param end Newest sightings to fecth
      * @return ArrayList containing the fetched RatSightings
-     * @throws SQLException
+     * @throws SQLException Throws an SQL exception if an invalid query is passed in. Since there
+     *                      is no user input for this step, it should never be thrown.
      */
     ArrayList<RatSighting> getSightingsBetween(Date start, Date end) throws SQLException {
         Timestamp startTime = new Timestamp(start.getTime());

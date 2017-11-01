@@ -12,10 +12,10 @@ public class LogoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logout);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button mLogOut = (Button) findViewById(R.id.btnLogout);
+        Button mLogOut = findViewById(R.id.btnLogout);
         mLogOut.setText("Logout");
         mLogOut.setOnClickListener(view -> {
             // GET INTENT

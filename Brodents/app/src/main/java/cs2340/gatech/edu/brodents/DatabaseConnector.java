@@ -22,7 +22,7 @@ class DatabaseConnector {
     private String dbPassword;
     private String host;
     private Connection dbConnection;
-    private static boolean debug;
+    private static boolean debug = true;
 
     /* !!!!!!!!!!
      * Here are all of the methods that will actually enable the class to talk
@@ -31,13 +31,11 @@ class DatabaseConnector {
      * at a time. These are all private methods to restrict what users can do
      * to manipulate the database and the connector itself.
      */
-    DatabaseConnector(String userName, String password,
-                      String hostName) throws SQLException {
+    DatabaseConnector() throws SQLException {
         try {
-            dbUserName = userName;
-            dbPassword = password;
-            this.host = "jdbc:mysql://" + hostName;
-            debug = true;
+            dbUserName = "ratapp";
+            dbPassword = "2Z2MqYE!cLgNJu8R";
+            this.host = "jdbc:mysql://" + "104.236.213.171:3306/rats";
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection finalConnection =
                 DriverManager.getConnection(this.host, dbUserName, dbPassword);
@@ -59,7 +57,7 @@ class DatabaseConnector {
      * This method allows you to query a table in the database.
      * @param statement A PreparedStatement of the query to be executed.
      * @return A ResultSet of the results of the query.
-     * @throws SQLException
+     * @throws SQLException An SQLException is thrown if an invalid query is passed in.
      */
     public ResultSet query(PreparedStatement statement) throws SQLException{
         return statement.executeQuery();
@@ -68,7 +66,7 @@ class DatabaseConnector {
     /**
      * This method allows you to update a table in the database.
      * @param statement A PreparedStatement of the update to be executed.
-     * @throws SQLException
+     * @throws SQLException An SQLException is thrown if an invalid update is passed in.
      */
     public void update(PreparedStatement statement) throws SQLException {
         statement.executeUpdate();
@@ -118,7 +116,7 @@ class DatabaseConnector {
      * @param userName The username as a String for the database.
      * @param pass The password as a String for the database.
      * @param host The hostname of the database as a String.
-     * @return
+     * @return True or false whether the connection was changed
      */
     public boolean changeConnection(String userName, String pass,
         String host) {
