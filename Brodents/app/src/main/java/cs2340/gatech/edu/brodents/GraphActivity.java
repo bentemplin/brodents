@@ -42,7 +42,6 @@ public class GraphActivity extends Activity {
         //mainLayout.setContentView(R.layout.activity_graph);
         mainLayout = findViewById(R.id.graphLayout);
         mChart = new LineChart(this);
-        mainLayout.addView(mChart);
         Description title = new Description();
         title.setText("Rat Sightings Per Year");
         mChart.setDescription(title);
@@ -97,7 +96,7 @@ public class GraphActivity extends Activity {
     }
 
     public int ratSightingsPerDate(Date date) {
-        ArrayList<RatSighting> dates = new ArrayList<>();
+        List<RatSighting> dates = new ArrayList<>();
         try {
             dates = RatSightingManager.getInstance().getSightingsBetween(date, date);
         } catch (Exception e) {

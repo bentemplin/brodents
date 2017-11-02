@@ -8,6 +8,9 @@ import java.security.NoSuchAlgorithmException;
  * Created by Benjamin Yarmowich on 9/25/17.
  */
 class PasswordHasher {
+    private static final int BYTE_MASK = 0xff;
+    private static final int BYTE_OFFSET = 0x100;
+    private static final int RADIX = 16;
 /**
  * This class takes in a plain text password and returns the hashed version.
  * @param passwordToHash String to hash.
@@ -22,7 +25,7 @@ class PasswordHasher {
             byte[] bytes = md.digest(passwordAndSalt.getBytes("UTF-8"));
             StringBuilder sb = new StringBuilder();
             for (byte aByte : bytes) {
-                sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
+                sb.append(Integer.toString((aByte & BYTE_MASK) + BYTE_OFFSET, RADIX).substring(1));
             }
             generatedPassword = sb.toString();
         }
