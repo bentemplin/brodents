@@ -2,10 +2,15 @@ Operation Signature:
 	+ submitReport( : ) : boolean	where submitReport is a private instance method of ReportRatSightingActivity class. Method returns true if the report is successfully submitted, false if report could not be submitted.
 
 Preconditions:
-- Stuff
+	Must be an instance of ReportRatSightingActivity instantiated.
 
 Postconditions:
+	Report data is passed to database, form is cleared from memory.
 
 Invariant:
+	Must have address, ZIP, city, borough, latitude, longitude, and location type filled for the report to be submitted.
 
 Frame Condition:
+	Data will be added to the database on report success.
+	Data will remain unchanged if report failure.
+	Activity instance will be popped upon success.
