@@ -35,6 +35,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private int lastRow;
     private String inputTextStart;
     private String inputTextEnd;
+    private static final double LAT_MIN = 40.7800077;
+    private static final double LONG_MIN = -73.9278835;
+    private static final int CAM_MASK = 0x11f;
+    private static final int INDEX_OFFSET = 48;
 
     //TODO: I think the update to android SDK 8 changed around some of the method calls...fix errors
     @Override
@@ -116,7 +120,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng cameraPointer = new LatLng(40.7800077,-73.9278835);
+        LatLng cameraPointer = new LatLng(LAT_MIN,LONG_MIN);
         int added = 0;
         while ((displayList != null) && (added < displayList.size())) {
                 // Add a marker at rat Sighting i and move the camera
@@ -134,14 +138,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     "There are no sightings for this date range");
 
         }
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cameraPointer,11f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cameraPointer,CAM_MASK));
         mMap.setOnInfoWindowClickListener(this);
     }
 
     @Override
     public void onInfoWindowClick(Marker marker){
         char id = marker.getId().charAt(1);
-        int index = id - 48;
+        int index = id - INDEX_OFFSET;
         RatSelected.setRatSelected(displayList.get(index));
         Intent indRatSighting = new Intent(getApplicationContext(), IndDataPageActivity.class);
         startActivity(indRatSighting);
@@ -152,7 +156,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         int index = start;
         while ((added <= size) && (index < sightingList.size())) {
             RatSighting r = sightingList.get(index);
-            if ((r.getLongitude() < -60) && (r.getLatitude() > 30)) {
+            if ((r.getLongitude() < LONG_MIN) && (r.getLatitude() > LAT_MIN)) {
                 displayList.add(r);
                 added++;
             }
