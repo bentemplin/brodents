@@ -1,0 +1,11 @@
+Operation Signature:
+	+ submitReport( : ) : boolean	where submitReport is a private instance method of ReportRatSightingActivity class. Method returns true if the report is successfully submitted, false if report could not be submitted.
+
+Preconditions:
+- Stuff
+
+Postconditions:
+
+Invariant:
+
+Frame Condition:
