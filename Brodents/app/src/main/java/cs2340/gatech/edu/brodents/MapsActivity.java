@@ -36,7 +36,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String inputTextStart;
     private String inputTextEnd;
     private static final double LAT_MIN = 40.7800077;
+    private static final int LAT_MIN2 = 30;
     private static final double LONG_MIN = -73.9278835;
+    private  static final int LONG_MIN2 = -60;
     private static final int CAM_MASK = 0x11f;
     private static final int INDEX_OFFSET = 48;
 
@@ -156,7 +158,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         int index = start;
         while ((added <= size) && (index < sightingList.size())) {
             RatSighting r = sightingList.get(index);
-            if ((r.getLongitude() < LONG_MIN) && (r.getLatitude() > LAT_MIN)) {
+            if ((r.getLongitude() < LONG_MIN2) && (r.getLatitude() > LAT_MIN2)) {
                 displayList.add(r);
                 added++;
             }

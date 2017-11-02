@@ -1,0 +1,19 @@
+Operation Signature:
+    + query(statement : PreparedStatement) : ResultSet
+    Where statement is of the type java.sql.PreparedStatement. The return
+    value is a ResultSet containing the results of the query using the
+    information contained in statement.
+Preconditions: 
+    statement must be a PreparedStatement derived from the database connector
+    to be queried. Also, statement must contain a valid SQL query, otherwise
+    the method will throw an SQLException.
+Postconditions:
+    The connector and prepared statements will be unchanged. The cursor in the
+    returned ResultSet will be positioned before the first entry. Database
+    entries themselves will also remain unchanged.
+Invariant:
+    None
+Frame Condition:
+    All data in the calling class and the called object will remain unchanged.
+    Additionally, all information in the database itself will remain unchanged.
+    This method serves as a service provider to read from the database.
