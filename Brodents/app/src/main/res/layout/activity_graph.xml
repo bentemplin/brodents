@@ -4,6 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <Button
+        android:id="@+id/btnGetGraph"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get Graph" />
+
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/graphLayout"
         android:layout_width="match_parent"
