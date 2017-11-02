@@ -25,11 +25,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.util.Log;
 
-//import java.io.UnsupportedEncodingException;
-//import java.sql.PreparedStatement;
-//import java.sql.ResultSet;
-//import java.sql.SQLException;
-
 
 /**
  * A login screen that offers login via email/password.

@@ -76,7 +76,7 @@ public class DataDisplayActivity extends Activity {
         });
         dataDisplay.setAdapter(displayAdapter);
 
-        Toolbar toolbar= findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setActionBar(toolbar);
 
         //Code for Search Bar

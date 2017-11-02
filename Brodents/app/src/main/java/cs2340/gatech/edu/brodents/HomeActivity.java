@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
-
+/*
+Main home page of the app
+ */
 public class HomeActivity extends AppCompatActivity {
 
     @Override
