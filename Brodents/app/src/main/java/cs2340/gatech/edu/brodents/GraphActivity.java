@@ -34,6 +34,7 @@ import com.github.mikephil.charting.utils.EntryXComparator;
 public class GraphActivity extends Activity {
     private LineChart mChart;
     private GraphDataFetcher dataFetcher;
+    private static final float DIVISOR = 10000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +84,9 @@ public class GraphActivity extends Activity {
                 while (results.next()) {
                     targetDay = results.getTimestamp("DATE(createdDate)").getTime();
                     count = results.getInt("COUNT(*)");
-                    entries.add(new Entry((float) targetDay, (float) count));
+                    Log.i("GraphDataFetcher Day", Long.toString(targetDay));
+                    Log.i("GraphDataFetcher Count", Integer.toString(count));
+                    entries.add(new Entry((float) targetDay, count / DIVISOR));
                     rowCount++;
                 }
                 Log.i("GraphDataFetcher Size", Integer.toString(rowCount));

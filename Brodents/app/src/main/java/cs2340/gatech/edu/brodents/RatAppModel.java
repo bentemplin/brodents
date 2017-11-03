@@ -53,7 +53,7 @@ final class RatAppModel {
     static void initialize() {
         model = new RatAppModel(
         );
-        Log.d("RatAppModel", "Initialized");
+        //Log.d("RatAppModel", "Initialized");
     }
 
     /**
@@ -127,14 +127,14 @@ final class RatAppModel {
                 String hashPass = hasher.getSecurePassword(Integer.toString(salt),
                         password);
                 if (dbPass.equals(hashPass)) {
-                    Log.i("login", "auth success");
+                    //Log.i("login", "auth success");
                     loginStatus = true;
                     String profileName = results.getString("profileName");
                     String address = results.getString("homeLocation");
                     boolean isAdmin = results.getBoolean("isAdmin");
                     currentUser = new User(userName, profileName, address, isAdmin);
                 } else {
-                    Log.i("login", "auth failed");
+                    //Log.i("login", "auth failed");
                     loginStatus = false;
                 }
                 results.close();
@@ -187,11 +187,11 @@ final class RatAppModel {
                 registerStatement.setInt(5, salt);
                 registerStatement.setBoolean(6, isAdmin);
                 db.update(registerStatement);
-                Log.d("Register User", "Success for userName = " + userName);
+                //Log.d("Register User", "Success for userName = " + userName);
                 return 0;
             }
         } catch (SQLException e) {
-            Log.e("Register User", e.getMessage());
+            //Log.e("Register User", e.getMessage());
             return 2;
 
         }
