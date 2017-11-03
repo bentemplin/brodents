@@ -4,24 +4,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnGetGraph"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Get Graph" />
-
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/graphLayout"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/back" />
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/back"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:text="Back" />
+        <Button
+            android:id="@+id/btnGetGraph"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Get Graph" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/graphLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/back"
+            android:layout_centerHorizontal="true">
+
+        </com.github.mikephil.charting.charts.LineChart>
+
+    </LinearLayout>
 
 </RelativeLayout>
