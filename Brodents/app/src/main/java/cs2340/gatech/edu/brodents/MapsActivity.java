@@ -11,7 +11,6 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,9 +26,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+        GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
     private List<RatSighting> sightingList;
@@ -37,6 +36,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private int lastRow;
     private String inputTextStart;
     private String inputTextEnd;
+    private static final double CAM_START_LAT = 40.7800077;
+    private static final double CAM_START_LONG = -73.9278835;
+    private static final float ZOOM = 11f;
+    private static final int INDEX_OFFSET = 48;
+    private static final int LONG_BOUND = -60;
+    private static final int LAT_BOUND = 30;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +106,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                     } catch (ParseException e) {
                         Log.e("InputClick", e.getMessage(), e);
-                        displayAlert("Invalid Date", "Input date in format MM-DD-YYYY");
+                        displayAlert("Invalid Date",
+                                "Input date in format MM-DD-YYYY");
                         displayList = new ArrayList<RatSighting>();
                     } catch (Exception e) {
                         Log.e("InputClick", e.getMessage(), e);
@@ -131,29 +137,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng cameraPointer = new LatLng(40.7800077,-73.9278835);
+        LatLng cameraPointer = new LatLng(CAM_START_LAT,CAM_START_LONG);
         int added = 0;
-        while (displayList!=null && added < displayList.size()) {
+        while ((displayList != null) && (added < displayList.size())) {
                 // Add a marker at rat Sighting i and move the camera
-                LatLng sightingPos = new LatLng(displayList.get(added).getLatitude(), displayList.get(added).getLongitude());
-                mMap.addMarker(new MarkerOptions().position(sightingPos).title("Rat Sighting: " + displayList.get(added).getKey()).snippet("Click here for more info"));
+                LatLng sightingPos = new LatLng(displayList.get(added).getLatitude(),
+                        displayList.get(added).getLongitude());
+                mMap.addMarker(new MarkerOptions().position(sightingPos).title("Rat Sighting: "
+                        + displayList.get(added).getKey()).snippet("Click here for more info"));
                 added++;
             }
         if (displayList == null) {
             //This means no sightings found, so clear the markers
             mMap.clear();
             //Raise an alert to let the user know there are no sightings for this period.
-            displayAlert("No Sightings Found", "There are no sightings for this date range");
+            displayAlert("No Sightings Found",
+                    "There are no sightings for this date range");
 
         }
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cameraPointer,11f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cameraPointer,ZOOM));
         mMap.setOnInfoWindowClickListener(this);
     }
 
     @Override
     public void onInfoWindowClick(Marker marker){
         char id = marker.getId().charAt(1);
-        int index = id - 48;
+        int index = id - INDEX_OFFSET;
         RatSelected.setRatSelected(displayList.get(index));
         Intent indRatSighting = new Intent(getApplicationContext(), IndDataPageActivity.class);
         startActivity(indRatSighting);
@@ -162,8 +171,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void populateList(int start, int size) {
         int added = 0;
         int index = start;
-        while (added <= size && index < sightingList.size()) {
-            if (sightingList.get(index).getLongitude() < -60 && sightingList.get(index).getLatitude() > 30) {
+        while ((added <= size) && (index < sightingList.size())) {
+            if (sightingList.get(index).getLongitude() < LONG_BOUND &&
+                    sightingList.get(index).getLatitude() > LAT_BOUND) {
                 displayList.add(sightingList.get(index));
                 added++;
             }
@@ -184,7 +194,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void displayAlert(String title, String message) {
+    private void displayAlert(CharSequence title, CharSequence message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
         builder.setMessage(message);
@@ -194,11 +204,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean validateRange(Date start, Date end, Date earliest) {
         Date now = new Date();
         if (start.after(end) || start.after(now) || end.after(now)) {
-            displayAlert("Invalid Range", "Please enter dates in the format MM-DD-YYYY and that " +
+            displayAlert("Invalid Range",
+                    "Please enter dates in the format MM-DD-YYYY and that " +
                     "are not in the future");
             return false;
         } else if (end.before(earliest)) {
-            displayAlert("Warning", "The earliest sighting is on 01-01-2010. Your date range ends " +
+            displayAlert("Warning",
+                    "The earliest sighting is on 01-01-2010. Your date range ends " +
                     "before that.");
             return false;
         } else {

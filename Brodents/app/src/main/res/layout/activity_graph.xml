@@ -20,9 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/back"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"/>
 
-        </com.github.mikephil.charting.charts.LineChart>
 
     </LinearLayout>
 

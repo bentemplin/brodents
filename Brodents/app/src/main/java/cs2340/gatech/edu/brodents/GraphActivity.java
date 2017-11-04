@@ -15,6 +15,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.util.Log;
@@ -33,9 +34,10 @@ import com.github.mikephil.charting.utils.EntryXComparator;
 
 public class GraphActivity extends Activity {
     private LineChart mChart;
+    @Nullable
     private GraphDataFetcher dataFetcher;
+    @Nullable
     private LineData data;
-    private Description title;
     private static final float DIVISOR = 86400000; //This makes the change in x-axis one day
     private static final float TEXT_SIZE = 18;
 
@@ -45,7 +47,7 @@ public class GraphActivity extends Activity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_graph);
             mChart = findViewById(R.id.graphLayout);
-            title = new Description();
+            Description title = new Description();
             title.setText("Rat Sightings per Day");
             title.setTextSize(TEXT_SIZE);
             mChart.setDescription(title);
@@ -57,7 +59,7 @@ public class GraphActivity extends Activity {
             Button getGraph = findViewById(R.id.btnGetGraph);
             title.setTextAlign(Paint.Align.CENTER);
             int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-            title.setPosition(screenWidth/2, mChart.getTop()+TEXT_SIZE*3);
+            title.setPosition(screenWidth/2, mChart.getTop() + (TEXT_SIZE * 3));
             getGraph.setOnClickListener((View view) -> {
                 getDataGraph();
             });
@@ -69,8 +71,8 @@ public class GraphActivity extends Activity {
     }
 
     private class GraphDataFetcher extends AsyncTask<Void, Void, LineDataSet> {
-        private Date start;
-        private Date end;
+        private final Date start;
+        private final Date end;
 
         GraphDataFetcher(Date start, Date end) {
             this.start = start;
@@ -171,11 +173,13 @@ public class GraphActivity extends Activity {
     private boolean validateRange(Date start, Date end, Date earliest) {
         Date now = new Date();
         if (start.after(end) || start.after(now) || end.after(now)) {
-            displayAlert("Invalid Range", "Please enter dates in the format MM-DD-YYYY and that " +
+            displayAlert("Invalid Range", "Please enter dates in the format " +
+                    "MM-DD-YYYY and that " +
                     "are not in the future");
             return false;
         } else if (end.before(earliest)) {
-            displayAlert("Warning", "The earliest sighting is on 01-01-2010. Your date range ends " +
+            displayAlert("Warning", "The earliest sighting is on 01-01-2010. " +
+                    "Your date range ends " +
                     "before that.");
             return false;
         } else {
@@ -183,7 +187,7 @@ public class GraphActivity extends Activity {
         }
     }
 
-    private void displayAlert(String title, String message) {
+    private void displayAlert(CharSequence title, CharSequence message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
         builder.setMessage(message);

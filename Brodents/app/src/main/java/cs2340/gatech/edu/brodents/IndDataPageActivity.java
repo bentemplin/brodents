@@ -24,6 +24,7 @@ import java.util.Locale;
 public class IndDataPageActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private RatSighting rat;
+    private static final float ZOOM = 14f;
 
 
     /**
@@ -81,10 +82,9 @@ public class IndDataPageActivity extends FragmentActivity implements OnMapReadyC
         Log.i("test", "Map attempt called");
 
         // Add where current rat sighting is nd move camera
-        float zoom = 14f;
         LatLng sighting = new LatLng(rat.getLatitude(), rat.getLongitude());
         googleMap.addMarker(new MarkerOptions().position(sighting).title("Rat Sighting: #" +
                 Integer.toString(rat.getKey())));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sighting,zoom));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sighting,ZOOM));
     }
 }

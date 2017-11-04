@@ -12,8 +12,6 @@ class User {
     @NonNull
     private final String userName;
     private final String profileName;
-    private final String address;
-    private final boolean isAdmin;
 
     /**
      * Constructor for the User class
@@ -25,8 +23,8 @@ class User {
     public User(String userName, String profileName, String address, boolean isAdmin) {
         this.userName = userName;
         this.profileName = profileName;
-        this.address = address;
-        this.isAdmin = isAdmin;
+        String address1 = address;
+        boolean isAdmin1 = isAdmin;
     }
 
     /**

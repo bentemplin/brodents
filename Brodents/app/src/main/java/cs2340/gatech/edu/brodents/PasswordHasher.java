@@ -5,7 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Created by Benjamin Yarmowich on 9/25/17.
+ * @author  Benjamin Yarmowich
  */
 class PasswordHasher {
     private static final int BYTE_MASK = 0xff;

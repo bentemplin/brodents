@@ -10,7 +10,6 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="forgot_password">Forgot password?</string>
-    <string name="title_activity_logout">LogoutActivity</string>
     <string name="title_activity_registration">RegistrationActivity</string>
     <string name="rat_key">Report ID: </string>
     <string name="rat_address">Location Address: </string>

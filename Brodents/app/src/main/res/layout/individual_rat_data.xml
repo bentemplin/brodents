@@ -15,7 +15,6 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/keyLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/rat_key" />
@@ -33,7 +32,6 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/createdDateLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/rat_date" />
@@ -51,7 +49,6 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/locationTypeLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/rat_type" />
@@ -69,7 +66,6 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/incidentZipLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/rat_zip" />
@@ -86,7 +82,6 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/incidentAddressLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/rat_address" />
@@ -104,7 +99,6 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/cityLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/rat_city" />
@@ -121,7 +115,6 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/boroughLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/rat_borough" />
@@ -138,7 +131,6 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/lattitudeLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/rat_lattitude" />
@@ -155,7 +147,6 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/longitudeLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/rat_longitude" />

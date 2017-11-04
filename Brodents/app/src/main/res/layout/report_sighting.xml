@@ -4,7 +4,6 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -16,7 +15,6 @@
         android:textSize="30sp" />
 
     <TextView
-        android:id="@+id/textView8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
@@ -32,7 +30,6 @@
         android:paddingRight="10dp">
 
         <TextView
-            android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -42,7 +39,6 @@
             android:textAppearance="@android:style/TextAppearance.Material.Widget.TextView" />
 
         <EditText
-            android:id="@+id/etAgencyName"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -53,7 +49,6 @@
             android:textAppearance="@android:style/TextAppearance.Material.Widget.EditText" />
 
         <TextView
-            android:id="@+id/textView9"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -62,7 +57,6 @@
             android:textAlignment="textStart" />
 
         <EditText
-            android:id="@+id/etAgencyCode"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -76,7 +70,6 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView11"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -93,7 +86,6 @@
         android:paddingRight="10dp">
 
         <TextView
-            android:id="@+id/textView12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -131,7 +123,6 @@
         android:paddingRight="10dp">
 
         <TextView
-            android:id="@+id/textView13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -169,7 +160,6 @@
         android:paddingRight="10dp">
 
         <TextView
-            android:id="@+id/textView14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -211,7 +201,6 @@
         android:textAppearance="@android:style/TextAppearance.Material.Widget.EditText" />
 
     <TextView
-        android:id="@+id/textView15"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -242,6 +231,7 @@
     </LinearLayout>
 
     <LinearLayout
+        style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -250,6 +240,7 @@
         android:orientation="horizontal">
 
         <Button
+            style="?android:attr/buttonBarStyle"
             android:id="@+id/btnCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -258,6 +249,7 @@
             android:text="Cancel" />
 
         <Button
+            style="?android:attr/buttonBarStyle"
             android:id="@+id/btnReport"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

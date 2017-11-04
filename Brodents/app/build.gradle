@@ -29,10 +29,10 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile files('libs/mysql-connector-java-5.1.42-bin.jar')
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.android.support:design:26.0.2'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:design:26.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:recyclerview-v7:26.0.2'
+    compile 'com.android.support:recyclerview-v7:26.1.0'
     compile 'com.google.android.gms:play-services-maps:11.0.4'
     compile 'com.google.android.gms:play-services-maps:10.2.98'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
