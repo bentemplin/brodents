@@ -1,5 +1,6 @@
 package cs2340.gatech.edu.brodents;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,4 +36,53 @@ class RatSelected {
     public static RatSighting getSelected(){
         return selected;
     }
+
+    // Here go all of the getters!
+
+    /**
+     * Gets the Sighting's key
+     * @return The sighting's unique key.
+     */
+    static int getKey() {return selected.getKey();}
+
+    /**
+     * @return The date the sighting was created.
+     */
+    static Date getCreatedDate() {return selected.getCreatedDate();}
+
+    /**
+     * @return The zip code for the sighting.
+     */
+    static int getZip() {return selected.getZip();}
+
+    /**
+     * @return The city of the sighting.
+     */
+    static CharSequence getCity() {return selected.getCity();}
+
+    /**
+     * @return The borough of the sighting.
+     */
+    static CharSequence getBorough() {return selected.getBorough();}
+
+    /**
+     * @return The latitude of the sighting.
+     */
+    static double getLatitude() {return selected.getLatitude();}
+
+    /**
+     * @return The longitude of the sighting.
+     */
+    static double getLongitude() {return selected.getLongitude();}
+
+    /**
+     * @return The address of the sighting location. Often null.
+     */
+    static CharSequence getAddress() {return selected.getAddress();}
+
+    /**
+     * @return The type of the sighting location. Often null.
+     */
+    static CharSequence getLocationType() {return selected.getLocationType();}
+
 }
