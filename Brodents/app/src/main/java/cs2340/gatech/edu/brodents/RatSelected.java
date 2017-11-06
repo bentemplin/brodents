@@ -3,8 +3,9 @@ package cs2340.gatech.edu.brodents;
 import java.util.List;
 
 /**
- * @Author Benjamin Yarmowich
- * Static class that holds the current selected rat
+ * Stores a selected rat
+ * @author Benjamin Yarmowich
+ * @version 1.0
  */
 
 class RatSelected {

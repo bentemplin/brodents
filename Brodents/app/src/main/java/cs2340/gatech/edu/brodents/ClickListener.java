@@ -1,9 +1,12 @@
 package cs2340.gatech.edu.brodents;
 
 /**
- * Created by Benjamin Yarmowich on 10/9/2017.
+ * This interface provides click to the text views
+ * @author Benjamin Yarmowich
+ * @version 1.o
  */
 
+@SuppressWarnings("EmptyMethod")
 interface ClickListener {
     void onPositionClicked(int position);
 

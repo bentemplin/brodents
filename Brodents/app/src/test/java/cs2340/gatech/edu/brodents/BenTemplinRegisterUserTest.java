@@ -1,11 +1,10 @@
 package cs2340.gatech.edu.brodents;
 
-import android.test.mock.MockContentProvider;
+import android.util.Log;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
@@ -18,13 +17,13 @@ import java.sql.SQLException;
  * @version 1.o
  */
 public class BenTemplinRegisterUserTest {
-    RatAppModel model;
-    DatabaseConnector connector;
+    private RatAppModel model;
+    private DatabaseConnector connector;
 
-    private void deleteUser(String userName) throws SQLException {
+    private void deleteUser() throws SQLException {
         String qText = "DELETE FROM users WHERE userName = ?";
         PreparedStatement stmt = connector.getStatement(qText);
-        stmt.setString(1, userName);
+        stmt.setString(1, "unitTestChecker");
         connector.update(stmt);
     }
 
@@ -37,9 +36,9 @@ public class BenTemplinRegisterUserTest {
         model = RatAppModel.getInstance();
         connector = model.getConnector();
         try {
-            deleteUser("unitTestChecker");
+            deleteUser();
         } catch (SQLException e) {
-
+            Log.e("SQLException", "setup Exception");
         }
     }
 
@@ -95,9 +94,9 @@ public class BenTemplinRegisterUserTest {
     public void cleanupDb() {
         model.setCurrentUser(null);
         try {
-            deleteUser("unitTestChecker");
+            deleteUser();
         } catch (SQLException e) {
-            
+            Log.e("SQLException", "cleanup Exception");
         }
     }
 

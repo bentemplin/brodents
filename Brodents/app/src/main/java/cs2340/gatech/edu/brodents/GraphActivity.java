@@ -35,7 +35,6 @@ public class GraphActivity extends Activity {
     private LineChart mChart;
     private GraphDataFetcher dataFetcher;
     private LineData data;
-    private Description title;
     private static final float DIVISOR = 86400000; //This makes the change in x-axis one day
     private static final float TEXT_SIZE = 18;
 
@@ -45,7 +44,7 @@ public class GraphActivity extends Activity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_graph);
             mChart = findViewById(R.id.graphLayout);
-            title = new Description();
+            Description title = new Description();
             title.setText("Rat Sightings per Day");
             title.setTextSize(TEXT_SIZE);
             mChart.setDescription(title);
@@ -58,9 +57,7 @@ public class GraphActivity extends Activity {
             title.setTextAlign(Paint.Align.CENTER);
             int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
             title.setPosition(screenWidth/2, mChart.getTop()+TEXT_SIZE*3);
-            getGraph.setOnClickListener((View view) -> {
-                getDataGraph();
-            });
+            getGraph.setOnClickListener((View view) -> getDataGraph());
 
         } catch (Exception e) {
             Log.e("GraphActivity", e.getMessage(), e);
@@ -69,7 +66,9 @@ public class GraphActivity extends Activity {
     }
 
     private class GraphDataFetcher extends AsyncTask<Void, Void, LineDataSet> {
+        @SuppressWarnings("CanBeFinal")
         private Date start;
+        @SuppressWarnings("CanBeFinal")
         private Date end;
 
         GraphDataFetcher(Date start, Date end) {
@@ -175,8 +174,8 @@ public class GraphActivity extends Activity {
                     "are not in the future");
             return false;
         } else if (end.before(earliest)) {
-            displayAlert("Warning", "The earliest sighting is on 01-01-2010. Your date range ends " +
-                    "before that.");
+            displayAlert("Warning", "The earliest sighting is on 01-01-2010." + "" +
+                    "Your date range ends before that.");
             return false;
         } else {
             return true;

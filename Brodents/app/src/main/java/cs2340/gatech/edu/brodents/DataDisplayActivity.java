@@ -18,7 +18,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Benjamin Yarmowich on 10/5/2017.
+ * Activity to display the data
+ * @author Benjamin Yarmowich
+ * @version 1.o
  */
 
 public class DataDisplayActivity extends Activity {

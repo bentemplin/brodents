@@ -5,8 +5,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Created by Benjamin Yarmowich on 9/25/17.
+ * Class that hashes passwords using SHA-512 encryption
+ * @author Benjamin Yarmowich
+ * @version 1.o
  */
+
 class PasswordHasher {
     private static final int BYTE_MASK = 0xff;
     private static final int BYTE_OFFSET = 0x100;

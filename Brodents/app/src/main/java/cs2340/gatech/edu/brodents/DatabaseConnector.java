@@ -104,7 +104,7 @@ class DatabaseConnector {
      * database.
      * @param text Text for the prepared statement.
      * @return A PreparedStatement object ready to be parameterized
-     * @throws SQLException
+     * @throws SQLException if error with database
      */
     public PreparedStatement getStatement(String text) throws SQLException {
         return dbConnection.prepareStatement(text);

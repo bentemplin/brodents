@@ -16,10 +16,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
-
 /**
- * Created by Benjamin Yarmowich on 10/9/2017.
+ * Activity to display individual sighting data
+ * @author Benjamin Yarmowich
+ * @version 1.o
  */
+
 
 public class IndDataPageActivity extends FragmentActivity implements OnMapReadyCallback {
 
