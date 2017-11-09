@@ -7,40 +7,6 @@
 
     <!-- A RecyclerView with some commonly used attributes -->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnReport"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Report" />
-
-        <Button
-            android:id="@+id/btnMap"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Map" />
-
-        <Button
-            android:id="@+id/btnGraph"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Graph" />
-
-        <Button
-            android:id="@+id/btnLogout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Logout" />
-    </LinearLayout>
-
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -77,18 +43,20 @@
 
     </LinearLayout>
 
-    <RelativeLayout
+    <Button
+        android:id="@+id/btnMap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_weight="0"
+        android:text="Map" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/my_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/my_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:scrollbars="horizontal" />
-
-    </RelativeLayout>
+        android:layout_weight="1"
+        android:scrollbars="horizontal" />
 
 </LinearLayout>

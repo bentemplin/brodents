@@ -1,12 +1,12 @@
 package cs2340.gatech.edu.brodents;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.widget.Toolbar;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,10 +18,12 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Benjamin Yarmowich on 10/5/2017.
+ * Activity to display the data
+ * @author Benjamin Yarmowich
+ * @version 1.o
  */
 
-public class DataDisplayActivity extends AppCompatActivity {
+public class DataDisplayActivity extends Activity {
     private RecyclerView dataDisplay;
     private RecyclerView.Adapter displayAdapter;
     private static List<RatSighting> ratData;
@@ -77,7 +79,7 @@ public class DataDisplayActivity extends AppCompatActivity {
         dataDisplay.setAdapter(displayAdapter);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setActionBar(toolbar);
 
         //Code for Search Bar
         EditText searchBar = findViewById(R.id.searchText);
@@ -182,13 +184,8 @@ public class DataDisplayActivity extends AppCompatActivity {
             RatAppModel.checkInitialization();
             RatAppModel model = RatAppModel.getInstance();
             RatSightingManager manager = model.getSightingManager();
-            try {
-                Log.i("text", "Access: " +key + ": " + manager.getSighting(key));
-                return manager.getSighting(key);
-            } catch (NullPointerException e) {
-                Log.e("Search Fetch NPE", e.getMessage());
-                return null;
-            }
+            Log.i("text", "Access: " + key + ": " + manager.getSighting(key));
+            return manager.getSighting(key);
         }
     }
 
@@ -197,16 +194,10 @@ public class DataDisplayActivity extends AppCompatActivity {
         protected Object[] doInBackground(Void... params) {
             RatAppModel.checkInitialization();
             RatSightingManager manager = RatAppModel.getInstance().getSightingManager();
-            try {
-
-                List<RatSighting> newSightings = manager.getNewSightings(lastUpdate);
-                if ((newSightings != null) && (!newSightings.isEmpty())) {
-                    return newSightings.toArray();
-                } else {
-                    return null;
-                }
-            } catch (NullPointerException e) {
-                Log.e("Get New NPE", e.getMessage(), e);
+            List<RatSighting> newSightings = manager.getNewSightings(lastUpdate);
+            if ((newSightings != null) && (!newSightings.isEmpty())) {
+                return newSightings.toArray();
+            } else {
                 return null;
             }
         }

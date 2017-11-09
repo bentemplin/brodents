@@ -123,7 +123,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         LatLng cameraPointer = new LatLng(40.7800077,-73.9278835);
         int added = 0;
-        while ((displayList != null) && (added < displayList.size())) {
+        while (displayList!=null && added < displayList.size()) {
                 // Add a marker at rat Sighting i and move the camera
                 LatLng sightingPos = new LatLng(displayList.get(added).getLatitude(),
                         displayList.get(added).getLongitude());
@@ -135,8 +135,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //This means no sightings found, so clear the markers
             mMap.clear();
             //Raise an alert to let the user know there are no sightings for this period.
-            displayAlert("No Sightings Found",
-                    "There are no sightings for this date range");
+            displayAlert("No Sightings Found", "No sightings for this date range");
 
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cameraPointer,11f));
@@ -155,9 +154,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void populateList(int start, int size) {
         int added = 0;
         int index = start;
-        while ((added <= size) && (index < sightingList.size())) {
-            if ((sightingList.get(index).getLongitude() < -60) &&
-                    (sightingList.get(index).getLatitude() > 30)) {
+        while (added <= size && index < sightingList.size()) {
+            if (sightingList.get(index).getLongitude() < -60 &&
+                    sightingList.get(index).getLatitude() > 30) {
                 displayList.add(sightingList.get(index));
                 added++;
             }
@@ -165,7 +164,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private static class GetTimedSightings extends AsyncTask<Date, Void, List<RatSighting>> {
+    private class GetTimedSightings extends AsyncTask<Date, Void, List<RatSighting>> {
         @Override
         protected  ArrayList<RatSighting> doInBackground(Date... params) {
             try {
@@ -178,7 +177,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void displayAlert(CharSequence title, CharSequence message) {
+    private void displayAlert(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
         builder.setMessage(message);
@@ -188,14 +187,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean validateRange(Date start, Date end, Date earliest) {
         Date now = new Date();
         if (start.after(end) || start.after(now) || end.after(now)) {
-            displayAlert("Invalid Range",
-                    "Please enter dates in the format MM-DD-YYYY and that " +
+            displayAlert("Invalid Range", "Please enter dates in the format MM-DD-YYYY and that " +
                     "are not in the future");
             return false;
         } else if (end.before(earliest)) {
-            displayAlert("Warning",
-                    "The earliest sighting is on 01-01-2010. Your date range ends " +
-                    "before that.");
+            displayAlert("Warning", "The earliest sighting is on 01-01-2010. Your date range ends" +
+                    " before that.");
             return false;
         } else {
             return true;

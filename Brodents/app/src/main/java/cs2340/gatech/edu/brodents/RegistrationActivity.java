@@ -107,7 +107,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 if (success) {
                     Log.i("RegistrationActivity", "onPostExecute Success");
 
-                    Intent listScreen = new Intent(getApplicationContext(), DataDisplayActivity.class);
+                    Intent listScreen = new Intent(getApplicationContext(),
+                            DataDisplayActivity.class);
                     startActivity(listScreen);
                     finish();
                 }

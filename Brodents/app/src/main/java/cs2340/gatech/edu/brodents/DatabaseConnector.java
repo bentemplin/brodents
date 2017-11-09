@@ -22,7 +22,7 @@ class DatabaseConnector {
     private String dbPassword;
     private String host;
     private Connection dbConnection;
-    private static boolean debug = true;
+    private static boolean debug = false;
 
     /* !!!!!!!!!!
      * Here are all of the methods that will actually enable the class to talk
@@ -35,7 +35,8 @@ class DatabaseConnector {
         try {
             dbUserName = "ratapp";
             dbPassword = "2Z2MqYE!cLgNJu8R";
-            this.host = "jdbc:mysql://" + "104.236.213.171:3306/rats";
+            this.host = "jdbc:mysql://" +
+                    "104.236.213.171:3306/rats?autoReconnect=true&useSSL=false";
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection finalConnection =
                 DriverManager.getConnection(this.host, dbUserName, dbPassword);
@@ -103,7 +104,7 @@ class DatabaseConnector {
      * database.
      * @param text Text for the prepared statement.
      * @return A PreparedStatement object ready to be parameterized
-     * @throws SQLException
+     * @throws SQLException if error with database
      */
     public PreparedStatement getStatement(String text) throws SQLException {
         return dbConnection.prepareStatement(text);

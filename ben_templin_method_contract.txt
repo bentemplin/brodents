@@ -16,4 +16,4 @@ Invariant:
 Frame Condition:
     All data in the calling class and the called object will remain unchanged.
     Additionally, all information in the database itself will remain unchanged.
-    This method serves as a service provider to read from the database.    
+    This method serves as a service provider to read from the database.

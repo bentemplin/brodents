@@ -14,12 +14,10 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Created by Benjamin Yarmowich on 10/6/2017.
- */
-
-/*
  * This class pretty much just follows an online guide I found for making recycler views...I'm not
  * entirely sure what a lot of the stuff is used for. -Ben Templin
+ * @author Benjamin Yarmowich
+ * @version 1.o
  */
 public class RatListDisplayAdapter extends
         RecyclerView.Adapter<RatListDisplayAdapter.ViewHolder>{

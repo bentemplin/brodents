@@ -25,11 +25,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.util.Log;
 
-//import java.io.UnsupportedEncodingException;
-//import java.sql.PreparedStatement;
-//import java.sql.ResultSet;
-//import java.sql.SQLException;
-
 
 /**
  * A login screen that offers login via email/password.
@@ -146,7 +141,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     mPasswordView.setError(getString(R.string.error_incorrect_password));
                     mPasswordView.requestFocus();
                 }
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         }
     }
