@@ -5,9 +5,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
-/*
-Main home page of the app
+
+/**
+ * Main home page of the app
+ * @author Ben Yarmowich
+ * @version 1.0
  */
+
 public class HomeActivity extends AppCompatActivity {
 
     @Override
@@ -23,26 +27,26 @@ public class HomeActivity extends AppCompatActivity {
             Intent sightingReport = new Intent(getApplicationContext(),
                     ReportRatSightingActivity.class);
             startActivity(sightingReport);
+            finish();
         });
 
         //Code for the Log out button
         Button mLogOut = findViewById(R.id.btnLogout);
         mLogOut.setOnClickListener(view -> {
-            // INTENT NOT NEEDED, JUST POP THE ACTIVITY FROM THE STACK, login is parent
             RatAppModel.getInstance().clearCurrentUser();
             finish();
         });
         Button list = findViewById(R.id.btnList);
         list.setOnClickListener(view -> {
-            // INTENT NOT NEEDED, JUST POP THE ACTIVITY FROM THE STACK, login is parent
             Intent listScreen = new Intent(getApplicationContext(), DataDisplayActivity.class);
             startActivity(listScreen);
+            finish();
         });
         Button mGraph = findViewById(R.id.btnGraph);
         mGraph.setOnClickListener(view -> {
-            // INTENT NOT NEEDED, JUST POP THE ACTIVITY FROM THE STACK, login is parent
             Intent graph = new Intent(getApplicationContext(), GraphActivity.class);
             startActivity(graph);
+            finish();
         });
     }
 

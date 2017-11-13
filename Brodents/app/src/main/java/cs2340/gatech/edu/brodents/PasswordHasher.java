@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * Class that hashes passwords using SHA-512 encryption
  * @author Benjamin Yarmowich
- * @version 1.o
+ * @version 1.0
  */
 
 class PasswordHasher {

@@ -10,8 +10,10 @@ import android.widget.Toast;
 import android.util.Log;
 
 /**
- * Created by Benjamin Yarmowich on 10/15/2017.
- * Implemented by Rikesh Subedi on 10/16/2017
+ * @author Benjamin Yarmowich, Rikesh Subedi
+ * @version 1.0
+ *
+ * Activity to report rat sighting
  */
 
 public class ReportRatSightingActivity extends AppCompatActivity{
@@ -144,6 +146,4 @@ public class ReportRatSightingActivity extends AppCompatActivity{
             }
         }
     }
-
-
 }

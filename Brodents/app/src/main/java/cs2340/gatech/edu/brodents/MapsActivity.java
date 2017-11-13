@@ -26,6 +26,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author Ben Yarmowich
+ * @version 1.0
+ *
+ * Draws a map with rat sightings on it
+ */
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleMap.OnInfoWindowClickListener {
 

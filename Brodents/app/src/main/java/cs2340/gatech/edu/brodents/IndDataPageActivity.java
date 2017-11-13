@@ -16,15 +16,15 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+
 /**
  * Activity to display individual sighting data
  * @author Benjamin Yarmowich
- * @version 1.o
+ * @version 1.0
  */
 
 
 public class IndDataPageActivity extends FragmentActivity implements OnMapReadyCallback {
-
     /**
      * Creates the Individual Rat Data Pages
      * @param savedInstanceState Current Instance State
@@ -77,12 +77,11 @@ public class IndDataPageActivity extends FragmentActivity implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Log.i("test", "Map attempt called");
-
         // Add where current rat sighting is nd move camera
-        float zoom = 14f;
+        final float zoom = 14f;
         LatLng sighting = new LatLng(RatSelected.getLatitude(), RatSelected.getLongitude());
         googleMap.addMarker(new MarkerOptions().position(sighting).title("Rat Sighting: #" +
                 Integer.toString(RatSelected.getKey())));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sighting,zoom));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sighting, zoom));
     }
 }

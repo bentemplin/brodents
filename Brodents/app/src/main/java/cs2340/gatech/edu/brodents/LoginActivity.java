@@ -25,8 +25,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.util.Log;
 
-
 /**
+ * @author Rikesh Subdei, Ben Templin
+ * @vesion 1.0
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
@@ -82,8 +83,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-
-
     }
 
 
@@ -142,6 +141,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     mPasswordView.requestFocus();
                 }
             } catch (Exception ignored) {
+                Log.e("LoginActivity", "error line 144");
             }
         }
     }
@@ -194,12 +194,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-//        Collection<String> emails = new ArrayList<>();
-//        cursor.moveToFirst();
-//        while (!cursor.isAfterLast()) {
-//            emails.add(cursor.getString(ProfileQuery.ADDRESS));
-//            cursor.moveToNext();
-//        }
+
     }
 
     @Override
@@ -215,7 +210,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         int ADDRESS = 0;
     }
-
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
@@ -241,7 +235,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
-
         }
 
         @Override
@@ -258,4 +251,3 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 }
-

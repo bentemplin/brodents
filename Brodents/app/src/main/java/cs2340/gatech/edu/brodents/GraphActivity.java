@@ -31,7 +31,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.EntryXComparator;
 
-/*
+/**
  * @Author Benjamin Yarmowich, Nikolai Vorobiev, Ben Templin
  * @Version 1.0
  */
