@@ -21,12 +21,14 @@ import java.util.List;
 
 final class RatSightingManager {
     private final DatabaseConnector db;
+    private final RatAppModel model;
     private boolean isInit;
     private static RatSightingManager instance = null;
     private static final String TAG = "RatSightingManager";
 
-    private RatSightingManager(DatabaseConnector connector) {
+    private RatSightingManager(DatabaseConnector connector, RatAppModel model) {
         db = connector;
+        this.model = model;
     }
 
     /**
@@ -34,7 +36,7 @@ final class RatSightingManager {
      * @param dbConnector DatabaseConnector that links the RatSightingManager to the database.
      */
     static void initialize(DatabaseConnector dbConnector) {
-        instance = new RatSightingManager(dbConnector);
+        instance = new RatSightingManager(dbConnector, RatAppModel.getInstance());
         instance.isInit = true;
     }
 
@@ -151,7 +153,6 @@ final class RatSightingManager {
             infoStmt.setTimestamp(2, currentDate);
             infoStmt.setString(3, agencyCode);
             infoStmt.setString(4, complaintType);
-            RatAppModel model = RatAppModel.getInstance();
             if (model.getCurrentUser().getUserName() != null) {
                 infoStmt.setString(5, model.getCurrentUser().getUserName());
             } else {

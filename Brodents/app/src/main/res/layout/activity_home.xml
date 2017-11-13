@@ -27,24 +27,27 @@
         android:paddingTop="10dp"
         android:paddingBottom="5dp"
         android:gravity="center"
-        android:layout_weight=".5"
         android:orientation="horizontal">
+        <!--android:layout_weight=".5"-->
+
 
         <Button
             style="?android:attr/buttonBarButtonStyle"
             android:id="@+id/btnReport"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Report a Rat Sighting" />
+            android:text="Report a Rat Sighting"
+            android:layout_weight="1" />
+
 
         <Button
             style="?android:attr/buttonBarButtonStyle"
             android:id="@+id/btnList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="View Reported Sighting" />
+            android:text="View Reported Sighting"
+            android:layout_weight="1" />
+
     </LinearLayout>
     <LinearLayout
         style="?android:attr/buttonBarStyle"
