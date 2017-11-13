@@ -85,4 +85,8 @@ class RatSelected {
      */
     static CharSequence getLocationType() {return selected.getLocationType();}
 
+    /**
+     * @return The type of the sighting location. Often null.
+     */
+    static String getString() {return selected.toString();}
 }

@@ -88,13 +88,13 @@ public class DataDisplayActivity extends Activity {
             key = Integer.parseInt(searchBar.getText().toString());
             Log.i("text", "key selected: " + key);
             if ((key < MIN_KEY) || (key > MAX_KEY)) {
-                searchBar.setError("valid keys are between 10000000 and 40000000");
+                searchBar.setError("Valid keys are between 10000000 and 40000000");
             } else {
                 searchFetch = new SearchFetcher();
                 try {
                     RatSelected.setRatSelected(searchFetch.execute((Void) null).get());
                     Log.i("text", "Rat selected: " +
-                            RatSelected.getSelected().toString());
+                            RatSelected.getString());
                 } catch (Exception e) {
                     Log.e("SQL EXCEPTION", "Bumped up");
                 }
@@ -202,5 +202,4 @@ public class DataDisplayActivity extends Activity {
             }
         }
     }
-
 }

@@ -31,6 +31,11 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.EntryXComparator;
 
+/*
+ * @Author Benjamin Yarmowich, Nikolai Vorobiev, Ben Templin
+ * @Version 1.0
+ */
+
 public class GraphActivity extends Activity {
     private LineChart mChart;
     private GraphDataFetcher dataFetcher;
@@ -58,11 +63,9 @@ public class GraphActivity extends Activity {
             int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
             title.setPosition(screenWidth/2, mChart.getTop()+TEXT_SIZE*3);
             getGraph.setOnClickListener((View view) -> getDataGraph());
-
         } catch (Exception e) {
             Log.e("GraphActivity", e.getMessage(), e);
         }
-
     }
 
     private class GraphDataFetcher extends AsyncTask<Void, Void, LineDataSet> {
