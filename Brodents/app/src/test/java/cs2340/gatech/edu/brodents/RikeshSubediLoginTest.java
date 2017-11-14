@@ -85,6 +85,32 @@ public class RikeshSubediLoginTest {
     }
 
     /**
+     * Method to test login for a null username.
+     */
+    @Test
+    public void testNullUser() {
+        String wrongPass = "decepticons";
+        assertFalse("Login with null user not rejected.", model.login(null, wrongPass));
+    }
+
+    /**
+     * Method to test login for a null password.
+     */
+    @Test
+    public void testNullPassword() {
+        String nonUser = "Megatron";
+        assertFalse("Login with null password not rejected.", model.login(nonUser, null));
+    }
+
+    /**
+     * Method to test login for null username and password.
+     */
+    @Test
+    public void testNullUserAndPass() {
+        assertFalse("Login with null data not rejected.", model.login(null, null));
+    }
+
+    /**
      * Cleans app after testing.
      */
     @After
